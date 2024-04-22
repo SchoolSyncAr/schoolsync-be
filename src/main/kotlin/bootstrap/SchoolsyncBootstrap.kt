@@ -16,7 +16,6 @@ class SchoolsyncBootstrap (
                     id = 1,
                     title = "Acto 25 de mayo",
                     content = "Se realizara a las 10 hs",
-                    general = true
                 )
             )
             notificationRepository.create(
@@ -24,7 +23,6 @@ class SchoolsyncBootstrap (
                     id = 2,
                     title = "Acto 9 de julio",
                     content = "Se realizara a las 12:30 hs",
-                    general = true
                 )
 
             )
