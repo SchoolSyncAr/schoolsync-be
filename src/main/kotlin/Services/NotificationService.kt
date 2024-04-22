@@ -11,4 +11,8 @@ class NotificationService (val notificationRepository: NotificationRepository) {
         return notificationRepository.getAll().map { (it) }
     }
 
+    fun createNotification(notification: Notification) {
+        notificationRepository.create(notification)
+    }
+
 }
