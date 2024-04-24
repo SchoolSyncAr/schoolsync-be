@@ -11,4 +11,10 @@ class NotificationService (val notificationRepository: NotificationRepository) {
         return notificationRepository.getAll().map { (it) }
     }
 
+    fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
+        //Para luego devolver la cantidad de notificaciones no leídas de X usuario
+        //return notificationRepository.getUnreadNotificationsCount(idUsuario)
+        return notificationRepository.getAllCount()
+    }
+
 }

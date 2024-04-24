@@ -21,4 +21,8 @@ open class Repository<T: Entity> {
         return elements.toList()
     }
 
+    fun getAllCount(): Int {
+        return elements.size
+    }
+
 }

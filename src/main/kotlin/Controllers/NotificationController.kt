@@ -14,4 +14,9 @@ class NotificationController (var notificationService: NotificationService) {
     fun getAllNotifications():List<Notification>{
         return notificationService.getAllNotifications()
     }
+
+    @GetMapping("/notifications/count")
+    fun getUnreadNotificationsCount():Int{
+        return notificationService.getUnreadNotificationsCount()
+    }
 }
