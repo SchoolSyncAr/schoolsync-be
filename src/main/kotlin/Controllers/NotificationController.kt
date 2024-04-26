@@ -14,9 +14,15 @@ class NotificationController (var notificationService: NotificationService) {
         return notificationService.getAllNotifications()
     }
 
+    @GetMapping("/notifications/count")
+    fun getUnreadNotificationsCount():Int{
+        return notificationService.getUnreadNotificationsCount()
+    }
+
     @PostMapping("/createNotifications")
     @Operation(summary = "Creates a new notification")
     fun crearNotificacion(@RequestBody notification: Notification) {
         return notificationService.createNotification(notification)
+
     }
 }
