@@ -1,5 +1,6 @@
 package ar.org.schoolsync.bootstrap
 
+import ar.org.schoolsync.domain.Admin
 import ar.org.schoolsync.domain.Notification
 import ar.org.schoolsync.domain.Parent
 import ar.org.schoolsync.repositories.NotificationRepository
@@ -32,8 +33,11 @@ class SchoolsyncBootstrap(
     }
 
     fun initParents() {
-        userRepository.save(
-            Parent(firstName = "Pablo", lastName = "Foglia", username = "mad", password = "1234")
+        userRepository.saveAll(
+            listOf(
+                Admin(firstName = "Sol", lastName = "Lopez", username = "admin", password = "manzanas"),
+                Parent(firstName = "Pablo", lastName = "Foglia", username = "mad", password = "bananas")
+            )
         )
     }
 

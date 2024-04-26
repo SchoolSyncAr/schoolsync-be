@@ -15,6 +15,10 @@ class CRepository<T : Entity> {
         addAnElement(element)
     }
 
+    fun saveAll(newElements: List<T>){
+        elements.addAll(newElements)
+    }
+
     //adds an element
     private fun addAnElement(element: T) {
         elements.add(element)
