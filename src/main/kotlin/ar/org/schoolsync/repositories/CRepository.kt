@@ -27,6 +27,10 @@ class CRepository<T : Entity> {
     //returns all the elements of a list
     fun findAll(): List<T> = elements.toList()
 
+    fun getAllCount(): Int {
+        return elements.size
+    }
+
     fun deleteAll() {
         elements.clear()
     }
