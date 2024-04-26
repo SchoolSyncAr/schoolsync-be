@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin("*")
 @RequestMapping("/api")
 @Tag(name = "Notifications", description = "Notifications related operations")
-class NotificationController (var notificationService: NotificationService) {
+class NotificationController(var notificationService: NotificationService) {
 
     @GetMapping("/notifications/all")
-    fun getAllNotifications():List<Notification>{
+    fun getAllNotifications(): List<Notification> {
         return notificationService.getAllNotifications()
+    }
+
+    @GetMapping("/notifications/count")
+    fun getUnreadNotificationsCount(): Int {
+        return notificationService.getUnreadNotificationsCount()
     }
 
     @PostMapping("/create_notifications")

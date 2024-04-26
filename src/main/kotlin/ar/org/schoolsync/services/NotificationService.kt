@@ -11,8 +11,20 @@ class NotificationService (val notificationRepository: NotificationRepository) {
         return notificationRepository.findAll().map { (it) }
     }
 
+
+    fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
+        //Para luego devolver la cantidad de notificaciones no leídas de X usuario
+        //return notificationRepository.getUnreadNotificationsCount(idUsuario)
+        return notificationRepository.getAllCount()
+    }
+
     fun createNotification(notification: Notification) {
+<<<<<<< HEAD:src/main/kotlin/ar/org/schoolsync/services/NotificationService.kt
         notificationRepository.save(notification)
+=======
+        notificationRepository.create(notification)
+
+>>>>>>> dev:src/main/kotlin/Services/NotificationService.kt
     }
 
 }
