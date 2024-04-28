@@ -25,4 +25,22 @@ open class Repository<T: Entity> {
         return elements.size
     }
 
+    //deletes an element
+    fun delete(element: T){
+        elements.remove(element)
+    }
+
+    //searches element by Id
+    fun getById(id:Int): T {
+        return elements.find { id == it.id }
+            ?: throw IdInvalido("El elemento con id=${id} no existe")
+    }
+
+
+    //deletes an element by Id
+    fun deleteById(id: Int) {
+        val deletedElement = getById(id)
+        elements.remove(deletedElement)
+    }
+
 }

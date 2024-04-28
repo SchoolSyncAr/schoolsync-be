@@ -23,4 +23,7 @@ class NotificationService (val notificationRepository: NotificationRepository) {
 
     }
 
+    fun deleteNotification(notificationId: Int) {
+        return notificationRepository.deleteById(notificationId)
+    }
 }

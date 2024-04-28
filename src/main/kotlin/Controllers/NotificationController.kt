@@ -25,4 +25,10 @@ class NotificationController (var notificationService: NotificationService) {
         return notificationService.createNotification(notification)
 
     }
+    @DeleteMapping("/deleteNotification/{notificationId}")
+    @Operation(summary = "Deletes a notification")
+    fun deleteNotification(@PathVariable notificationId: Int) : List<Notification>{
+        val notification = notificationService.deleteNotification(notificationId)
+        return notificationService.getAllNotifications()
+    }
 }
