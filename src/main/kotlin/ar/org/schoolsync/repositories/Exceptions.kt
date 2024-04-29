@@ -1,4 +1,4 @@
-package ar.org.schoolsync.Repositories
+package ar.org.schoolsync.repositories
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
