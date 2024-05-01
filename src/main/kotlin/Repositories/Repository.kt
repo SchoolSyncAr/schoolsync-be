@@ -2,13 +2,15 @@ package ar.org.schoolsync.Repositories
 
 open class Repository<T: Entity> {
 
-    var ActualId = 1
-    var NextId: Int = 0
+    var actualId = 1
+    var nextId: Int = 0
 
     val elements: MutableSet<T> = mutableSetOf()
 
-    //creates elements
+    //creates elements, add an element to the collection and assigns an id
     fun create(element: T){
+        element.id = nextId
+        nextId++
         addAnElement(element)
     }
     //adds an element
