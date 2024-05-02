@@ -1,13 +1,20 @@
 package ar.org.schoolsync.bootstrap
 
 import ar.org.schoolsync.Domain.Notification
+import ar.org.schoolsync.Domain.Parent
+import ar.org.schoolsync.Domain.Student
 import ar.org.schoolsync.Repositories.NotificationRepository
+import ar.org.schoolsync.Repositories.ParentRepository
+import ar.org.schoolsync.Repositories.StudentRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class SchoolsyncBootstrap (
-    val notificationRepository: NotificationRepository
+    val notificationRepository: NotificationRepository,
+    val parentRepository: ParentRepository,
+    val studentRepository: StudentRepository
         ) : InitializingBean {
 
         fun initNotificationRepository(){
@@ -75,8 +82,130 @@ class SchoolsyncBootstrap (
             )
         }
 
-    override fun afterPropertiesSet() {
-        initNotificationRepository()
+
+        fun initStudentRepository() {
+            studentRepository.create(
+                Student(
+                    id = 0,
+                    firstName = "Esteban",
+                    lastName = "Aguilar",
+                    birthDate = LocalDate.of(2009, 2, 11),
+                    enrolledSubjects = listOf(),
+                    undergradedSubjects = listOf()
+                )
+            )
+
+            studentRepository.create(
+                Student(
+                    id = 1,
+                    firstName = "Paulina",
+                    lastName = "Rodriguey",
+                    birthDate = LocalDate.of(2012, 5, 18),
+                    enrolledSubjects = listOf(),
+                    undergradedSubjects = listOf()
+                )
+            )
+
+            studentRepository.create(
+                Student(
+                    id = 3,
+                    firstName = "Catalina",
+                    lastName = "Rodriguey",
+                    birthDate = LocalDate.of(2014, 7, 8),
+                    enrolledSubjects = listOf(),
+                    undergradedSubjects = listOf()
+                )
+            )
+
+            studentRepository.create(
+                Student(
+                    id = 4,
+                    firstName = "Pedro",
+                    lastName = "Rodriguey",
+                    birthDate = LocalDate.of(2010, 4, 1),
+                    enrolledSubjects = listOf(),
+                    undergradedSubjects = listOf()
+                )
+            )
+        }
+
+//    val studentUno = Student(
+//        id = 1,
+//        firstName = "Esteban",
+//        lastName = "Aguilar",
+//        birthDate = LocalDate.of(2009, 2, 11),
+//        enrolledSubjects = listOf(),
+//        undergradedSubjects = listOf()
+//    )
+
+    val studentDos = Student(
+        id = 2,
+        firstName = "Paulina",
+        lastName = "Rodriguey",
+        birthDate = LocalDate.of(2012, 5, 18),
+        enrolledSubjects = listOf(),
+        undergradedSubjects = listOf()
+    )
+
+    val studentTres = Student(
+        id = 3,
+        firstName = "Catalina",
+        lastName = "Rodriguey",
+        birthDate = LocalDate.of(2014, 7, 8),
+        enrolledSubjects = listOf(),
+        undergradedSubjects = listOf()
+    )
+
+    val studentCuatro = Student(
+        id = 4,
+        firstName = "Pedro",
+        lastName = "Rodriguey",
+        birthDate = LocalDate.of(2010, 4, 1),
+        enrolledSubjects = listOf(),
+        undergradedSubjects = listOf()
+    )
+//        }
+    fun initParentRepository() {
+        parentRepository.create(
+            Parent(
+                id = 1,
+                firstName = "Ernesto",
+                lastName = "Rodriguey",
+                isFatherOf = listOf(studentDos, studentTres, studentCuatro),
+                notifications = listOf()
+            )
+        )
+
+//            val parentUno = Parent(
+//                id = 1,
+//                firstName = "Ernesto",
+//                lastName = "Rodriguey",
+//                isFatherOf = listOf(studentDos, studentTres, studentCuatro),
+//                notifications = listOf()
+//            )
+//
+        parentRepository.create(
+            Parent(
+                id = 2,
+                firstName = "Gustavo",
+                lastName = "Aguilar",
+                isFatherOf = listOf(Student(id = 1,
+        firstName = "Esteban",
+        lastName = "Aguilar",
+        birthDate = LocalDate.of(2009, 2, 11),
+        enrolledSubjects = listOf(),
+        undergradedSubjects = listOf())),
+                notifications = listOf()
+            )
+        )
+
     }
 
+
+
+    override fun afterPropertiesSet() {
+        initNotificationRepository()
+        initParentRepository()
+        initStudentRepository()
+    }
 }

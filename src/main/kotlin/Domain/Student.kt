@@ -13,5 +13,6 @@ class Student (
     var undergradedSubjects: List<Subject>
         ) : Entity {
 
-            fun edad() = Period.between(birthDate, LocalDate.now()).years
+    fun edad() = Period.between(birthDate, LocalDate.now()).years
+
 }
