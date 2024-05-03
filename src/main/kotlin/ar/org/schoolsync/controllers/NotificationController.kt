@@ -1,7 +1,7 @@
-package ar.org.schoolsync.Controllers
+package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.Domain.Notification
-import ar.org.schoolsync.Services.NotificationService
+import ar.org.schoolsync.domain.Notification
+import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.*
 

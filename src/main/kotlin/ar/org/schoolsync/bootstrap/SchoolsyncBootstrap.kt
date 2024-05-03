@@ -1,7 +1,7 @@
 package ar.org.schoolsync.bootstrap
 
-import ar.org.schoolsync.Domain.Notification
-import ar.org.schoolsync.Repositories.NotificationRepository
+import ar.org.schoolsync.domain.Notification
+import ar.org.schoolsync.repositories.NotificationRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Service
 
