@@ -23,18 +23,32 @@ val mockkVersion = "1.13.9"
 val kotestVersion = "5.8.0"
 
 dependencies {
+
+    // Kotlin dependencies
+    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    // SpringBoot dependencies
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Serialization
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-//    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+    // Api Documentation
     implementation("org.springdoc:springdoc-openapi-starter-common:2.2.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-    implementation(kotlin("stdlib"))
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // JwebTokens dependencies
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
+    // Testing dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.mockk:mockk:${mockkVersion}")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
