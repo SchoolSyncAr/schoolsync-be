@@ -1,4 +1,4 @@
-package ar.org.schoolsync.Repositories
+package ar.org.schoolsync.repositories
 
 interface Entity {
     companion object {

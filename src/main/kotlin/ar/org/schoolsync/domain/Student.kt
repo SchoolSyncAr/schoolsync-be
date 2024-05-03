@@ -1,6 +1,6 @@
-package ar.org.schoolsync.Domain
+package ar.org.schoolsync.domain
 
-import ar.org.schoolsync.Repositories.Entity
+import ar.org.schoolsync.repositories.Entity
 import java.time.LocalDate
 import java.time.Period
 
