@@ -5,8 +5,9 @@ import org.springframework.boot.runApplication
 
 
 @SpringBootApplication
-class schoolsync
+class Schoolsync
+
 fun main(args: Array<String>) {
-    runApplication<schoolsync>(*args)
+    runApplication<Schoolsync>(*args)
     println("Hello World!")
 }
