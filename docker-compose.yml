@@ -11,29 +11,17 @@ services:
     ports:
       - '5433:5432'
     volumes:
-      - db:/var/lib/postgresql/data
+      - schoolsync_db:/var/lib/postgresql/data
       - ./init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_ss
-    restart: unless-stopped
-    ports:
-      - "8889:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: mad@mail.com
-      PGADMIN_DEFAULT_PASSWORD: patoniato
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-
-  schoolsync:
-    build: .
-    ports:
-      - "8081:8080"
-    depends_on: [db,pgadmin]
+  #schoolsync:
+  #  build: .
+  #  ports:
+  #  - "8081:8080"
+  #  depends_on: [db,pgadmin]
 
 volumes:
-  db:
-  pgadmin-data:
+  schoolsync_db:
+  #pgadmin-data:
 
 

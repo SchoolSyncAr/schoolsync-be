@@ -24,6 +24,7 @@ val mockkVersion = "1.13.9"
 val kotestVersion = "5.8.0"
 
 dependencies {
+
     // Kotlin dependencies
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -47,7 +48,9 @@ dependencies {
 
     // JwebTokens dependencies
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+    implementation("io.jsonwebtoken:jjwt-impl:0.12.5")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.12.5")
 
     // PostgreSQL Database
     runtimeOnly("org.postgresql:postgresql")
@@ -55,6 +58,7 @@ dependencies {
     // Testing dependencies
     testImplementation("com.h2database:h2:2.2.224")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.mockito:mockito-core:3.+")
     testImplementation("io.mockk:mockk:${mockkVersion}")

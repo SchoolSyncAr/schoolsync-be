@@ -8,22 +8,25 @@ server:
     include-exception: true
     include-stacktrace: never
 
+jwt:
+  key: ${JWT_KEY}
+  access-token-expiration: 3600000
+  refresh-token-expiration: 86400000
+
 spring:
-  jackson:
-    default-property-inclusion: non_null
+  application:
+    name: Schoolsync
+
   profiles:
     active: base
 
-  security:
-    user:
-      name: miUsuario
-      password: miContraseña
-      roles: USER,ADMIN
+  jackson:
+    default-property-inclusion: non_null
 
   #   base de datos posta
   datasource:
     url: jdbc:postgresql://0.0.0.0:5433/schoolsync
-    username: main
+    username: admin
     password: patoniato
     driver-class-name: org.postgresql.Driver
 
@@ -40,3 +43,6 @@ spring:
 logging:
   level:
     root: INFO
+
+route:
+  base: /api
