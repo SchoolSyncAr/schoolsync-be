@@ -1,18 +1,11 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.domain.User
-import ar.org.schoolsync.dto.UserCreateDTO
-import ar.org.schoolsync.dto.UserDTO
-import ar.org.schoolsync.dto.toCreateDTO
-import ar.org.schoolsync.dto.toDTO
-import ar.org.schoolsync.errors.FindError
-import ar.org.schoolsync.errors.IdInvalido
+import ar.org.schoolsync.model.User
+import ar.org.schoolsync.dto.user.*
 import ar.org.schoolsync.services.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
@@ -25,20 +18,22 @@ class UserController(@Autowired val userService: UserService) {
 
     @PostMapping
     @Operation(summary = "Crea un nuevo usuario")
-    fun save(@RequestBody userRequest: User): UserCreateDTO =
-        userService.save(userRequest).toCreateDTO()
+    fun create(@RequestBody user: User): UserCreatedDTO {
+        println("CREANDOOOOOOOOOOOO $user")
+        return userService.save(user).toCreatedDTO()
+    }
 
     @GetMapping("/all")
     @Operation(summary = "Retorna todos los usuarios del sistema")
-    fun findAll(): List<UserDTO> =
-        userService.findAll().map { it.toDTO() }
+    fun findAll(): List<UserResponseDTO> =
+        userService.findAll().map { it.toResponseDTO() }
 
     @GetMapping("/{uuid}")
     @Operation(summary = "Retorna un usuario basado en su UUID")
-    fun findByUUID(@PathVariable uuid: UUID): UserDTO =
-        userService.findOrErrorByUUID(uuid).toDTO()
+    fun findByUUID(@PathVariable uuid: UUID): UserResponseDTO =
+        userService.findOrErrorByUUID(uuid).toResponseDTO()
 
-    @DeleteMapping
+    @DeleteMapping("/{uuid}")
     @Operation(summary = "Borra un usuario existente")
-    fun deleteByUUID(@RequestParam uuid: UUID): ResponseEntity<Boolean> = userService.deleteByUUID(uuid)
+    fun deleteByUUID(@PathVariable uuid: UUID): ResponseEntity<Boolean> = userService.deleteByUUID(uuid)
 }

@@ -9,5 +9,5 @@ class Schoolsync
 
 fun main(args: Array<String>) {
     runApplication<Schoolsync>(*args)
-    println("Hello World!")
+    println("Is anything running here...?")
 }

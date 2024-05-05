@@ -1,4 +1,4 @@
-//package ar.org.schoolsync.domain.todelete
+//package ar.org.schoolsync.model.todelete
 //
 //import ar.org.schoolsync.repositories.Entity
 //

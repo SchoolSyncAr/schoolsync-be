@@ -1,20 +1,23 @@
 package ar.org.schoolsync.bootstrap
 
-import ar.org.schoolsync.domain.EntityFactory
-import ar.org.schoolsync.domain.Role
-import ar.org.schoolsync.domain.User
+import ar.org.schoolsync.model.EntityFactory
+import ar.org.schoolsync.model.Role
+import ar.org.schoolsync.model.User
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import kotlin.jvm.optionals.getOrNull
 
 @Component
 class SchoolsyncBootstrap(
     @Autowired
-    val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    @Autowired
+    private val encoder: PasswordEncoder
 ) : InitializingBean {
-    val factory = EntityFactory()
+    val factory = EntityFactory(encoder)
 
     fun initUsers() = setOf(
         factory.createUser(Role.ADMIN),
@@ -42,7 +45,7 @@ class SchoolsyncBootstrap(
     //
 //        fun initNotificationRepository(){
 //            notificationRepository.create(
-//                ar.org.schoolsync.domain.Notification(
+//                ar.org.schoolsync.model.Notification(
 //                    id = 1,
 //                    title = "Acto 25 de mayo",
 //                    content = "Estimados Padres y Encargados:\n" +
@@ -55,7 +58,7 @@ class SchoolsyncBootstrap(
 //                )
 //            )
 //            notificationRepository.create(
-//                ar.org.schoolsync.domain.Notification(
+//                ar.org.schoolsync.model.Notification(
 //                    id = 2,
 //                    title = "Reunión de Padres y Maestros - Recordatorio",
 //                    content = "Estimados Padres y Encargados:\n" +
@@ -67,7 +70,7 @@ class SchoolsyncBootstrap(
 //            )
 //
 //            notificationRepository.create(
-//                ar.org.schoolsync.domain.Notification(
+//                ar.org.schoolsync.model.Notification(
 //                    id = 3,
 //                    title = "Cambio de Horario Salida - Nivel Primario",
 //                    content = "Estimada Comunidad Educativa:\n" +
@@ -83,7 +86,7 @@ class SchoolsyncBootstrap(
 //            )
 //
 //            notificationRepository.create(
-//                ar.org.schoolsync.domain.Notification(
+//                ar.org.schoolsync.model.Notification(
 //                    id = 4,
 //                    title = "Corte de Luz",
 //                    content = "Estimada Comunidad Educativa:\n" +
@@ -93,7 +96,7 @@ class SchoolsyncBootstrap(
 //            )
 //
 //            notificationRepository.create(
-//                ar.org.schoolsync.domain.Notification(
+//                ar.org.schoolsync.model.Notification(
 //                    id = 5,
 //                    title = "Campaña de Recaudación de Fondos para Excursión",
 //                    content = "Estimados Padres y Encargados:\n" +

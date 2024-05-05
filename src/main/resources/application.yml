@@ -8,6 +8,11 @@ server:
     include-exception: true
     include-stacktrace: never
 
+jwt:
+  key: ${JWT_KEY}
+  access-token-expiration: 3600000
+  refresh-token-expiration: 86400000
+
 spring:
   application:
     name: Schoolsync
@@ -17,12 +22,6 @@ spring:
 
   jackson:
     default-property-inclusion: non_null
-
-  security:
-    user:
-      name: miUsuario
-      password: miContraseña
-      roles: USER,ADMIN
 
   #   base de datos posta
   datasource:

@@ -1,4 +1,4 @@
-package ar.org.schoolsync.domain
+package ar.org.schoolsync.model
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

@@ -1,4 +1,4 @@
-//package ar.org.schoolsync.domain
+//package ar.org.schoolsync.model
 //
 //import ar.org.schoolsync.repositories.Entity
 //
@@ -6,7 +6,7 @@
 //    override var id: Int,
 //    var firstName: String,
 //    var lastName: String,
-//    var isFatherOf: List<ar.org.schoolsync.domain.Student>,
-//    var notifications: List<ar.org.schoolsync.domain.Notification>,
+//    var isFatherOf: List<ar.org.schoolsync.model.Student>,
+//    var notifications: List<ar.org.schoolsync.model.Notification>,
 //): ar.org.schoolsync.repositories.Entity {
 //}

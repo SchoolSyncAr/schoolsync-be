@@ -1,6 +1,6 @@
 package ar.org.schoolsync.services
 
-import ar.org.schoolsync.domain.Notification
+import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.repositories.NotificationRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
