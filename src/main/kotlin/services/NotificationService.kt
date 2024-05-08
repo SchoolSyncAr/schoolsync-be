@@ -1,5 +1,6 @@
 package ar.org.schoolsync.services
 
+import ar.org.schoolsync.exeptions.Businessexception
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.repositories.NotificationRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,5 +28,10 @@ class NotificationService(@Autowired val notificationRepository: NotificationRep
 
     fun deleteNotification(id: UUID) {
         return notificationRepository.deleteById(id)
+    }
+
+    fun readNotification(id: UUID) {
+        val notification = notificationRepository.findById(id).orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
+        notification.read()
     }
 }

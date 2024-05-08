@@ -23,3 +23,6 @@ class ResponseFindException(message: String) : RuntimeException(message)
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 class ResponseStatusException(message: String) : RuntimeException(message)
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class Businessexception(msg:String): RuntimeException(msg)
