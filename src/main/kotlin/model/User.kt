@@ -22,8 +22,11 @@ data class User(
     @Column(length = 20)
     var role: Role = Role.USER
 ) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID = UUID.randomUUID()
 }
+
+
 
