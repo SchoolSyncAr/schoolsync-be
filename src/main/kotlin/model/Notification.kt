@@ -9,5 +9,12 @@ data class Notification(
     @Id
     var id: UUID = UUID.randomUUID(),
     var title: String,
-    var content: String
-)
+    var content: String,
+    var weight: NotificationWeight = NotificationWeight.LOW){
+
+    private var read = false
+
+    fun read() {
+        read = !read
+    }
+}
