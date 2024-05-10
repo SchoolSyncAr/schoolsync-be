@@ -1,7 +1,9 @@
 package ar.org.schoolsync.services
 
+
 import ar.org.schoolsync.exeptions.NotificationCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
+import ar.org.schoolsync.exeptions.Businessexception
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.User
 import ar.org.schoolsync.repositories.NotificationRepository
@@ -46,5 +48,10 @@ class NotificationService(private val notificationRepository: NotificationReposi
 
     fun deleteNotification(id: UUID) {
         return notificationRepository.deleteById(id)
+    }
+
+    fun readNotification(id: UUID) {
+        val notification = notificationRepository.findById(id).orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
+        notification.read()
     }
 }

@@ -82,4 +82,10 @@ class NotificationController(@Autowired val notificationService: NotificationSer
 //        val notification = notificationService.deleteNotification(notificationId)
 //        return notificationService.getAllNotifications()
 //    }
+//
+//    @PutMapping("/unreadNotification")
+//    @Operation(summary = "Sets notification to read/unread")
+//    fun readNotification(@RequestParam notificationId: Int){
+//      return notificationService.readNotification(notificationId)
+//    }
 //}
