@@ -5,6 +5,7 @@ import ar.org.schoolsync.model.Persons.Person
 import ar.org.schoolsync.model.Persons.Student
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import java.util.*
 
 
 @Component
@@ -60,7 +61,7 @@ class GeneralNotification : FactoryObject<Notification> {
             title = "General",
             content = "General",
             notificationReceiver = mutableListOf(),
-            notificationSender = 0,
+            notificationSender = UUID.randomUUID(),
             notificationScope = NotScope.GENERAL
         )
 }
@@ -71,7 +72,7 @@ class IndividualNotification : FactoryObject<Notification> {
             title = "General",
             content = "General",
             notificationReceiver = mutableListOf(),
-            notificationSender = 0,
+            notificationSender = UUID.randomUUID(),
             notificationScope = NotScope.INDIVIDUAL
         )
 }
@@ -81,6 +82,7 @@ class NormalParent : FactoryObject<Person> {
             firstName = "Name",
             lastName = "Name",
             isFatherOf = mutableListOf(),
+            notifications = mutableListOf(),
             prueba = 0
         )
 }
@@ -89,7 +91,8 @@ class NormalStudent : FactoryObject<Person>{
         Student(
             firstName = "Name",
             lastName = "Name",
-            absences = 0
+            absences = 0,
+            notifications = mutableListOf()
         )
 
 }

@@ -17,9 +17,6 @@ abstract class Person {
     var lastName: String = ""
 
 
-//    constructor(){
-//        //constructor generico
-//    }
     constructor() : super()
 
     constructor(firstName: String, lastName: String) : super() {

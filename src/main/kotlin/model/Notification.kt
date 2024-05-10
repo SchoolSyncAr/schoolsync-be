@@ -20,7 +20,7 @@ data class Notification(
     @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
     var notificationReceiver: MutableList<String>,
 
-    var notificationSender: Int,    //UUID,
+    var notificationSender: UUID,
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)

@@ -10,7 +10,7 @@ data class NotificationCreatedDTO (
     val id: UUID,
     val title: String,
     val content: String,
-    val notificationSender: Int,  //UUID,
+    val notificationSender: UUID,
     val notificationReceiver: MutableList<String>,  //UUID,
     val notificationScope: NotScope,
 )
