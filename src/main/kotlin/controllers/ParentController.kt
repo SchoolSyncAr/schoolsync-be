@@ -26,5 +26,9 @@ class ParentController (@Autowired val parentService: ParentService) {
         return parentService.save(parent)
     }
 
+    @GetMapping("/all")
+    @Operation(summary = "Retorna todos los padres del sistema")
+    fun findAll(): List<Parent> =
+        parentService.findAll().map { it }
 }
 

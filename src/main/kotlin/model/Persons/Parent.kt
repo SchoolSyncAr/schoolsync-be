@@ -10,9 +10,9 @@ class Parent(
 
     firstName: String,
     lastName: String,
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     var isFatherOf: MutableList<Person>? = null,
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     var notifications: MutableList<Notification>? = null,
     var prueba: Int,
 
