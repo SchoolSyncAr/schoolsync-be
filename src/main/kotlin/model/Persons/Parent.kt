@@ -1,8 +1,10 @@
 package ar.org.schoolsync.model.Persons
 
 import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.model.NotificationGroup
 import jakarta.persistence.*
-import java.util.UUID
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
 
 @Entity
 @Table(name = "app_parent")
@@ -12,11 +14,13 @@ class Parent(
     lastName: String,
     @OneToMany(fetch = FetchType.EAGER)
     var isFatherOf: MutableList<Person>? = null,
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
+//    @NotFound(action = NotFoundAction.IGNORE)
     var notifications: MutableList<Notification>? = null,
-    var prueba: Int,
+    @ElementCollection(fetch = FetchType.EAGER)
+    var notificationGroup: MutableList<NotificationGroup>,
 
-) : Person(firstName, lastName) {
+    ) : Person(firstName, lastName) {
 
 
     constructor(
@@ -24,10 +28,10 @@ class Parent(
         lastName: String,
         isFatherOf: MutableList<Person>,
         notifications: MutableList<Notification>?,
-    ) : this( firstName, lastName, mutableListOf(), mutableListOf(), 0) {
+    ) : this( firstName, lastName, mutableListOf(), mutableListOf(), mutableListOf<NotificationGroup>()) {
         this.isFatherOf = isFatherOf
         this.notifications = notifications
-        this.prueba = 0
+        this.notificationGroup = mutableListOf()
     }
 
 

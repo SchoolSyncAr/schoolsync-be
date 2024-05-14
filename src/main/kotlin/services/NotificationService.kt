@@ -3,27 +3,26 @@ package ar.org.schoolsync.services
 import ar.org.schoolsync.exeptions.NotificationCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.User
 import ar.org.schoolsync.repositories.NotificationRepository
-import org.springframework.beans.factory.annotation.Autowired
+import ar.org.schoolsync.repositories.ParentRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.*
-import java.util.Base64.Encoder
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class NotificationService(private val notificationRepository: NotificationRepository,
+                          private val parentRepository: ParentRepository,
                           private val encoder: PasswordEncoder) {
 
     fun save(notification: Notification): Notification {
         val found = notificationRepository.findById(notification.id).getOrNull()
-
         return if (found == null) {
-            val updated = notification.copy()
-            notificationRepository.save(updated)
-            updated
+            notificationRepository.save(notification)
+            notification
+            addNotificationToList(notification)
+            notification
         } else throw ResponseStatusException(NotificationCreationError.CANNOT_CREATE_NOTIFICATION)
+
     }
 
     fun findAll(): List<Notification> = notificationRepository.findAll().map { it }
@@ -39,12 +38,25 @@ class NotificationService(private val notificationRepository: NotificationReposi
 //        return notificationRepository.getAllCount()
 //    }
 
-    fun createNotification(notification: Notification) {
-        notificationRepository.save(notification)
+//    fun deleteNotification(id: UUID) {
+//        return notificationRepository.deleteById(id)
+//    }
 
-    }
+    fun addNotificationToList(notification: Notification){
+        val allParents = parentRepository.findAll().map { it }
 
-    fun deleteNotification(id: UUID) {
-        return notificationRepository.deleteById(id)
+        allParents.forEach {
+
+            val parentNotificationGroups = it.notificationGroup.map { it }
+            val notificationGroups = notification.notificationGroup.map { it }
+            val isAReceiver = (parentNotificationGroups.any{it in notificationGroups})
+//                    || notificationGroups.any{it in parentNotificationGroups})
+            if (isAReceiver) {
+                it.notifications?.add(notification)
+                parentRepository.save(it)
+            } else {
+                println("es individuaL")
+            }
+        }
     }
 }

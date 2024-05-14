@@ -62,7 +62,7 @@ class GeneralNotification : FactoryObject<Notification> {
             content = "General",
             notificationReceiver = mutableListOf(),
             notificationSender = UUID.randomUUID(),
-            notificationScope = NotScope.GENERAL
+            notificationGroup = mutableListOf()
         )
 }
 
@@ -73,7 +73,7 @@ class IndividualNotification : FactoryObject<Notification> {
             content = "General",
             notificationReceiver = mutableListOf(),
             notificationSender = UUID.randomUUID(),
-            notificationScope = NotScope.INDIVIDUAL
+            notificationGroup = mutableListOf()
         )
 }
 class NormalParent : FactoryObject<Person> {
@@ -83,7 +83,7 @@ class NormalParent : FactoryObject<Person> {
             lastName = "Name",
             isFatherOf = mutableListOf(),
             notifications = mutableListOf(),
-            prueba = 0
+            notificationGroup = mutableListOf()
         )
 }
 class NormalStudent : FactoryObject<Person>{

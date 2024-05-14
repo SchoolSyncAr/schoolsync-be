@@ -7,12 +7,12 @@ import java.util.*
 import ar.org.schoolsync.model.User
 
 data class NotificationResponseDTO (
-    val id: UUID,
+    val id: Long,//UUID,
     val title: String,
     val content: String,
     val notificationSender: UUID,
     val notificationReceiver: MutableList<String>, //UUID,
-    val notificationScope: NotScope
+    val notificationGroup: MutableList<NotificationGroup>
         )
 
 fun Notification.toResponseDTO() = NotificationResponseDTO (
@@ -21,5 +21,5 @@ fun Notification.toResponseDTO() = NotificationResponseDTO (
     this.content,
     this.notificationSender,
     this.notificationReceiver,
-    this.notificationScope
+    this.notificationGroup
         )
