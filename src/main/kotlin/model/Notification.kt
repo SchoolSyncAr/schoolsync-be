@@ -7,7 +7,7 @@ import java.util.*
 @Entity
 data class Notification(
     @Id
-    var id: UUID = UUID.randomUUID(),
+    var id: Long = 0,
     var title: String,
     var content: String,
     var weight: NotificationWeight = NotificationWeight.LOW){

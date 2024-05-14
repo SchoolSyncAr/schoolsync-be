@@ -24,19 +24,19 @@ class UserService(private val userRepository: UserRepository, private val encode
         } else throw ResponseStatusException(CreationError.CANNOT_CREATE_USER)
     }
 
-    fun findOrErrorByUUID(uuid: UUID): User =
-        findByUUID(uuid) ?: throw ResponseFindException(FindError.USER_NOT_FOUND(uuid))
+    fun findOrErrorByID(id: Long): User =
+        findByID(id) ?: throw ResponseFindException(FindError.USER_NOT_FOUND(id))
 
     fun findByEmail(email: String): User? = userRepository.findByEmail(email).getOrNull()
 
-    fun findByUUID(uuid: UUID): User? = userRepository.findById(uuid).getOrNull()
+    fun findByID(id: Long): User? = userRepository.findById(id).getOrNull()
     fun findAll(): List<User> = userRepository.findAll().map { it }
-    fun deleteByUUID(uuid: UUID): ResponseEntity<Boolean> {
-        val found = Optional.ofNullable(findByUUID(uuid))
+    fun deleteByID(id: Long): ResponseEntity<Boolean> {
+        val found = Optional.ofNullable(findByID(id))
 
         return found.map {
             userRepository.delete(it)
             ResponseEntity.noContent().build<Boolean>()
-        }.orElseThrow { ResponseFindException(FindError.USER_NOT_FOUND(uuid)) }
+        }.orElseThrow { ResponseFindException(FindError.USER_NOT_FOUND(id)) }
     }
 }

@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.UUID
 
 @RestController
 @CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
@@ -28,12 +27,12 @@ class UserController(@Autowired val userService: UserService) {
     fun findAll(): List<UserResponseDTO> =
         userService.findAll().map { it.toResponseDTO() }
 
-    @GetMapping("/{uuid}")
-    @Operation(summary = "Retorna un usuario basado en su UUID")
-    fun findByUUID(@PathVariable uuid: UUID): UserResponseDTO =
-        userService.findOrErrorByUUID(uuid).toResponseDTO()
+    @GetMapping("/{id}")
+    @Operation(summary = "Retorna un usuario basado en su id")
+    fun findByID(@PathVariable id: Long): UserResponseDTO =
+        userService.findOrErrorByID(id).toResponseDTO()
 
-    @DeleteMapping("/{uuid}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Borra un usuario existente")
-    fun deleteByUUID(@PathVariable uuid: UUID): ResponseEntity<Boolean> = userService.deleteByUUID(uuid)
+    fun deleteByID(@PathVariable id: Long): ResponseEntity<Boolean> = userService.deleteByID(id)
 }
