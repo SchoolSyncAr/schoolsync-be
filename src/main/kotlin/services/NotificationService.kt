@@ -46,11 +46,11 @@ class NotificationService(private val notificationRepository: NotificationReposi
 
     }
 
-    fun deleteNotification(id: UUID) {
+    fun deleteNotification(id: Long) {
         return notificationRepository.deleteById(id)
     }
 
-    fun readNotification(id: UUID) {
+    fun readNotification(id: Long) {
         val notification = notificationRepository.findById(id).orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
         notification.read()
     }

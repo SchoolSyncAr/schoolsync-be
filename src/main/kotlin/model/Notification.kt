@@ -8,10 +8,7 @@ import ar.org.schoolsync.model.User
 @Table(name = "app_notif")
 data class Notification(
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    var id: UUID = UUID.randomUUID(),
-
-    @Column(length = 100, nullable = false)
+    var id: Long = 0,
     var title: String,
 
     @Column(length = 1000)
@@ -25,8 +22,8 @@ data class Notification(
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     var notificationScope: NotScope
-  
-  
+
+
     var weight: NotificationWeight = NotificationWeight.LOW){
 
     private var read = false
