@@ -1,11 +1,15 @@
 package ar.org.schoolsync.model
 
+import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.Persons.Person
+import ar.org.schoolsync.model.Persons.Student
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 
 @Component
 class EntityFactory(private val encoder: PasswordEncoder) {
+
     fun createUser(type: Role) = when (type) {
         Role.USER -> NormalUser().build(encoder)
         Role.ADMIN -> AdminUser().build(encoder)
@@ -13,6 +17,17 @@ class EntityFactory(private val encoder: PasswordEncoder) {
         Role.TEACHER -> TODO()
         Role.PARENT -> TODO()
     }
+
+
+    fun createNotification(type: NotScope) = when (type) {
+        NotScope.GENERAL -> GeneralNotification().build(encoder)
+        NotScope.INDIVIDUAL -> IndividualNotification().build(encoder)
+    }
+
+    fun createParent() = NormalParent().build(encoder)
+
+    fun createStudent() = NormalStudent().build(encoder)
+
 }
 
 interface FactoryObject<T> {
@@ -38,3 +53,45 @@ class NormalUser : FactoryObject<User> {
             password = encoder.encode("commonuser"),
         )
 }
+
+class GeneralNotification : FactoryObject<Notification> {
+    override fun build(encoder: PasswordEncoder): Notification =
+        Notification(
+            title = "General",
+            content = "General",
+            notificationReceiver = mutableListOf(),
+            notificationSender = 0,
+            notificationScope = NotScope.GENERAL
+        )
+}
+
+class IndividualNotification : FactoryObject<Notification> {
+    override fun build(encoder: PasswordEncoder): Notification =
+        Notification(
+            title = "General",
+            content = "General",
+            notificationReceiver = mutableListOf(),
+            notificationSender = 0,
+            notificationScope = NotScope.INDIVIDUAL
+        )
+}
+class NormalParent : FactoryObject<Person> {
+    override fun build(encoder: PasswordEncoder) =
+        Parent(
+            firstName = "Name",
+            lastName = "Name",
+            isFatherOf = mutableListOf(),
+            prueba = 0
+        )
+}
+class NormalStudent : FactoryObject<Person>{
+    override fun build(encoder: PasswordEncoder) =
+        Student(
+            firstName = "Name",
+            lastName = "Name",
+            absences = 0
+        )
+
+}
+
+

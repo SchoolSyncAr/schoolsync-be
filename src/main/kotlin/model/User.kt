@@ -22,8 +22,11 @@ data class User(
     @Column(length = 20)
     var role: Role = Role.USER
 ) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
 }
+
+
 
