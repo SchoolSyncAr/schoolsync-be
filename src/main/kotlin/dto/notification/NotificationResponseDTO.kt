@@ -7,7 +7,7 @@ import java.util.*
 import ar.org.schoolsync.model.User
 
 data class NotificationResponseDTO (
-    val id: UUID,
+    val id: Long,
     val title: String,
     val content: String,
     val notificationSender: Int, //UUID,

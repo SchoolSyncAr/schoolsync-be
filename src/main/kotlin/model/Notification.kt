@@ -21,7 +21,7 @@ data class Notification(
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    var notificationScope: NotScope
+    var notificationScope: NotScope,
 
 
     var weight: NotificationWeight = NotificationWeight.LOW){
@@ -32,7 +32,7 @@ data class Notification(
         read = !read
     }
 
-)
+
 
 }
 
