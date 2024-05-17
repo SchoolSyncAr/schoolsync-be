@@ -3,6 +3,7 @@ package ar.org.schoolsync.services
 import ar.org.schoolsync.exeptions.Businessexception
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.repositories.NotificationRepository
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -10,8 +11,13 @@ import java.util.*
 @Service
 class NotificationService(@Autowired val notificationRepository: NotificationRepository) {
 
-    fun getAllNotifications(): List<Notification> {
-        return notificationRepository.findAll().map { (it) }
+    @Transactional
+    fun getAllNotifications(searchField: String?): List<Notification> {
+        return if (searchField.isNullOrEmpty()) {
+            notificationRepository.findAll()
+        } else {
+            notificationRepository.findNotificationsByTitleContainingIgnoreCase(searchField)
+        }
     }
 
 

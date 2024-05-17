@@ -1,18 +1,19 @@
-//package ar.org.schoolsync.controllers
-//
-//import ar.org.schoolsync.model.Notification
-//import ar.org.schoolsync.services.NotificationService
-//import io.swagger.v3.oas.annotations.Operation
-//import org.springframework.web.bind.annotation.*
-//
-//@RestController
-//@CrossOrigin("*")
-//class NotificationController (var notificationService: NotificationService) {
-//
-//    @GetMapping("/notifications/all")
-//    fun getAllNotifications():List<ar.org.schoolsync.model.Notification>{
-//        return notificationService.getAllNotifications()
-//    }
+package ar.org.schoolsync.controllers
+
+import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.services.NotificationService
+import io.swagger.v3.oas.annotations.Operation
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@CrossOrigin("*")
+class NotificationController (@Autowired var notificationService: NotificationService) {
+
+    @GetMapping("/notifications/all")
+    fun getAllNotifications(@RequestParam searchField: String?): List<Notification> {
+        return notificationService.getAllNotifications(searchField)
+    }
 //
 //    @GetMapping("/notifications/count")
 //    fun getUnreadNotificationsCount():Int{
@@ -37,4 +38,4 @@
 //    fun readNotification(@RequestParam notificationId: Int){
 //      return notificationService.readNotification(notificationId)
 //    }
-//}
+}
