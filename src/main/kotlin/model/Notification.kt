@@ -4,12 +4,13 @@ import jakarta.persistence.*
 import java.util.*
 import ar.org.schoolsync.model.User
 
+
 @Entity
 @Table(name = "app_notif")
 data class Notification(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long = 0L,//UUID = UUID.randomUUID(),
+    var id: Long = 0L,
 
     @Column(length = 100, nullable = false)
     var title: String,
@@ -20,42 +21,23 @@ data class Notification(
     @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
     var notificationReceiver: MutableList<String>,
 
-    var notificationSender: UUID,
+    var notificationSender: Long,
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(length = 20)
-//    var notificationScope: NotScope
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    var notificationScope: NotScope,
+
+
+    var weight: NotificationWeight = NotificationWeight.LOW) {
+
+    private var read = false
+
+    fun read() {
+        read = !read
+    }
 
     @ElementCollection(fetch = FetchType.EAGER)
-    var notificationGroup: MutableList<NotificationGroup>,
+    var notificationGroup: MutableList<NotificationGroup> = mutableListOf()
 
+}
 
-)
-//{
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-//    var id: UUID = UUID.randomUUID()
-//}
-//{
-//    init {
-//        if (id == null) {
-//            id = UUID.randomUUID()
-//        }
-//    }
-//}
-//{
-//    constructor(
-//        title: String,
-//        content: String,
-//        notificationReceiver: MutableList<String>,
-//        notificationSender: UUID,
-//        notificationScope: NotScope
-//        ) : this(
-//        UUID.randomUUID(),
-//        title,
-//        content,
-//        notificationReceiver,
-//        notificationSender,
-//        notificationScope
-//        )
-//}

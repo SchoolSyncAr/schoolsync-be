@@ -1,7 +1,9 @@
 package ar.org.schoolsync.services
 
+
 import ar.org.schoolsync.exeptions.NotificationCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
+import ar.org.schoolsync.exeptions.Businessexception
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.ParentRepository
@@ -42,14 +44,15 @@ class NotificationService(private val notificationRepository: NotificationReposi
 //        return notificationRepository.deleteById(id)
 //    }
 
-    fun addNotificationToList(notification: Notification){
+
+    fun addNotificationToList(notification: Notification) {
         val allParents = parentRepository.findAll().map { it }
 
         allParents.forEach {
 
             val parentNotificationGroups = it.notificationGroup.map { it }
             val notificationGroups = notification.notificationGroup.map { it }
-            val isAReceiver = (parentNotificationGroups.any{it in notificationGroups})
+            val isAReceiver = (parentNotificationGroups.any { it in notificationGroups })
 //                    || notificationGroups.any{it in parentNotificationGroups})
             if (isAReceiver) {
                 it.notifications?.add(notification)
@@ -57,6 +60,17 @@ class NotificationService(private val notificationRepository: NotificationReposi
             } else {
                 println("es individuaL")
             }
+        }
+
+        fun deleteNotification(id: Long) {
+            return notificationRepository.deleteById(id)
+
+        }
+
+        fun readNotification(id: Long) {
+            val notification = notificationRepository.findById(id)
+                .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
+            notification.read()
         }
     }
 }

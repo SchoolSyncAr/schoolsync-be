@@ -24,8 +24,8 @@ data class User(
 ) {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    var id: UUID = UUID.randomUUID()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long = 0
 }
 
 

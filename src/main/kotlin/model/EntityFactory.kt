@@ -61,8 +61,8 @@ class GeneralNotification : FactoryObject<Notification> {
             title = "General",
             content = "General",
             notificationReceiver = mutableListOf(),
-            notificationSender = UUID.randomUUID(),
-            notificationGroup = mutableListOf()
+            notificationSender = 0L,
+            notificationScope = NotScope.GENERAL,
         )
 }
 
@@ -72,8 +72,8 @@ class IndividualNotification : FactoryObject<Notification> {
             title = "General",
             content = "General",
             notificationReceiver = mutableListOf(),
-            notificationSender = UUID.randomUUID(),
-            notificationGroup = mutableListOf()
+            notificationSender = 0L,
+            notificationScope = NotScope.GENERAL,
         )
 }
 class NormalParent : FactoryObject<Person> {
