@@ -23,7 +23,7 @@ data class User(
     var role: Role = Role.USER
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    var id: UUID = UUID.randomUUID()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long = 0
 }
 

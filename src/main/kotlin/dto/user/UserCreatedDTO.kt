@@ -4,7 +4,7 @@ import ar.org.schoolsync.model.User
 import java.util.*
 
 data class UserCreatedDTO (
-    val id: UUID,
+    val id: Long,
     val email: String,
 )
 

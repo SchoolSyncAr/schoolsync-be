@@ -5,7 +5,7 @@ import ar.org.schoolsync.model.User
 import java.util.*
 
 data class UserResponseDTO (
-    val id: UUID,
+    val id: Long,
     val firstName: String,
     val lastName: String,
     val email: String,

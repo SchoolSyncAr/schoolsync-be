@@ -2,7 +2,7 @@ package ar.org.schoolsync.exeptions
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
-import java.util.UUID
+
 
 
 object CreationError {
@@ -11,7 +11,7 @@ object CreationError {
 
 object FindError {
     @Suppress("FunctionName")
-    fun USER_NOT_FOUND(uuid:UUID) = "No existe el usuario con id: $uuid "
+    fun USER_NOT_FOUND(id:Long) = "No existe el usuario con id: $id "
 
     @Suppress("FunctionName")
     fun USER_NOT_FOUND(username:String) = "No existe el usuario con username: $username "
