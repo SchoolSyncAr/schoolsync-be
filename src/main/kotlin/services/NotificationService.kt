@@ -5,6 +5,7 @@ import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -16,7 +17,8 @@ class NotificationService(@Autowired val notificationRepository: NotificationRep
         return if (searchField.isNullOrEmpty()) {
             notificationRepository.findAll()
         } else {
-            notificationRepository.findNotificationsByTitleContainingIgnoreCase(searchField)
+            //recibis parámetros text del front que sea asc o dsc y construis de forma variable Sort.by("weight").descending() y el campo por el que sorteas
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(searchField, Sort.by("weight").descending())
         }
     }
 

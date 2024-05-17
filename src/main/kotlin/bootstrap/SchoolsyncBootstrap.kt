@@ -1,9 +1,6 @@
 package ar.org.schoolsync.bootstrap
 
-import ar.org.schoolsync.model.EntityFactory
-import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.Role
-import ar.org.schoolsync.model.User
+import ar.org.schoolsync.model.*
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.beans.factory.InitializingBean
@@ -56,7 +53,7 @@ class SchoolsyncBootstrap(
                     "\n" + "El programa del acto incluirá presentaciones de danzas folclóricas, declamaciones patrióticas, y otras actividades preparadas con esmero por nuestros alumnos y docentes.\n" +
                     "\n" + "Esperamos contar con su presencia en este evento, que fortalece los lazos entre la escuela y las familias, y enriquece la experiencia educativa de nuestros queridos estudiantes.\n" +
                     "\n" + "¡Los esperamos con entusiasmo!\n" +
-                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
+                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo", NotificationWeight.MEDIUM
         )
 
         val notification2 = Notification(
@@ -94,7 +91,7 @@ class SchoolsyncBootstrap(
                     "Estamos emocionados de anunciar el lanzamiento de nuestra campaña de recaudación de fondos para apoyar la próxima excursión escolar de nuestros estudiantes. La excursión está planeada para el [fecha] y será una experiencia educativa enriquecedora para todos los participantes.\n" +
                     "\n" + "Para hacer posible esta excursión y garantizar la participación de todos los estudiantes, necesitamos su colaboración. Cualquier contribución, grande o pequeña, será de gran ayuda. Los fondos recaudados se utilizarán para cubrir los gastos de transporte, entradas y otras necesidades relacionadas con la excursión.\n" +
                     "\n" + "Agradecemos de antemano su generosidad y apoyo en esta iniciativa. Juntos, podemos hacer que esta experiencia sea inolvidable para nuestros estudiantes.\n" +
-                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
+                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo", NotificationWeight.HIGH
         )
         notificationRepository.apply {
             save(notification1)

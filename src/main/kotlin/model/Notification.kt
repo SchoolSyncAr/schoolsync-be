@@ -8,6 +8,7 @@ data class Notification(
     var title: String,
     @Lob
     var content: String,
+    //@Enumerated(EnumType.STRING)
     var weight: NotificationWeight = NotificationWeight.LOW){
 
     private var read = false
