@@ -67,21 +67,11 @@
 		{
 			"name": "Create User",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxNTgxNTY0NCwiZXhwIjoxNzE1ODE5MjQ0fQ.wUm12lxpblJmbC7mgsEUCSQkMTZcyiTNaXpaeMnFM4M",
-							"type": "string"
-						}
-					]
-				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"NewUser\",\r\n    \"lastName\": \"NewUser Lastname\",\r\n    \"email\": \"newparent@schoolsync.mail.com\",\r\n    \"password\": \"ironMaiden\",\r\n    \"role\": \"PARENT\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"NewUser\",\r\n    \"lastName\": \"NewUser Lastname\",\r\n    \"email\": \"newparent@schoolsync.mail.com\",\r\n    \"password\": \"ironMaiden\",\r\n    \"role\": \"USER\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -107,7 +97,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"title\": \"Nuevo mensaje\",\r\n  \"content\": \"¡Hola! Tienes un nuevo mensaje en tu bandeja de entrada.\"\r\n}\r\n",
+					"raw": "{\r\n  \"title\": \"School Announcement\",\r\n  \"content\": \"There will be a meeting for all parents next Friday.\",\r\n  \"notificationReceiver\": [\"user1@example.com\", \"user2@example.com\"],\r\n  \"notificationSender\": 1,\r\n  \"notificationScope\": \"GENERAL\",\r\n  \"weight\": \"LOW\",\r\n  \"notificationGroup\": [\"ALL\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,13 +105,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/createNotification",
+					"raw": "{{api}}/notification/create",
 					"host": [
-						"localhost"
+						"{{api}}"
 					],
-					"port": "8080",
 					"path": [
-						"createNotification"
+						"notification",
+						"create"
 					]
 				}
 			},
@@ -151,13 +141,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8081/notifications/all",
+					"raw": "{{api}}/notification/all",
 					"host": [
-						"localhost"
+						"{{api}}"
 					],
-					"port": "8081",
 					"path": [
-						"notifications",
+						"notification",
 						"all"
 					]
 				}
@@ -188,7 +177,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxNTk5MDQyOCwiZXhwIjoxNzE1OTk0MDI4fQ.iN73hFKFlzV9G17mAfSQIQ9YJzFhUcaGWRWk6OwG20c",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxNjEzOTgyMiwiZXhwIjoxNzE2MTQzNDIyfQ.pyKrL-ws3ba8zC_S1Qcg-7DuS8XUSXisJBKvmWfzhe0",
 				"type": "string"
 			}
 		]
