@@ -4,11 +4,15 @@ import jakarta.persistence.*
 import java.util.*
 import ar.org.schoolsync.model.User
 
+
 @Entity
 @Table(name = "app_notif")
 data class Notification(
     @Id
-    var id: Long = 0,
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long = 0L,
+
+    @Column(length = 100, nullable = false)
     var title: String,
 
     @Column(length = 1000)
@@ -17,14 +21,14 @@ data class Notification(
     @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
     var notificationReceiver: MutableList<String>,
 
-    var notificationSender: Int,    //UUID,
+    var notificationSender: Long,
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     var notificationScope: NotScope,
 
 
-    var weight: NotificationWeight = NotificationWeight.LOW){
+    var weight: NotificationWeight = NotificationWeight.LOW) {
 
     private var read = false
 
@@ -32,7 +36,8 @@ data class Notification(
         read = !read
     }
 
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    var notificationGroup: MutableList<NotificationGroup> = mutableListOf()
 
 }
 

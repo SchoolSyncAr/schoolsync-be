@@ -1,22 +1,26 @@
 package ar.org.schoolsync.model.Persons
 
+import ar.org.schoolsync.model.Notification
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "app_student")
 class Student(
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-//    var specificValue: Long,
+
     firstName: String,
     lastName: String,
     var absences: Int,
+    @OneToMany
+    var notifications: MutableList<Notification>? = null,
     ) : Person (firstName, lastName) {
 
         constructor(
             firstName: String,
             lastName: String,
-        ) : this ( firstName, lastName, 0) {
+            notifications: MutableList<Notification>?,
+        ) : this ( firstName, lastName, 0, mutableListOf()) {
             this.absences = 0
+            this.notifications = notifications
+
         }
     }
