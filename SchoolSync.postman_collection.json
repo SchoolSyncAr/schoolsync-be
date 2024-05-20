@@ -141,13 +141,27 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{api}}/notification/all",
+					"raw": "{{api}}/notification/all?searchField=&orderParam=date&sortDirection=asc",
 					"host": [
 						"{{api}}"
 					],
 					"path": [
 						"notification",
 						"all"
+					],
+					"query": [
+						{
+							"key": "searchField",
+							"value": ""
+						},
+						{
+							"key": "orderParam",
+							"value": "date"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
 					]
 				}
 			},
@@ -177,7 +191,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxNjEzOTgyMiwiZXhwIjoxNzE2MTQzNDIyfQ.pyKrL-ws3ba8zC_S1Qcg-7DuS8XUSXisJBKvmWfzhe0",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxNjI0NzgxMywiZXhwIjoxNzE2MjUxNDEzfQ.X5hstLVbyQW12DMOAv5Hr8XqA4QGn4SSnLHmWSKpPms",
 				"type": "string"
 			}
 		]
