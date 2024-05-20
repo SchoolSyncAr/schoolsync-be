@@ -1,12 +1,16 @@
 package ar.org.schoolsync.services
 
 
+import ar.org.schoolsync.dto.notification.NotificationResponseDTO
+import ar.org.schoolsync.dto.notification.toResponseDTO
 import ar.org.schoolsync.exeptions.NotificationCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.exeptions.Businessexception
 import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.ParentRepository
+import org.springframework.data.domain.Sort
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
@@ -27,7 +31,18 @@ class NotificationService(private val notificationRepository: NotificationReposi
 
     }
 
-    fun findAll(): List<Notification> = notificationRepository.findAll().map { it }
+    fun findAll(filter: SearchFilter): List<NotificationResponseDTO> {
+
+        return if(filter.orderParam.isNullOrEmpty()){
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField, Sort.by("date").descending()).map {it.toResponseDTO()}
+        } else {
+            val sortDirection = if (filter.sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+            val sort = Sort.by(sortDirection, filter.orderParam)
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField, sort)
+                .map { it.toResponseDTO() }
+        }
+    }
+
 
 //    fun getAllNotifications(): List<Notification> {
 //        return notificationRepository.findAll().map { (it) }

@@ -4,6 +4,7 @@ import ar.org.schoolsync.dto.notification.NotificationCreatedDTO
 import ar.org.schoolsync.dto.user.*
 import ar.org.schoolsync.dto.notification.*
 import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -36,8 +37,10 @@ class NotificationController(@Autowired val notificationService: NotificationSer
 
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
-    fun findAll(): List<NotificationResponseDTO> =
-        notificationService.findAll().map { it.toResponseDTO() }
+    fun findAll(@RequestParam searchField: String,
+                @RequestParam orderParam: String,
+                @RequestParam sortDirection: String): List<NotificationResponseDTO> =
+        notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
 
 }
 
