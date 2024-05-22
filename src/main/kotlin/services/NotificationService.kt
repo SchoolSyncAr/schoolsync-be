@@ -1,34 +1,48 @@
 package ar.org.schoolsync.services
 
 
+import ar.org.schoolsync.dto.notification.NotificationResponseDTO
+import ar.org.schoolsync.dto.notification.toResponseDTO
 import ar.org.schoolsync.exeptions.NotificationCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.exeptions.Businessexception
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.User
+import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.repositories.NotificationRepository
-import org.springframework.beans.factory.annotation.Autowired
+import ar.org.schoolsync.repositories.ParentRepository
+import org.springframework.data.domain.Sort
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.*
-import java.util.Base64.Encoder
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class NotificationService(private val notificationRepository: NotificationRepository,
+                          private val parentRepository: ParentRepository,
                           private val encoder: PasswordEncoder) {
 
     fun save(notification: Notification): Notification {
         val found = notificationRepository.findById(notification.id).getOrNull()
-
         return if (found == null) {
-            val updated = notification.copy()
-            notificationRepository.save(updated)
-            updated
+            notificationRepository.save(notification)
+            notification
+            addNotificationToList(notification)
+            notification
         } else throw ResponseStatusException(NotificationCreationError.CANNOT_CREATE_NOTIFICATION)
+
     }
 
-    fun findAll(): List<Notification> = notificationRepository.findAll().map { it }
+    fun findAll(filter: SearchFilter): List<NotificationResponseDTO> {
+
+        return if(filter.orderParam.isNullOrEmpty()){
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField, Sort.by("date").descending()).map {it.toResponseDTO()}
+        } else {
+            val sortDirection = if (filter.sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+            val sort = Sort.by(sortDirection, filter.orderParam)
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField, sort)
+                .map { it.toResponseDTO() }
+        }
+    }
+
 
 //    fun getAllNotifications(): List<Notification> {
 //        return notificationRepository.findAll().map { (it) }
@@ -41,17 +55,37 @@ class NotificationService(private val notificationRepository: NotificationReposi
 //        return notificationRepository.getAllCount()
 //    }
 
-    fun createNotification(notification: Notification) {
-        notificationRepository.save(notification)
+//    fun deleteNotification(id: UUID) {
+//        return notificationRepository.deleteById(id)
+//    }
 
-    }
 
-    fun deleteNotification(id: Long) {
-        return notificationRepository.deleteById(id)
-    }
+    fun addNotificationToList(notification: Notification) {
+        val allParents = parentRepository.findAll().map { it }
 
-    fun readNotification(id: Long) {
-        val notification = notificationRepository.findById(id).orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
-        notification.read()
+        allParents.forEach {
+
+            val parentNotificationGroups = it.notificationGroup.map { it }
+            val notificationGroups = notification.notificationGroup.map { it }
+            val isAReceiver = (parentNotificationGroups.any { it in notificationGroups })
+//                    || notificationGroups.any{it in parentNotificationGroups})
+            if (isAReceiver) {
+                it.notifications?.add(notification)
+                parentRepository.save(it)
+            } else {
+                println("es individuaL")
+            }
+        }
+
+        fun deleteNotification(id: Long) {
+            return notificationRepository.deleteById(id)
+
+        }
+
+        fun readNotification(id: Long) {
+            val notification = notificationRepository.findById(id)
+                .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
+            notification.read()
+        }
     }
 }

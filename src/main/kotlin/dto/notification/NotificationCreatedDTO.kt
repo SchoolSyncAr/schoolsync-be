@@ -8,11 +8,12 @@ import java.util.*
 
 data class NotificationCreatedDTO (
     val id: Long,
+
     val title: String,
     val content: String,
-    val notificationSender: Int,  //UUID,
+    val notificationSender: Long,
     val notificationReceiver: MutableList<String>,  //UUID,
-    val notificationScope: NotScope,
+    val notificationGroup: MutableList<NotificationGroup>,
 )
 
 fun Notification.toCreateDTO() = NotificationCreatedDTO (
@@ -21,5 +22,5 @@ fun Notification.toCreateDTO() = NotificationCreatedDTO (
     content = this.content,
     notificationSender = this.notificationSender,
     notificationReceiver = this.notificationReceiver,
-    notificationScope = this.notificationScope
+    notificationGroup = this.notificationGroup
 )
