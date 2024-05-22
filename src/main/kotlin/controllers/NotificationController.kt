@@ -8,6 +8,7 @@ import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.annotation.security.RolesAllowed
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -18,6 +19,7 @@ import java.util.*
 @Tag(name = "Notification", description = "Notification Api Operations")
 class NotificationController(@Autowired val notificationService: NotificationService) {
 
+    @RolesAllowed("ADMIN")
     @PostMapping("/create")
     @Operation(summary = "Crea una nueva notificación")
     fun create(@RequestBody notification: Notification): NotificationCreatedDTO {
@@ -34,13 +36,19 @@ class NotificationController(@Autowired val notificationService: NotificationSer
 //        return notificationService.save(notification).toCreateDTO()
 //    }
 
-
+    @RolesAllowed("ADMIN")
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
     fun findAll(@RequestParam searchField: String,
                 @RequestParam orderParam: String,
                 @RequestParam sortDirection: String): List<NotificationResponseDTO> =
         notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
+
+    @RolesAllowed("USER")
+    @GetMapping("/count")
+    fun getUnreadNotificationsCount(): Int {
+        return notificationService.getUnreadNotificationsCount()
+    }
 
 }
 
@@ -68,10 +76,7 @@ class NotificationController(@Autowired val notificationService: NotificationSer
 //        return notificationService.getAllNotifications()
 //    }
 //
-//    @GetMapping("/notifications/count")
-//    fun getUnreadNotificationsCount():Int{
-//        return notificationService.getUnreadNotificationsCount()
-//    }
+
 //
 //    @PostMapping("/createNotifications")
 //    @Operation(summary = "Creates a new notification")

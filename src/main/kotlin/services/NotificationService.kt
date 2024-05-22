@@ -49,11 +49,11 @@ class NotificationService(private val notificationRepository: NotificationReposi
 //    }
 
 
-//    fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
-//        //Para luego devolver la cantidad de notificaciones no leídas de X usuario
-//        //return notificationRepository.getUnreadNotificationsCount(idUsuario)
-//        return notificationRepository.getAllCount()
-//    }
+    fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
+        //Para luego devolver la cantidad de notificaciones no leídas de X usuario
+        //return notificationRepository.getUnreadNotificationsCount(idUsuario)
+        return notificationRepository.findAll().count() // TODO: hacer correctamente en la db
+    }
 
 //    fun deleteNotification(id: UUID) {
 //        return notificationRepository.deleteById(id)
