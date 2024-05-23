@@ -89,6 +89,7 @@ class SchoolsyncBootstrap(
                 receivers,
                 1,
                 NotScope.GENERAL
+
             )
 
             val notification4 = Notification(
@@ -98,7 +99,8 @@ class SchoolsyncBootstrap(
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
                 receivers,
                 1,
-                NotScope.GENERAL
+                NotScope.GENERAL,
+                date = LocalDateTime.now().minusMonths(3)
             )
 
             val notification5 = Notification(
@@ -111,7 +113,8 @@ class SchoolsyncBootstrap(
                 receivers,
                 1,
                 NotScope.GENERAL,
-                NotificationWeight.HIGH
+                NotificationWeight.HIGH,
+                LocalDateTime.now().minusMonths(1)
             )
 
             notificationRepository.apply {

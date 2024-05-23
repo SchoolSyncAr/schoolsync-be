@@ -12,21 +12,16 @@ import java.time.LocalDateTime
 data class Notification(
     @Column(length = 100, nullable = false)
     var title: String,
-
     @Column(length = 5000)
     var content: String,
-
     @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
     var notificationReceiver: MutableList<String>,
-
     var notificationSender: Long,
-
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     var notificationScope: NotScope,
-
-    var weight: NotificationWeight = NotificationWeight.LOW
-
+    var weight: NotificationWeight = NotificationWeight.LOW,
+    var date: LocalDateTime = LocalDateTime.now()
     ) {
 
     @Id
@@ -34,8 +29,6 @@ data class Notification(
     var id: Long = 0
 
     private var read = false
-
-    val date = LocalDateTime.now()
 
     fun read() {
         read = !read
