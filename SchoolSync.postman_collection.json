@@ -191,7 +191,6 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxNjI0NzgxMywiZXhwIjoxNzE2MjUxNDEzfQ.X5hstLVbyQW12DMOAv5Hr8XqA4QGn4SSnLHmWSKpPms",
 				"type": "string"
 			}
 		]
