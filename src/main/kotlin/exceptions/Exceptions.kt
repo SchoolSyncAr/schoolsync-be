@@ -35,3 +35,6 @@ class ResponseStatusException(message: String) : RuntimeException(message)
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 class Businessexception(msg:String): RuntimeException(msg)
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class InvalidAuthRequest() : RuntimeException("Usuario y/o contraseña inválidos.")
