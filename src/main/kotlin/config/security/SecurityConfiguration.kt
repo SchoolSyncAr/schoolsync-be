@@ -19,7 +19,7 @@ class SecurityConfiguration(
     private val apiProperties: ApiProperties
 ) {
     @Bean
-    fun securtyFilterChain(
+    fun securityFilterChain(
         http: HttpSecurity,
         jwtAuthenticationFilter: JwtAuthenticationFilter
     ): DefaultSecurityFilterChain =
@@ -27,8 +27,13 @@ class SecurityConfiguration(
             .csrf { it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("${apiProperties.base}/auth", "${apiProperties.base}/auth/refresh", "/error")
-                    .permitAll()
+                    .requestMatchers(
+                        "${apiProperties.base}/auth",
+                        "${apiProperties.base}/auth/refresh",
+                        "/error",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**"
+                    ).permitAll()
                     .requestMatchers(HttpMethod.POST, "${apiProperties.base}/user")
                     .permitAll()
                     .requestMatchers("${apiProperties.base}/user**")
