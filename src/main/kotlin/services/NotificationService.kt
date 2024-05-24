@@ -6,10 +6,12 @@ import ar.org.schoolsync.dto.notification.toResponseDTO
 import ar.org.schoolsync.exeptions.NotificationCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.exeptions.Businessexception
+import ar.org.schoolsync.model.NotScope
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.ParentRepository
+import ar.org.schoolsync.repositories.StudentRepository
 import org.springframework.data.domain.Sort
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -18,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 @Service
 class NotificationService(private val notificationRepository: NotificationRepository,
                           private val parentRepository: ParentRepository,
+                          private val studentRepository: StudentRepository,
                           private val encoder: PasswordEncoder) {
 
     fun save(notification: Notification): Notification {
@@ -62,20 +65,47 @@ class NotificationService(private val notificationRepository: NotificationReposi
 
     fun addNotificationToList(notification: Notification) {
         val allParents = parentRepository.findAll().map { it }
+//        val allStudents = studentRepository.findAll().map { it }
+        if (notification.notificationScope === NotScope.GENERAL) {
+            allParents.forEach {
 
-        allParents.forEach {
-
-            val parentNotificationGroups = it.notificationGroup.map { it }
-            val notificationGroups = notification.notificationGroup.map { it }
-            val isAReceiver = (parentNotificationGroups.any { it in notificationGroups })
+                val parentNotificationGroups = it.notificationGroup.map { it }
+                val notificationGroups = notification.notificationGroup.map { it }
+                val isAReceiver = (parentNotificationGroups.any { it in notificationGroups })
 //                    || notificationGroups.any{it in parentNotificationGroups})
-            if (isAReceiver) {
-                it.notifications?.add(notification)
-                parentRepository.save(it)
-            } else {
-                println("es individuaL")
+                if (isAReceiver) {
+                    it.notifications?.add(notification)
+                    parentRepository.save(it)
+                }
             }
         }
+                else  if
+                     (notification.notificationScope === NotScope.INDIVIDUAL) {
+                        println("estoy en nueva individual")
+                        allParents.forEach {
+                            if (notification.notificationReceiver == it.id) {
+                                it.notifications?.add(notification)
+                                parentRepository.save(it)
+                            }
+                        }
+                    }
+
+
+            }
+
+        //        allStudents.forEach{
+//            if(notification.notificationScope === NotScope.INDIVIDUAL)
+//                allStudents.forEach {
+//                    if (notification.notificationReceiver == it.id){
+//                        it.notifications?.add(notification)
+//                        studentRepository.save(it)
+//                    }
+//                }
+//        }
+//    }
+
+
+
 
         fun deleteNotification(id: Long) {
             return notificationRepository.deleteById(id)
@@ -88,4 +118,3 @@ class NotificationService(private val notificationRepository: NotificationReposi
             notification.read()
         }
     }
-}

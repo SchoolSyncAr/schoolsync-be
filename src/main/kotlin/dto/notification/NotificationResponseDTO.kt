@@ -13,7 +13,7 @@ data class NotificationResponseDTO (
     val title: String,
     val content: String,
     val notificationSender: Long,
-    val notificationReceiver: MutableList<String>, //UUID,
+    val notificationReceiver: Long,//MutableList<Long>?,
     val notificationGroup: MutableList<NotificationGroup>,
     val date: LocalDateTime
 )

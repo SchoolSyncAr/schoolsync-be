@@ -14,8 +14,10 @@ data class Notification(
     var title: String,
     @Column(length = 5000)
     var content: String,
-    @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
-    var notificationReceiver: MutableList<String>,
+
+//    @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
+    var notificationReceiver: Long, //MutableList<Long>? = null,
+
     var notificationSender: Long,
     @Enumerated(EnumType.STRING)
     @Column(length = 20)

@@ -1,7 +1,11 @@
 package ar.org.schoolsync.bootstrap
 
 import ar.org.schoolsync.model.*
+import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.Persons.Student
 import ar.org.schoolsync.repositories.NotificationRepository
+import ar.org.schoolsync.repositories.ParentRepository
+import ar.org.schoolsync.repositories.StudentRepository
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,12 +21,16 @@ class SchoolsyncBootstrap(
     @Autowired
     private val notificationRepository: NotificationRepository,
     @Autowired
+    private val studentRepository: StudentRepository,
+    @Autowired
+    private val parentRepository: ParentRepository,
+    @Autowired
     private val encoder: PasswordEncoder
 ) : InitializingBean {
     val factory = EntityFactory(encoder)
 
-    val receivers = mutableListOf("Franco", "Claudia")
-
+//    val receivers = mutableListOf("Franco", "Claudia")
+    val receivers = 0L//mutableListOf(0L)
     fun initUsers() = setOf(
         factory.createUser(Role.ADMIN),
         factory.createUser(Role.USER)
@@ -126,8 +134,100 @@ class SchoolsyncBootstrap(
             }
         }
 
+    fun initStudentRepository(){
+        val student1 = Student(
+            firstName = "Mateo",
+            lastName = "Rodriguez",
+            absences = 0,
+            notifications = mutableListOf()
+        )
+        val student2 = Student(
+            firstName = "Delfina",
+            lastName = "Rodriguez",
+            absences = 0,
+            notifications = mutableListOf()
+        )
+        val student3 = Student(
+            firstName = "Nicolas",
+            lastName = "Rodriguez",
+            absences = 0,
+            notifications = mutableListOf()
+        )
+        val student4 = Student(
+            firstName = "Javier",
+            lastName = "Melo",
+            absences = 0,
+            notifications = mutableListOf()
+        )
+        val student5 = Student(
+            firstName = "Federico",
+            lastName = "Alvarez",
+            absences = 0,
+            notifications = mutableListOf()
+        )
+        val student6 = Student(
+            firstName = "Joaquin",
+            lastName = "Alvarez",
+            absences = 0,
+            notifications = mutableListOf()
+        )
+        studentRepository.apply {
+            save(student1)
+            save(student2)
+            save(student3)
+            save(student4)
+            save(student5)
+            save(student6)
+        }
+
+    }
+
+    fun initParentRepository() {
+
+        val students = studentRepository.findAll().toList()
+
+        val parent1 = Parent(
+            firstName = "Juan Ignacio",
+            lastName = "Rodriguez",
+            isFatherOf = mutableListOf(students[0], students[1],students[2]),
+            notifications = mutableListOf(),
+            notificationGroup = mutableListOf(NotificationGroup.ALL,
+                NotificationGroup.GRADE2,
+                NotificationGroup.FOOTBALL_TEAM
+            )
+        )
+        val parent2 = Parent(
+            firstName = "Martin",
+            lastName = "Melo",
+            isFatherOf = mutableListOf(students[3]),
+            notifications = mutableListOf(),
+            notificationGroup = mutableListOf(NotificationGroup.ALL,
+                NotificationGroup.GRADE2,
+                NotificationGroup.FOOTBALL_TEAM
+            )
+        )
+        val parent3 = Parent(
+            firstName = "Tomas",
+            lastName = "Alvarez",
+            isFatherOf = mutableListOf(students[4], students[5]),
+            notifications = mutableListOf(),
+            notificationGroup = mutableListOf(NotificationGroup.ALL,
+                NotificationGroup.GRADE2,
+                NotificationGroup.FOOTBALL_TEAM
+            )
+        )
+        parentRepository.apply {
+            save(parent1)
+            save(parent2)
+            save(parent3)
+        }
+
+    }
+
     override fun afterPropertiesSet() {
         initNotificationRepository()
+        initStudentRepository()
+        initParentRepository()
         persist(initUsers())
     }
 //

@@ -60,7 +60,7 @@ class GeneralNotification : FactoryObject<Notification> {
         Notification(
             title = "General",
             content = "General",
-            notificationReceiver = mutableListOf(),
+            notificationReceiver = 0L,//mutableListOf(),
             notificationSender = 0L,
             notificationScope = NotScope.GENERAL,
         )
@@ -71,7 +71,7 @@ class IndividualNotification : FactoryObject<Notification> {
         Notification(
             title = "General",
             content = "General",
-            notificationReceiver = mutableListOf(),
+            notificationReceiver = 0L, //mutableListOf(),
             notificationSender = 0L,
             notificationScope = NotScope.GENERAL,
         )

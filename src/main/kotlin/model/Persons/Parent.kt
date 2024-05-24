@@ -34,14 +34,4 @@ class Parent(
         this.notificationGroup = mutableListOf()
     }
 
-
-//
-//    constructor(
-//        firstName: String,
-//        lastName: String
-//    ) : this( firstName, lastName, mutableListOf(), 0) {
-//        this.isFatherOf = mutableListOf()
-//        this.prueba = 0
-//    }
-
 }
