@@ -10,7 +10,7 @@ data class NotificationResponseDTO (
     val title: String,
     val content: String,
     val notificationSender: Long,
-    val notificationReceiver: Long,//MutableList<Long>?,
+    val notificationReceiver: Long?,//MutableList<Long>?,
     val notificationGroup: MutableList<NotificationGroup>,
     val date: LocalDateTime
 )
@@ -19,8 +19,8 @@ fun Notification.toResponseDTO() = NotificationResponseDTO (
     this.id,
     this.title,
     this.content,
-    this.notificationSender,
-    this.notificationReceiver,
-    this.notificationGroup,
+    this.sender,
+    this.recipient,
+    this.recipientGroups,
     this.date
 )

@@ -59,9 +59,9 @@ class GeneralNotification : FactoryObject<Notification> {
         Notification(
             title = "General",
             content = "General",
-            notificationReceiver = 0L,//mutableListOf(),
-            notificationSender = 0L,
-            notificationScope = NotifScope.GENERAL,
+            recipient = 0L,//mutableListOf(),
+            sender = 0L,
+            scope = NotifScope.GENERAL,
         )
 }
 
@@ -70,9 +70,9 @@ class IndividualNotification : FactoryObject<Notification> {
         Notification(
             title = "General",
             content = "General",
-            notificationReceiver = 0L, //mutableListOf(),
-            notificationSender = 0L,
-            notificationScope = NotifScope.GENERAL,
+            recipient = 0L, //mutableListOf(),
+            sender = 0L,
+            scope = NotifScope.GENERAL,
         )
 }
 class NormalParent : FactoryObject<Person> {
@@ -82,7 +82,7 @@ class NormalParent : FactoryObject<Person> {
             lastName = "Name",
             isFatherOf = mutableListOf(),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf()
+            notificationGroups = mutableListOf()
         )
 }
 class NormalStudent : FactoryObject<Person>{
