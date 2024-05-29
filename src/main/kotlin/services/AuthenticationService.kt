@@ -35,7 +35,8 @@ class AuthenticationService(
 
         return AuthenticationResponse(
             accessToken = accessToken,
-            role = user.role
+            role = user.role,
+            id = user.id
         )
     }
 }

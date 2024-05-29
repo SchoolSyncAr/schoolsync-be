@@ -1,8 +1,6 @@
 package ar.org.schoolsync.model.Persons
 
-import ar.org.schoolsync.model.NotScope
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(name = "app_person")

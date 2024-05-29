@@ -65,10 +65,9 @@ class SchoolsyncBootstrap(
                         "\n" + "Esperamos contar con su presencia en este evento, que fortalece los lazos entre la escuela y las familias, y enriquece la experiencia educativa de nuestros queridos estudiantes.\n" +
                         "\n" + "¡Los esperamos con entusiasmo!\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
-                1,
-                NotScope.GENERAL,
-                NotificationWeight.MEDIUM
+                sender = initUsers().elementAt(0).id,
+                scope = NotifScope.GENERAL,
+                weight = NotificationWeight.MEDIO
             )
 
             val notification2 = Notification(
@@ -78,9 +77,8 @@ class SchoolsyncBootstrap(
                         "\n" + "Agradecemos de antemano su participación y compromiso con la educación de sus hijos. Esperamos verlos a todos allí y trabajar juntos en beneficio de nuestros estudiantes.\n" +
                         "\n" + "¡Muchas gracias!\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
-                1,
-                NotScope.GENERAL
+                sender = initUsers().elementAt(0).id,
+                scope = NotifScope.GENERAL
             )
 
             val notification3 = Notification(
@@ -94,9 +92,8 @@ class SchoolsyncBootstrap(
                         "Grados 5 y 6: 15:40hs\n" +
                         "\n" + "Agradecemos su comprensión y cooperación durante este ajuste. Por favor, asegúrense de que sus hijos estén informados sobre el nuevo horario y lleguen a la escuela a tiempo.\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
-                1,
-                NotScope.GENERAL
+                sender = initUsers().elementAt(0).id,
+                scope = NotifScope.GENERAL
 
             )
 
@@ -105,10 +102,9 @@ class SchoolsyncBootstrap(
                 content = "Estimada Comunidad Educativa:\n" +
                         "Les informamos que tuvimos un pequeño corte de luz alrededor de las 12:00hs pero ya ha vuelto." +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
-                1,
-                NotScope.GENERAL,
-                date = LocalDateTime.now().minusMonths(3)
+                sender = initUsers().elementAt(0).id,
+                date = LocalDateTime.now().minusMonths(3),
+                scope = NotifScope.GENERAL,
             )
 
             val notification5 = Notification(
@@ -118,11 +114,10 @@ class SchoolsyncBootstrap(
                         "\n" + "Para hacer posible esta excursión y garantizar la participación de todos los estudiantes, necesitamos su colaboración. Cualquier contribución, grande o pequeña, será de gran ayuda. Los fondos recaudados se utilizarán para cubrir los gastos de transporte, entradas y otras necesidades relacionadas con la excursión.\n" +
                         "\n" + "Agradecemos de antemano su generosidad y apoyo en esta iniciativa. Juntos, podemos hacer que esta experiencia sea inolvidable para nuestros estudiantes.\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
-                1,
-                NotScope.GENERAL,
-                NotificationWeight.HIGH,
-                LocalDateTime.now().minusMonths(1)
+                sender = initUsers().elementAt(0).id,
+                weight = NotificationWeight.ALTO,
+                date = LocalDateTime.now().minusMonths(1),
+                scope = NotifScope.GENERAL,
             )
 
             notificationRepository.apply {
@@ -191,9 +186,9 @@ class SchoolsyncBootstrap(
             lastName = "Rodriguez",
             isFatherOf = mutableListOf(students[0], students[1],students[2]),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf(NotificationGroup.ALL,
-                NotificationGroup.GRADE2,
-                NotificationGroup.FOOTBALL_TEAM
+            notificationGroup = mutableListOf(NotificationGroup.TODOS,
+                NotificationGroup.GRADO2,
+                NotificationGroup.EQUIPO_FUTBOL
             )
         )
         val parent2 = Parent(
@@ -201,9 +196,9 @@ class SchoolsyncBootstrap(
             lastName = "Melo",
             isFatherOf = mutableListOf(students[3]),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf(NotificationGroup.ALL,
-                NotificationGroup.GRADE2,
-                NotificationGroup.FOOTBALL_TEAM
+            notificationGroup = mutableListOf(NotificationGroup.TODOS,
+                NotificationGroup.GRADO2,
+                NotificationGroup.EQUIPO_FUTBOL
             )
         )
         val parent3 = Parent(
@@ -211,9 +206,9 @@ class SchoolsyncBootstrap(
             lastName = "Alvarez",
             isFatherOf = mutableListOf(students[4], students[5]),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf(NotificationGroup.ALL,
-                NotificationGroup.GRADE2,
-                NotificationGroup.FOOTBALL_TEAM
+            notificationGroup = mutableListOf(NotificationGroup.TODOS,
+                NotificationGroup.GRADO2,
+                NotificationGroup.EQUIPO_FUTBOL
             )
         )
         parentRepository.apply {
