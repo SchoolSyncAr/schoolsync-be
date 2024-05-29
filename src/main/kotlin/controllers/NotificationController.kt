@@ -50,6 +50,20 @@ class NotificationController(@Autowired val notificationService: NotificationSer
         return notificationService.getUnreadNotificationsCount()
     }
 
+    @RolesAllowed("ADMIN")
+    @DeleteMapping("/deleteNotification/{notificationId}")
+    @Operation(summary = "Deletes a notification")
+    fun deleteNotification(@PathVariable notificationId: Long,
+                           @RequestParam searchField: String,
+                           @RequestParam orderParam: String,
+                           @RequestParam sortDirection: String
+                           ) : List<NotificationResponseDTO> {
+        val notification = notificationService.deleteNotification(notificationId)
+        return notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
+    }
+
+
+
 }
 
 

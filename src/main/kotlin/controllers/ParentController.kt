@@ -6,6 +6,8 @@ import ar.org.schoolsync.dto.notification.toCreateDTO
 import ar.org.schoolsync.dto.notification.toResponseDTO
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.Persons.Person
+import ar.org.schoolsync.model.Persons.Student
 import ar.org.schoolsync.services.NotificationService
 import ar.org.schoolsync.services.ParentService
 import io.swagger.v3.oas.annotations.Operation
@@ -30,5 +32,16 @@ class ParentController (@Autowired val parentService: ParentService) {
     @Operation(summary = "Retorna todos los padres del sistema")
     fun findAll(): List<Parent> =
         parentService.findAll().map { it }
+
+    @GetMapping("/myChildren/{parentId}")
+    @Operation(summary = "devuelve todos los hijos de un determinado padre")
+    fun findMyChildren(@PathVariable parentId: Long):List<Person>?{
+        return parentService.findMyChildren(parentId)?.map { it }
+    }
+
+
+
+
+
 }
 

@@ -5,6 +5,8 @@ import ar.org.schoolsync.exeptions.PersonCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.Persons.Person
+import ar.org.schoolsync.model.Persons.Student
 import ar.org.schoolsync.repositories.ParentRepository
 import ar.org.schoolsync.repositories.PersonRepository
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -24,8 +26,15 @@ class ParentService (private val personRepository: PersonRepository,
             parent
         } else throw ResponseStatusException(PersonCreationError.CANNOT_CREATE_PERSON)
     }
+
     fun findAll(): List<Parent> = parentRepository.findAll().map { it }
 
+    fun findMyChildren(parentId: Long): List<Person>? {
+        val parent = parentRepository.findById(parentId).orElseThrow{NoSuchElementException("Parent not found with id $parentId")}
+        val myChildren = parent.isFatherOf?.map { it }
+        return myChildren
+    }
 }
+
 
 
