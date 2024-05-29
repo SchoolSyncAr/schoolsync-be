@@ -1,29 +1,32 @@
 package ar.org.schoolsync.model
 
 import jakarta.persistence.*
-import java.util.*
-import ar.org.schoolsync.model.User
-import java.time.LocalDate
 import java.time.LocalDateTime
-
 
 @Entity
 @Table(name = "app_notif")
 data class Notification(
     @Column(length = 100, nullable = false)
     var title: String,
+
     @Column(length = 5000)
     var content: String,
 
-//    @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
-    var notificationReceiver: Long, //MutableList<Long>? = null,
+    var sender: Long,
 
-    var notificationSender: Long,
+    var weight: NotificationWeight = NotificationWeight.BAJO,
+
+    val date: LocalDateTime = LocalDateTime.now(),
+
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    var notificationScope: NotScope,
-    var weight: NotificationWeight = NotificationWeight.LOW,
-    var date: LocalDateTime = LocalDateTime.now()
+    var scope: NotifScope = NotifScope.GENERAL,
+
+    //@ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
+    var recipient: Long? = null,//MutableList<Long> = mutableListOf(),
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    var recipientGroups: MutableList<NotificationGroup> = mutableListOf()
     ) {
 
     @Id
@@ -35,9 +38,6 @@ data class Notification(
     fun read() {
         read = !read
     }
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    var notificationGroup: MutableList<NotificationGroup> = mutableListOf()
 
 }
 

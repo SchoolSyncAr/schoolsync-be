@@ -1,12 +1,8 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.dto.notification.NotificationCreatedDTO
-import ar.org.schoolsync.dto.notification.NotificationResponseDTO
-import ar.org.schoolsync.dto.notification.toCreateDTO
-import ar.org.schoolsync.dto.notification.toResponseDTO
-import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.dto.user.ParentDTO
+import ar.org.schoolsync.dto.user.toDTO
 import ar.org.schoolsync.model.Persons.Parent
-import ar.org.schoolsync.services.NotificationService
 import ar.org.schoolsync.services.ParentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -28,7 +24,7 @@ class ParentController (@Autowired val parentService: ParentService) {
 
     @GetMapping("/all")
     @Operation(summary = "Retorna todos los padres del sistema")
-    fun findAll(): List<Parent> =
-        parentService.findAll().map { it }
+    fun findAll(): List<ParentDTO> =
+        parentService.findAll().map { it.toDTO() }
 }
 

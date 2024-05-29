@@ -1,9 +1,9 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.dto.notification.NotificationCreatedDTO
-import ar.org.schoolsync.dto.user.*
+import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.*
 import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.model.NotificationGroup
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation
@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.annotation.security.RolesAllowed
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 @RestController
 @CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
@@ -22,9 +21,8 @@ class NotificationController(@Autowired val notificationService: NotificationSer
     @RolesAllowed("ADMIN")
     @PostMapping("/create")
     @Operation(summary = "Crea una nueva notificación")
-    fun create(@RequestBody notification: Notification): NotificationCreatedDTO {
-        println("CREANDOOOOOOOOOOOO $notification")
-        return notificationService.save(notification).toCreateDTO()
+    fun create(@RequestBody notification: NotificationDTO): NotificationDTO {
+        return notificationService.create(notification).toCreateDTO()
     }
 
 //    @PostMapping("/create/{senderUuid}/{receiverUuid}")
@@ -39,10 +37,21 @@ class NotificationController(@Autowired val notificationService: NotificationSer
     @RolesAllowed("ADMIN")
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
-    fun findAll(@RequestParam searchField: String,
+    fun findAllforAdmin(@RequestParam searchField: String,
                 @RequestParam orderParam: String,
-                @RequestParam sortDirection: String): List<NotificationResponseDTO> =
-        notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
+                @RequestParam sortDirection: String): List<AdminNotificationResponseDTO> =
+        notificationService.findAllforAdmin(SearchFilter(searchField,orderParam,sortDirection))
+
+    @RolesAllowed("USER")
+    @GetMapping("/{userId}/all")
+    @Operation(summary = "Retorna todas las notificaciones del usuario")
+    fun findAllforUser(
+        @RequestParam searchField: String,
+        @RequestParam orderParam: String,
+        @RequestParam sortDirection: String,
+        @PathVariable userId: Long
+    ): List<UserNotificationResponseDTO> =
+        notificationService.findAllforUser(SearchFilter(searchField,orderParam,sortDirection), userId)
 
     @RolesAllowed("USER")
     @GetMapping("/count")
@@ -50,6 +59,11 @@ class NotificationController(@Autowired val notificationService: NotificationSer
         return notificationService.getUnreadNotificationsCount()
     }
 
+    @RolesAllowed("ADMIN")
+    @GetMapping("/recipient-groups")
+    @Operation(summary = "Devuelve los grupos de usuarios a quienes mandarles la Notif")
+    fun getRecipientGroups(): List<String> {
+        return NotificationGroup.entries.map { it.name }}
 }
 
 
