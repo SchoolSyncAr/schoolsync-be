@@ -1,9 +1,6 @@
 package ar.org.schoolsync.model
 
 import jakarta.persistence.*
-import java.util.*
-import ar.org.schoolsync.model.User
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 
@@ -21,8 +18,8 @@ data class Notification(
     var notificationSender: Long,
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    var notificationScope: NotScope,
-    var weight: NotificationWeight = NotificationWeight.LOW,
+    var notificationScope: NotifScope,
+    var weight: NotificationWeight = NotificationWeight.BAJO,
     var date: LocalDateTime = LocalDateTime.now()
     ) {
 
