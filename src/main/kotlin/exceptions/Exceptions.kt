@@ -11,8 +11,6 @@ object CreationError {
 
 object FindError {
     @Suppress("FunctionName")
-    fun ID_NOT_FOUND(id: Long, name: String = "entity") = "Can't find $name with id: $id."
-    @Suppress("FunctionName")
     fun USER_NOT_FOUND(id:Long) = "No existe el usuario con id: $id "
 
     @Suppress("FunctionName")
@@ -28,8 +26,6 @@ object PersonCreationError {
     const val CANNOT_CREATE_PERSON = "La persona no pudo ser creada correctamente"
 }
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class NotFoundException(msg: String) : RuntimeException(msg)
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResponseFindException(message: String) : RuntimeException(message)

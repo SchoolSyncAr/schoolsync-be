@@ -4,6 +4,5 @@ import ar.org.schoolsync.model.Role
 
 data class AuthenticationResponse(
     val accessToken: String,
-    val role: Role,
-    val id: Long
+    val role: Role
 )

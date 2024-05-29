@@ -5,6 +5,7 @@ import ar.org.schoolsync.model.Persons.Person
 import ar.org.schoolsync.model.Persons.Student
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import java.util.*
 
 
 @Component
@@ -19,9 +20,9 @@ class EntityFactory(private val encoder: PasswordEncoder) {
     }
 
 
-    fun createNotification(type: NotifScope) = when (type) {
-        NotifScope.GENERAL -> GeneralNotification().build(encoder)
-        NotifScope.INDIVIDUAL -> IndividualNotification().build(encoder)
+    fun createNotification(type: NotScope) = when (type) {
+        NotScope.GENERAL -> GeneralNotification().build(encoder)
+        NotScope.INDIVIDUAL -> IndividualNotification().build(encoder)
     }
 
     fun createParent() = NormalParent().build(encoder)
@@ -59,9 +60,9 @@ class GeneralNotification : FactoryObject<Notification> {
         Notification(
             title = "General",
             content = "General",
-            recipient = 0L,//mutableListOf(),
-            sender = 0L,
-            scope = NotifScope.GENERAL,
+            notificationReceiver = 0L,//mutableListOf(),
+            notificationSender = 0L,
+            notificationScope = NotScope.GENERAL,
         )
 }
 
@@ -70,9 +71,9 @@ class IndividualNotification : FactoryObject<Notification> {
         Notification(
             title = "General",
             content = "General",
-            recipient = 0L, //mutableListOf(),
-            sender = 0L,
-            scope = NotifScope.GENERAL,
+            notificationReceiver = 0L, //mutableListOf(),
+            notificationSender = 0L,
+            notificationScope = NotScope.GENERAL,
         )
 }
 class NormalParent : FactoryObject<Person> {
