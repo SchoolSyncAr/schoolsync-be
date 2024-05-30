@@ -10,7 +10,7 @@ class Student(
     firstName: String,
     lastName: String,
     var absences: Int,
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
     var notifications: MutableList<Notification>? = null,
     ) : Person (firstName, lastName) {
 
