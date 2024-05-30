@@ -15,3 +15,8 @@ services:
 
 volumes:
   pgadmin-data:
+
+networks:
+  default:
+    name: schoolsync_net
+    external: true

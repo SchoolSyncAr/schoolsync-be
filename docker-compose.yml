@@ -5,7 +5,7 @@ services:
     container_name: schoolsync_db
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=db
+      - POSTGRES_DB=schoolsync
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=patoniato
     ports:
@@ -22,6 +22,8 @@ services:
 
 volumes:
   schoolsync_db:
-  #pgadmin-data:
 
-
+networks:
+  default:
+    name: schoolsync_net
+    external: true
