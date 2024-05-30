@@ -27,15 +27,6 @@ class NotificationController(@Autowired val notificationService: NotificationSer
         return notificationService.save(notification).toCreateDTO()
     }
 
-//    @PostMapping("/create/{senderUuid}/{receiverUuid}")
-//    @Operation(summary = "Crea una nueva notificación")
-//    fun create(@PathVariable senderUuid: UUID,
-//               @PathVariable receiverUuid: UUID,
-//               @RequestBody notification: Notification): NotificationCreatedDTO {
-//        println("CREANDOOOOOOOOOOOO $notification")
-//        return notificationService.save(notification).toCreateDTO()
-//    }
-
     @RolesAllowed("ADMIN")
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
@@ -61,8 +52,6 @@ class NotificationController(@Autowired val notificationService: NotificationSer
         val notification = notificationService.deleteNotification(notificationId)
         return notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
     }
-
-
 
 }
 
