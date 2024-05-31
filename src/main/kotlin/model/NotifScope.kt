@@ -1,5 +1,5 @@
 package ar.org.schoolsync.model
 
-enum class NotScope {
+enum class NotifScope {
     GENERAL, INDIVIDUAL
 }

@@ -1,10 +1,7 @@
 package ar.org.schoolsync.dto.notification
 
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotScope
 import ar.org.schoolsync.model.NotificationGroup
-import ar.org.schoolsync.model.User
-import java.util.*
 
 data class NotificationCreatedDTO (
     val id: Long,
