@@ -30,12 +30,12 @@ class AuthenticationService(
         val user = userRepository.findByEmail(userDetails.username).orElseThrow { InvalidAuthRequest() }
         val accessToken = tokenService.generate(
             userDetails = userDetails,
-            expirationDate = Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration)
+            expirationDate = Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration),
+            aditionalClaims = mapOf("userId" to user.id, "role" to user.role)
         )
 
         return AuthenticationResponse(
-            accessToken = accessToken,
-            role = user.role
+            accessToken = accessToken
         )
     }
 }
