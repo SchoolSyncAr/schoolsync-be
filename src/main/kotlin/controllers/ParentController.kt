@@ -1,7 +1,7 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.dto.parent.ParentNameOnlyDTO
-import ar.org.schoolsync.dto.parent.toNameOnlyDTO
+import ar.org.schoolsync.dto.parent.ParentDTO
+import ar.org.schoolsync.dto.parent.toDTO
 import ar.org.schoolsync.model.Persons.Parent
 import ar.org.schoolsync.model.Persons.Person
 import ar.org.schoolsync.services.ParentService
@@ -25,13 +25,8 @@ class ParentController (@Autowired val parentService: ParentService) {
 
     @GetMapping("/all")
     @Operation(summary = "Retorna todos los padres del sistema")
-    fun findAll(): List<Parent> =
-        parentService.findAll().map { it }
-
-    @GetMapping("/names/all")
-    @Operation(summary = "Retorna todos los nombres y ids de los padres del sistema")
-    fun findAllNames(): List<ParentNameOnlyDTO> =
-        parentService.findAll().map { it.toNameOnlyDTO() }
+    fun findAll(): List<ParentDTO> =
+        parentService.findAll().map { it.toDTO() }
 
     @GetMapping("/myChildren/{parentId}")
     @Operation(summary = "devuelve todos los hijos de un determinado padre")
