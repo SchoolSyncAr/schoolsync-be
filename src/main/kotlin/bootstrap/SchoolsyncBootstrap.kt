@@ -65,7 +65,6 @@ class SchoolsyncBootstrap(
                         "\n" + "Esperamos contar con su presencia en este evento, que fortalece los lazos entre la escuela y las familias, y enriquece la experiencia educativa de nuestros queridos estudiantes.\n" +
                         "\n" + "¡Los esperamos con entusiasmo!\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
                 1,
                 NotifScope.GENERAL,
                 NotificationWeight.MEDIO
@@ -78,9 +77,8 @@ class SchoolsyncBootstrap(
                         "\n" + "Agradecemos de antemano su participación y compromiso con la educación de sus hijos. Esperamos verlos a todos allí y trabajar juntos en beneficio de nuestros estudiantes.\n" +
                         "\n" + "¡Muchas gracias!\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
                 1,
-                NotifScope.GENERAL
+                NotifScope.GENERAL,
             )
 
             val notification3 = Notification(
@@ -94,7 +92,6 @@ class SchoolsyncBootstrap(
                         "Grados 5 y 6: 15:40hs\n" +
                         "\n" + "Agradecemos su comprensión y cooperación durante este ajuste. Por favor, asegúrense de que sus hijos estén informados sobre el nuevo horario y lleguen a la escuela a tiempo.\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
                 1,
                 NotifScope.GENERAL
 
@@ -105,7 +102,6 @@ class SchoolsyncBootstrap(
                 content = "Estimada Comunidad Educativa:\n" +
                         "Les informamos que tuvimos un pequeño corte de luz alrededor de las 12:00hs pero ya ha vuelto." +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
                 1,
                 NotifScope.GENERAL,
                 date = LocalDateTime.now().minusMonths(3)
@@ -118,11 +114,10 @@ class SchoolsyncBootstrap(
                         "\n" + "Para hacer posible esta excursión y garantizar la participación de todos los estudiantes, necesitamos su colaboración. Cualquier contribución, grande o pequeña, será de gran ayuda. Los fondos recaudados se utilizarán para cubrir los gastos de transporte, entradas y otras necesidades relacionadas con la excursión.\n" +
                         "\n" + "Agradecemos de antemano su generosidad y apoyo en esta iniciativa. Juntos, podemos hacer que esta experiencia sea inolvidable para nuestros estudiantes.\n" +
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-                receivers,
                 1,
                 NotifScope.GENERAL,
                 NotificationWeight.ALTO,
-                LocalDateTime.now().minusMonths(1)
+                date = LocalDateTime.now().minusMonths(1)
             )
 
             notificationRepository.apply {
@@ -191,7 +186,7 @@ class SchoolsyncBootstrap(
             lastName = "Rodriguez",
             isFatherOf = mutableListOf(students[0], students[1],students[2]),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf(NotificationGroup.TODOS,
+            notificationGroups = mutableListOf(NotificationGroup.TODOS,
                 NotificationGroup.GRADO2,
                 NotificationGroup.EQUIPO_FUTBOL
             )
@@ -201,7 +196,7 @@ class SchoolsyncBootstrap(
             lastName = "Melo",
             isFatherOf = mutableListOf(students[3]),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf(NotificationGroup.TODOS,
+            notificationGroups = mutableListOf(NotificationGroup.TODOS,
                 NotificationGroup.GRADO2,
                 NotificationGroup.EQUIPO_FUTBOL
             )
@@ -211,7 +206,7 @@ class SchoolsyncBootstrap(
             lastName = "Alvarez",
             isFatherOf = mutableListOf(students[4], students[5]),
             notifications = mutableListOf(),
-            notificationGroup = mutableListOf(NotificationGroup.TODOS,
+            notificationGroups = mutableListOf(NotificationGroup.TODOS,
                 NotificationGroup.GRADO2,
                 NotificationGroup.EQUIPO_FUTBOL
             )

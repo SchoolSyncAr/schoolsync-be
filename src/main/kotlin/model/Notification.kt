@@ -9,18 +9,24 @@ import java.time.LocalDateTime
 data class Notification(
     @Column(length = 100, nullable = false)
     var title: String,
+
     @Column(length = 5000)
     var content: String,
 
-//    @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
-    var notificationReceiver: Long, //MutableList<Long>? = null,
+    var sender: Long,
+    var scope: NotifScope,
 
-    var notificationSender: Long,
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    var notificationScope: NotifScope,
     var weight: NotificationWeight = NotificationWeight.BAJO,
-    var date: LocalDateTime = LocalDateTime.now()
+
+//    @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
+    var recipient: Long? = null, //MutableList<Long>? = null,
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    var recipientGroups: MutableList<NotificationGroup> = mutableListOf(),
+
+    var date: LocalDateTime = LocalDateTime.now(),
     ) {
 
     @Id
@@ -32,9 +38,5 @@ data class Notification(
     fun read() {
         read = !read
     }
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    var notificationGroup: MutableList<NotificationGroup> = mutableListOf()
-
 }
 
