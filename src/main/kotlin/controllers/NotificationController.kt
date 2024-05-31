@@ -1,6 +1,5 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.dto.notification.NotificationCreatedDTO
 import ar.org.schoolsync.dto.notification.*
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationGroup
@@ -25,15 +24,6 @@ class NotificationController(@Autowired val notificationService: NotificationSer
         return notificationService.create(notification)
     }
 
-//    @PostMapping("/create/{senderUuid}/{receiverUuid}")
-//    @Operation(summary = "Crea una nueva notificación")
-//    fun create(@PathVariable senderUuid: UUID,
-//               @PathVariable receiverUuid: UUID,
-//               @RequestBody notification: Notification): NotificationCreatedDTO {
-//        println("CREANDOOOOOOOOOOOO $notification")
-//        return notificationService.save(notification).toCreateDTO()
-//    }
-
     @RolesAllowed("ADMIN")
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
@@ -53,6 +43,18 @@ class NotificationController(@Autowired val notificationService: NotificationSer
     @Operation(summary = "Devuelve los grupos de usuarios a quienes mandarles la Notif")
     fun getRecipientGroups(): List<String> {
         return NotificationGroup.entries.map { it.name }}
+
+    @DeleteMapping("/deleteNotification/{notificationId}")
+    @Operation(summary = "Deletes a notification")
+    fun deleteNotification(@PathVariable notificationId: Long,
+                           @RequestParam searchField: String,
+                           @RequestParam orderParam: String,
+                           @RequestParam sortDirection: String
+                           ) : List<NotificationDTO> {
+        val notification = notificationService.deleteNotification(notificationId)
+        return notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
+    }
+
 }
 
 

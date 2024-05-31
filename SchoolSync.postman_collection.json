@@ -8,6 +8,20 @@
 	"item": [
 		{
 			"name": "Auth Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"let token = jsonData.accessToken;\r",
+							"pm.collectionVariables.set('accessToken', token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -37,6 +51,20 @@
 		},
 		{
 			"name": "Auth Common User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"let token = jsonData.accessToken;\r",
+							"pm.collectionVariables.set('accessToken', token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -136,10 +164,48 @@
 			"response": []
 		},
 		{
-			"name": "All Notifications",
+			"name": "All Parents",
 			"request": {
 				"method": "GET",
 				"header": [],
+				"url": {
+					"raw": "{{api}}/parent/all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "My Childrens",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/parent/all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Notifications",
+			"request": {
+				"method": "GET",
+				"header": [
+					{}
+				],
 				"url": {
 					"raw": "{{api}}/notification/all?searchField=&orderParam=date&sortDirection=asc",
 					"host": [
@@ -191,6 +257,7 @@
 		"bearer": [
 			{
 				"key": "token",
+				"value": "{{accessToken}}",
 				"type": "string"
 			}
 		]
@@ -222,6 +289,10 @@
 			"key": "api",
 			"value": "localhost:8081/api",
 			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
 		}
 	]
 }
