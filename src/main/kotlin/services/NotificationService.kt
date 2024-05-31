@@ -98,8 +98,8 @@ class NotificationService(private val notificationRepository: NotificationReposi
 //        }
 //    }
 
-        fun deleteNotification(id: Long) {
-            return notificationRepository.deleteById(id)
+        fun deleteById(notificationId: Long) {
+            return notificationRepository.deleteById(notificationId)
 
         }
 

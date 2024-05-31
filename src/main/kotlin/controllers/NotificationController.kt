@@ -44,15 +44,11 @@ class NotificationController(@Autowired val notificationService: NotificationSer
     fun getRecipientGroups(): List<String> {
         return NotificationGroup.entries.map { it.name }}
 
-    @DeleteMapping("/deleteNotification/{notificationId}")
-    @Operation(summary = "Deletes a notification")
-    fun deleteNotification(@PathVariable notificationId: Long,
-                           @RequestParam searchField: String,
-                           @RequestParam orderParam: String,
-                           @RequestParam sortDirection: String
-                           ) : List<NotificationDTO> {
-        val notification = notificationService.deleteNotification(notificationId)
-        return notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
+    @RolesAllowed("ADMIN")
+    @DeleteMapping("/{notificationId}/delete")
+    @Operation(summary = "Elimina una notificación por ID")
+    fun deleteById(@PathVariable notificationId: Long) {
+        return notificationService.deleteById(notificationId)
     }
 
 }
