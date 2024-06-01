@@ -119,6 +119,60 @@
 			"response": []
 		},
 		{
+			"name": "Create Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"María\",\r\n    \"lastName\": \"López\",\r\n    \"absences\": 0,\r\n    \"notifications\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/student/create",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"student",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Parent",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Pedro\",\r\n  \"lastName\": \"García\",\r\n  \"isFatherOf\": [],\r\n  \"notifications\": [],\r\n  \"notificationGroups\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/parent/create",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "New Notification",
 			"request": {
 				"method": "POST",
@@ -164,6 +218,42 @@
 			"response": []
 		},
 		{
+			"name": "One User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/user/2",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/parent/all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "All Parents",
 			"request": {
 				"method": "GET",
@@ -187,13 +277,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{api}}/parent/all",
+					"raw": "{{api}}/parent/myChildren/7",
 					"host": [
 						"{{api}}"
 					],
 					"path": [
 						"parent",
-						"all"
+						"myChildren",
+						"7"
 					]
 				}
 			},
@@ -207,7 +298,7 @@
 					{}
 				],
 				"url": {
-					"raw": "{{api}}/notification/all?searchField=&orderParam=date&sortDirection=asc",
+					"raw": "{{api}}/notification/all?searchField=&orderParam=&sortDirection=",
 					"host": [
 						"{{api}}"
 					],
@@ -222,11 +313,11 @@
 						},
 						{
 							"key": "orderParam",
-							"value": "date"
+							"value": ""
 						},
 						{
 							"key": "sortDirection",
-							"value": "asc"
+							"value": ""
 						}
 					]
 				}
@@ -234,18 +325,87 @@
 			"response": []
 		},
 		{
-			"name": "One User",
+			"name": "Notifications Search Param",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{}
+				],
 				"url": {
-					"raw": "{{api}}/user/all",
+					"raw": "{{api}}/notification/all?searchField=acto&orderParam=&sortDirection=",
 					"host": [
 						"{{api}}"
 					],
 					"path": [
-						"user",
+						"notification",
 						"all"
+					],
+					"query": [
+						{
+							"key": "searchField",
+							"value": "acto"
+						},
+						{
+							"key": "orderParam",
+							"value": ""
+						},
+						{
+							"key": "sortDirection",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications Sort: Desc",
+			"request": {
+				"method": "GET",
+				"header": [
+					{}
+				],
+				"url": {
+					"raw": "{{api}}/notification/all?searchField=&orderParam=&sortDirection=DESC",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"all"
+					],
+					"query": [
+						{
+							"key": "searchField",
+							"value": ""
+						},
+						{
+							"key": "orderParam",
+							"value": ""
+						},
+						{
+							"key": "sortDirection",
+							"value": "DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Notification",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/notification/3/delete",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"3",
+						"delete"
 					]
 				}
 			},

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @Configuration
 @EnableWebSecurity
@@ -28,11 +29,12 @@ class SecurityConfiguration(
             .authorizeHttpRequests {
                 it
                     .requestMatchers(
-                        "${apiProperties.base}/auth",
-                        "${apiProperties.base}/auth/refresh",
-                        "/error",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**"
+                        AntPathRequestMatcher("${apiProperties.base}/auth"),
+                        AntPathRequestMatcher("${apiProperties.base}/auth/refresh"),
+                        AntPathRequestMatcher("/error"),
+                        AntPathRequestMatcher("/swagger-ui/**"),
+                        AntPathRequestMatcher("/swagger-resources/**"),
+                        AntPathRequestMatcher("/v3/api-docs/**"),
                     ).permitAll()
                     .requestMatchers(HttpMethod.POST, "${apiProperties.base}/user")
                     .permitAll()
