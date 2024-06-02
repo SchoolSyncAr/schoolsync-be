@@ -13,7 +13,7 @@ class SwaggerConfig {
 
     @Bean
     fun springShopOpenApi(): GroupedOpenApi {
-        val paths = arrayOf("/api/*")
+        val paths = arrayOf("/api/**")
         return GroupedOpenApi.builder()
             .group("springdoc")
             .pathsToMatch(*paths)
