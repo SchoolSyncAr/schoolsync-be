@@ -55,6 +55,19 @@ class NotificationController(@Autowired val notificationService: NotificationSer
         return notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
     }
 
+    @RolesAllowed("USER")
+    @PutMapping("/read")
+    @Operation(summary = "Sets notification status to read/unread")
+    fun readNotification(@RequestBody notificationId: Long): NotificationDTO {
+        return notificationService.readNotification(notificationId)
+    }
+
+    @RolesAllowed("USER")
+    @PutMapping("/pin")
+    @Operation(summary = "Sets notification status to pinned/unpinned")
+    fun pinNotification(@RequestBody notificationId: Long): NotificationDTO {
+        return notificationService.pinNotification(notificationId)
+    }
 }
 
 

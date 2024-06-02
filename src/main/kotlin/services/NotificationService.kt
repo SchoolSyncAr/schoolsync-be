@@ -103,9 +103,21 @@ class NotificationService(private val notificationRepository: NotificationReposi
 
         }
 
-        fun readNotification(id: Long) {
+        fun readNotification(id: Long): NotificationDTO {
             val notification = notificationRepository.findById(id)
                 .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
             notification.read()
+            notificationRepository.save(notification)
+            println("Leyendo...")
+            return notification.toDTO()
+        }
+
+        fun pinNotification(id: Long): NotificationDTO {
+            val notification = notificationRepository.findById(id)
+                .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
+            notification.pin()
+            notificationRepository.save(notification)
+            println("Pinneando...")
+            return notification.toDTO()
         }
     }

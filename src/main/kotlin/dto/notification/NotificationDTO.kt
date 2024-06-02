@@ -12,6 +12,8 @@ data class NotificationDTO (
     val scope: String,
     val recipientGroups: MutableList<NotificationGroup>,
     val recipient: Long? = null,
+    val read: Boolean,
+    val pinned: Boolean
 )
 
 fun Notification.toDTO() = NotificationDTO (
@@ -23,4 +25,6 @@ fun Notification.toDTO() = NotificationDTO (
     this.scope.name,
     this.recipientGroups,
     this.recipient,
+    this.read,
+    this.pinned,
 )
