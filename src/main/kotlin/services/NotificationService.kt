@@ -52,10 +52,14 @@ class NotificationService(private val notificationRepository: NotificationReposi
     fun findAll(filter: SearchFilter): List<NotificationDTO> {
 
         return if (filter.orderParam.isEmpty()){
-            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField,Sort.by("date").descending()).map { it.toDTO() }
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField,Sort.by(Sort.Order.desc("pinned"),
+                Sort.Order.asc("date"))).map { it.toDTO() }
         } else {
             val sortDirection = if (filter.sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
-            val sort = Sort.by(sortDirection, filter.orderParam)
+            val sort = Sort.by(
+                Sort.Order(Sort.Direction.DESC, "pinned"),
+                Sort.Order(sortDirection, filter.orderParam)
+            )
             notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField, sort)
                .map { it.toDTO() }
         }
@@ -103,9 +107,21 @@ class NotificationService(private val notificationRepository: NotificationReposi
 
         }
 
-        fun readNotification(id: Long) {
+        fun readNotification(id: Long): NotificationDTO {
             val notification = notificationRepository.findById(id)
                 .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
             notification.read()
+            notificationRepository.save(notification)
+            println("Leyendo...")
+            return notification.toDTO()
+        }
+
+        fun pinNotification(id: Long): NotificationDTO {
+            val notification = notificationRepository.findById(id)
+                .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
+            notification.pin()
+            notificationRepository.save(notification)
+            println("Pinneando...")
+            return notification.toDTO()
         }
     }

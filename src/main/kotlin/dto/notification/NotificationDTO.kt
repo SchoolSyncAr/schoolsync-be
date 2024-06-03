@@ -15,6 +15,8 @@ data class NotificationDTO (
     val recipientGroups: MutableList<NotificationGroup>,
     val recipient: Long? = null,
     val date: LocalDateTime,
+    val read: Boolean,
+    val pinned: Boolean
 )
 
 fun Notification.toDTO() = NotificationDTO (
@@ -27,4 +29,6 @@ fun Notification.toDTO() = NotificationDTO (
     this.recipientGroups,
     this.recipient,
     this.date,
+    this.read,
+    this.pinned,
 )
