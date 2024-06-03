@@ -16,7 +16,7 @@ data class Notification(
     var sender: Long,
     var scope: NotifScope,
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(length = 20)
     var weight: NotificationWeight = NotificationWeight.BAJO,
 
@@ -33,10 +33,15 @@ data class Notification(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long = 0
 
-    private var read = false
+    var read = false
+    var pinned = false
 
     fun read() {
         read = !read
+    }
+
+    fun pin() {
+        pinned = !pinned
     }
 }
 
