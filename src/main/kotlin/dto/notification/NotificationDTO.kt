@@ -14,7 +14,7 @@ data class NotificationDTO (
     val scope: String,
     val recipientGroups: MutableList<NotificationGroup>,
     val recipient: Long? = null,
-    val date: LocalDateTime,
+    val date: LocalDateTime?,
     val read: Boolean,
     val pinned: Boolean
 )
