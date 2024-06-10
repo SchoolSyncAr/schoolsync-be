@@ -2,7 +2,7 @@ package ar.org.schoolsync.controllers
 
 import ar.org.schoolsync.dto.notification.*
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation

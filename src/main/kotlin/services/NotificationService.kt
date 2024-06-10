@@ -2,15 +2,11 @@ package ar.org.schoolsync.services
 
 
 import ar.org.schoolsync.dto.notification.NotificationDTO
-import ar.org.schoolsync.dto.notification.NotificationResponseDTO
 import ar.org.schoolsync.dto.notification.toDTO
-import ar.org.schoolsync.dto.notification.toResponseDTO
-import ar.org.schoolsync.exeptions.NotificationCreationError
-import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.exeptions.Businessexception
-import ar.org.schoolsync.model.NotifScope
+import ar.org.schoolsync.model.enums.NotifScope
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationWeight
+import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.ParentRepository
@@ -19,7 +15,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class NotificationService(private val notificationRepository: NotificationRepository,

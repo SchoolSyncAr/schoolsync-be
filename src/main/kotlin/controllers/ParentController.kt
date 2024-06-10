@@ -2,7 +2,7 @@ package ar.org.schoolsync.controllers
 
 import ar.org.schoolsync.dto.parent.ParentDTO
 import ar.org.schoolsync.dto.parent.toDTO
-import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.users.Parent
 import ar.org.schoolsync.model.Persons.Person
 import ar.org.schoolsync.services.ParentService
 import io.swagger.v3.oas.annotations.Operation

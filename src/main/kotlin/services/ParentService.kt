@@ -1,20 +1,17 @@
 package ar.org.schoolsync.services
 
-
 import ar.org.schoolsync.exeptions.PersonCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
-import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.Persons.Parent
-import ar.org.schoolsync.model.Persons.Person
-import ar.org.schoolsync.model.Persons.Student
+import ar.org.schoolsync.model.users.Parent
+import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.repositories.ParentRepository
-import ar.org.schoolsync.repositories.PersonRepository
+import ar.org.schoolsync.repositories.UsersRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class ParentService (private val personRepository: PersonRepository,
+class ParentService (private val usersRepository: UsersRepository,
                      private val parentRepository: ParentRepository,
                      private val encoder: PasswordEncoder
                      ) {
@@ -29,9 +26,9 @@ class ParentService (private val personRepository: PersonRepository,
 
     fun findAll(): List<Parent> = parentRepository.findAll().map { it }
 
-    fun findMyChildren(parentId: Long): List<Person>? {
+    fun findMyChildren(parentId: Long): List<User> {
         val parent = parentRepository.findById(parentId).orElseThrow{NoSuchElementException("Parent not found with id $parentId")}
-        val myChildren = parent.isFatherOf?.map { it }
+        val myChildren = parent.isFatherOf.map { it }
         return myChildren
     }
 }

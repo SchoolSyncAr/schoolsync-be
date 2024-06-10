@@ -1,5 +1,8 @@
 package ar.org.schoolsync.model
 
+import ar.org.schoolsync.model.enums.NotifScope
+import ar.org.schoolsync.model.enums.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationWeight
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

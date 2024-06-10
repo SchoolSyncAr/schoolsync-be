@@ -1,8 +1,13 @@
 package ar.org.schoolsync.bootstrap
 
 import ar.org.schoolsync.model.*
-import ar.org.schoolsync.model.Persons.Parent
-import ar.org.schoolsync.model.Persons.Student
+import ar.org.schoolsync.model.enums.NotifScope
+import ar.org.schoolsync.model.enums.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.Role
+import ar.org.schoolsync.model.users.Parent
+import ar.org.schoolsync.model.users.Student
+import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.ParentRepository
 import ar.org.schoolsync.repositories.StudentRepository
@@ -186,7 +191,8 @@ class SchoolsyncBootstrap(
             lastName = "Rodriguez",
             isFatherOf = mutableListOf(students[0], students[1],students[2]),
             notifications = mutableListOf(),
-            notificationGroups = mutableListOf(NotificationGroup.TODOS,
+            notificationGroups = mutableListOf(
+                NotificationGroup.TODOS,
                 NotificationGroup.GRADO2,
                 NotificationGroup.EQUIPO_FUTBOL
             )
@@ -196,7 +202,8 @@ class SchoolsyncBootstrap(
             lastName = "Melo",
             isFatherOf = mutableListOf(students[3]),
             notifications = mutableListOf(),
-            notificationGroups = mutableListOf(NotificationGroup.TODOS,
+            notificationGroups = mutableListOf(
+                NotificationGroup.TODOS,
                 NotificationGroup.GRADO2,
                 NotificationGroup.EQUIPO_FUTBOL
             )
@@ -206,7 +213,8 @@ class SchoolsyncBootstrap(
             lastName = "Alvarez",
             isFatherOf = mutableListOf(students[4], students[5]),
             notifications = mutableListOf(),
-            notificationGroups = mutableListOf(NotificationGroup.TODOS,
+            notificationGroups = mutableListOf(
+                NotificationGroup.TODOS,
                 NotificationGroup.GRADO2,
                 NotificationGroup.EQUIPO_FUTBOL
             )

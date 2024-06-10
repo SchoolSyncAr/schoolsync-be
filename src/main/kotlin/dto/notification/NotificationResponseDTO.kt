@@ -1,7 +1,7 @@
 package ar.org.schoolsync.dto.notification
 
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationGroup
 import java.time.LocalDateTime
 
 data class NotificationResponseDTO (

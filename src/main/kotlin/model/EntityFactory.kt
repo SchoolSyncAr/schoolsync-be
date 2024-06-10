@@ -1,8 +1,11 @@
 package ar.org.schoolsync.model
 
-import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.users.Parent
 import ar.org.schoolsync.model.Persons.Person
-import ar.org.schoolsync.model.Persons.Student
+import ar.org.schoolsync.model.enums.NotifScope
+import ar.org.schoolsync.model.enums.Role
+import ar.org.schoolsync.model.users.Student
+import ar.org.schoolsync.model.users.User
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 

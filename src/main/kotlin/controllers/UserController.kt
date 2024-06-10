@@ -1,6 +1,6 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.model.User
+import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.dto.user.*
 import ar.org.schoolsync.services.UserService
 import io.swagger.v3.oas.annotations.Operation

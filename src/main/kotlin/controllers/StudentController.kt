@@ -1,10 +1,6 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.dto.notification.NotificationResponseDTO
-import ar.org.schoolsync.model.Persons.Parent
-import ar.org.schoolsync.model.Persons.Student
-import ar.org.schoolsync.model.SearchFilter
-import ar.org.schoolsync.services.ParentService
+import ar.org.schoolsync.model.users.Student
 import ar.org.schoolsync.services.StudentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

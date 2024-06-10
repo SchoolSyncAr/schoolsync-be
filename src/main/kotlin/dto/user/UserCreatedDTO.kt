@@ -1,7 +1,6 @@
 package ar.org.schoolsync.dto.user
 
-import ar.org.schoolsync.model.User
-import java.util.*
+import ar.org.schoolsync.model.users.User
 
 data class UserCreatedDTO (
     val id: Long,

@@ -1,6 +1,6 @@
 package ar.org.schoolsync.dto.parent
 
-import ar.org.schoolsync.model.Persons.Parent
+import ar.org.schoolsync.model.users.Parent
 
 data class ParentDTO (
     val id: Long,

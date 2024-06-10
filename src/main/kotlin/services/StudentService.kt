@@ -3,8 +3,7 @@ package ar.org.schoolsync.services
 
 import ar.org.schoolsync.exeptions.PersonCreationError
 import ar.org.schoolsync.exeptions.ResponseStatusException
-import ar.org.schoolsync.model.Persons.Parent
-import ar.org.schoolsync.model.Persons.Student
+import ar.org.schoolsync.model.users.Student
 import ar.org.schoolsync.repositories.StudentRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service

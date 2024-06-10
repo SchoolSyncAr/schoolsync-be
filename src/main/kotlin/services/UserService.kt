@@ -4,7 +4,7 @@ import ar.org.schoolsync.exeptions.CreationError
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
 import ar.org.schoolsync.exeptions.ResponseStatusException
-import ar.org.schoolsync.model.User
+import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -14,23 +14,24 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class UserService(private val userRepository: UserRepository, private val encoder: PasswordEncoder) {
+    fun findByID(id: Long): User? = userRepository.findById(id).getOrNull()
+    fun findOrErrorByID(id: Long): User =
+        findByID(id) ?: throw ResponseFindException(FindError.USER_NOT_FOUND(id))
+    fun findAll(): List<User> = userRepository.findAll().map { it }
+    fun findByEmail(email: String): User? = userRepository.findByEmail(email).getOrNull()
+
+    fun allByGroup(NotifictionGrop)
+
     fun save(user: User): User {
         val found = userRepository.findByEmail(user.email).getOrNull()
 
         return if (found == null) {
-            val updated = user.copy(password = encoder.encode(user.password))
-            userRepository.save(updated)
-            updated
+            user.password = encoder.encode(user.password)
+            userRepository.save(user)
+            user
         } else throw ResponseStatusException(CreationError.CANNOT_CREATE_USER)
     }
 
-    fun findOrErrorByID(id: Long): User =
-        findByID(id) ?: throw ResponseFindException(FindError.USER_NOT_FOUND(id))
-
-    fun findByEmail(email: String): User? = userRepository.findByEmail(email).getOrNull()
-
-    fun findByID(id: Long): User? = userRepository.findById(id).getOrNull()
-    fun findAll(): List<User> = userRepository.findAll().map { it }
     fun deleteByID(id: Long): ResponseEntity<Boolean> {
         val found = Optional.ofNullable(findByID(id))
 

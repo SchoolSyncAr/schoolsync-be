@@ -1,8 +1,7 @@
 package ar.org.schoolsync.dto.notification
 
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationGroup
-import java.time.LocalDate
+import ar.org.schoolsync.model.enums.NotificationGroup
 import java.time.LocalDateTime
 
 data class NotificationDTO (
@@ -12,8 +11,8 @@ data class NotificationDTO (
     val weight: String,
     val sender: Long,
     val scope: String,
-    val recipientGroups: MutableList<NotificationGroup>,
-    val recipient: Long? = null,
+    val recipientGroups: List<NotificationGroup>,
+    val recipient: List<Long> = listOf(),
     val date: LocalDateTime?,
     val read: Boolean,
     val pinned: Boolean
