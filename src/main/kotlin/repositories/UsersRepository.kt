@@ -1,6 +1,7 @@
 package ar.org.schoolsync.repositories
 
 
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.users.User
 import org.springframework.data.repository.CrudRepository
 

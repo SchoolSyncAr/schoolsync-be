@@ -4,6 +4,7 @@ import ar.org.schoolsync.exeptions.CreationError
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
 import ar.org.schoolsync.exeptions.ResponseStatusException
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.http.ResponseEntity
@@ -20,7 +21,11 @@ class UserService(private val userRepository: UserRepository, private val encode
     fun findAll(): List<User> = userRepository.findAll().map { it }
     fun findByEmail(email: String): User? = userRepository.findByEmail(email).getOrNull()
 
-    fun allByGroup(NotifictionGrop)
+    fun allByGroup(group: NotificationGroup): List<User> {
+        return findAll().filter {
+            it.notificationGroups.contains(group)
+        }
+    }
 
     fun save(user: User): User {
         val found = userRepository.findByEmail(user.email).getOrNull()

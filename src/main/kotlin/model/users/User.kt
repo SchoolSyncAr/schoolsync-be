@@ -1,5 +1,6 @@
 package ar.org.schoolsync.model.users
 
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.model.enums.Status
 import jakarta.persistence.*
@@ -25,6 +26,8 @@ abstract class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
 
+    abstract var notificationGroups: MutableList<NotificationGroup>
+
     abstract var role: Role
 
     @Column(length = 20, nullable = false, unique = true)
@@ -34,6 +37,14 @@ abstract class User(
 
     fun changeStatus ( newStatus: Status) {
         status = newStatus
+    }
+
+    fun addGroup (group: NotificationGroup) {
+        notificationGroups.add(group)
+    }
+
+    fun removeGroup (group: NotificationGroup) {
+        notificationGroups.remove(group)
     }
 }
 

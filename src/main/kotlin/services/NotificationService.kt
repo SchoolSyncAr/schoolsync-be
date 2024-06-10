@@ -1,54 +1,69 @@
 package ar.org.schoolsync.services
 
 
+import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.toDTO
 import ar.org.schoolsync.exeptions.Businessexception
-import ar.org.schoolsync.model.enums.NotifScope
 import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.SearchFilter
+import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
-import ar.org.schoolsync.repositories.ParentRepository
-import ar.org.schoolsync.repositories.StudentRepository
 import org.springframework.data.domain.Sort
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
-class NotificationService(private val notificationRepository: NotificationRepository,
-                          private val parentRepository: ParentRepository,
-                          private val studentRepository: StudentRepository,
-                          private val encoder: PasswordEncoder) {
+class NotificationService(
+    private val notificationRepository: NotificationRepository,
+    private val notificationRegistryRepository: NotificationRegistryRepository,
+    private val userService: UserService
+) {
 
-    fun create(data: NotificationDTO): Notification {
-//        val found = notificationRepository.findById(notification.id).getOrNull()
-        val notif = Notification(
+    fun create(data: CreateNotificationDTO): Notification {
+        val notification = Notification(
             data.title,
             data.content,
-            data.sender,
-            NotifScope.valueOf(data.scope),
-            NotificationWeight.valueOf(data.weight),
-            date = LocalDateTime.now()
+            NotificationWeight.valueOf(data.weight)
         )
+        notificationRepository.save(notification)
 
-        if (data.scope == NotifScope.GENERAL.name) {
-            notif.recipientGroups = data.recipientGroups
-        } else {
-            notif.recipient = data.recipient
+        if (data.recievers.isNotEmpty()) {
+            data.recievers.forEach {
+                val notificationRegistry = NotificationRegistry(
+                    userService.findOrErrorByID(data.sender),
+                    userService.findOrErrorByID(it),
+                    notification
+                )
+                notificationRegistryRepository.save(notificationRegistry)
+            }
+        }
+        if (data.recipientGroups.isNotEmpty()) {
+            data.recipientGroups.forEach {
+                userService.allByGroup(it).forEach { user ->
+                    val notificationRegistry = NotificationRegistry(
+                        userService.findOrErrorByID(data.sender),
+                        user,
+                        notification
+                    )
+                    notificationRegistryRepository.save(notificationRegistry)
+                }
+            }
         }
 
-        notificationRepository.save(notif)
-        addNotificationToList(notif)
-        return notif
+        return notification
     }
 
     fun findAll(filter: SearchFilter): List<NotificationDTO> {
-
-        return if (filter.orderParam.isEmpty()){
-            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField,Sort.by(Sort.Order.desc("pinned"),
-                Sort.Order.asc("date"))).map { it.toDTO() }
+        return if (filter.orderParam.isEmpty()) {
+            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(
+                filter.searchField,
+                Sort.by(
+                    Sort.Order.desc("pinned"),
+                    Sort.Order.asc("date")
+                )
+            ).map { it.toDTO() }
         } else {
             val sortDirection = if (filter.sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
             val sort = Sort.by(
@@ -64,26 +79,6 @@ class NotificationService(private val notificationRepository: NotificationReposi
         //Para luego devolver la cantidad de notificaciones no leídas de X usuario
         //return notificationRepository.getUnreadNotificationsCount(idUsuario)
         return notificationRepository.findAll().count() // TODO: hacer correctamente en la db
-    }
-
-    fun addNotificationToList(notification: Notification) {
-        if (notification.scope === NotifScope.GENERAL) {
-            val allParents = parentRepository.findAll().map { it }
-
-            allParents.forEach {parent ->
-                val parentNotifGroups = parent.notificationGroups
-                val targetNotifGroups = notification.recipientGroups
-                val isAReceiver = (parentNotifGroups.any { parentGroup -> parentGroup in targetNotifGroups })
-                if (isAReceiver) {
-                    parent.notifications.add(notification)
-                    parentRepository.save(parent)
-                }
-            }
-        } else {
-            val parent = parentRepository.findById(notification.recipient!!).get()
-            parent.notifications.add(notification)
-            parentRepository.save(parent)
-        }
     }
 
 //        allStudents.forEach{
