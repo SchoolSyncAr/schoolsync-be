@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  db:
+  shoolsycn_db:
     image: postgres:16-alpine
     container_name: schoolsync_db
     restart: unless-stopped
@@ -10,9 +10,27 @@ services:
       - POSTGRES_PASSWORD=patoniato
     ports:
       - '5433:5432'
+    networks:
+      schoolsyncnet:
+        ipv4_address: 192.168.3.2
     volumes:
       - schoolsync_db:/var/lib/postgresql/data
       - ./init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    networks:
+      schoolsyncnet:
+        ipv4_address: 192.168.3.3
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mail.com
+      PGADMIN_DEFAULT_PASSWORD: patoniato
+    volumes:
+      - pgadminss-data:/var/lib/pgadmin
 
   #schoolsync:
   #  build: .
@@ -22,8 +40,12 @@ services:
 
 volumes:
   schoolsync_db:
+  pgadminss-data:
 
 networks:
-  default:
-    name: schoolsync_net
-    external: true
+  schoolsyncnet:
+    name: schoolsyncnet
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.3.0/24
