@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class NotificationService(
+class NotificationRegistryService(
     private val notificationRepository: NotificationRepository,
     private val notificationRegistryRepository: NotificationRegistryRepository,
     private val userService: UserService
@@ -70,14 +70,14 @@ class NotificationService(
                 Sort.Order(sortDirection, filter.orderParam)
             )
             return notificationRegistryRepository
-                .findNotificationsByTitleContainingIgnoreCaseOrderByVariable(
+                .findNotificationRegistriesByNotificationTitleOrderByVariable(
                     filter.searchField,
                     sort
                 ).map { it.toDTO() }
         }
 
         return notificationRegistryRepository
-            .findNotificationsByTitleContainingIgnoreCaseOrderByVariable(
+            .findNotificationRegistriesByNotificationTitleOrderByVariable(
                 filter.searchField,
                 Sort.by(
                     Sort.Order.desc("pinned"),

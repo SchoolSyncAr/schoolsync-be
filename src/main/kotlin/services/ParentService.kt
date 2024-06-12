@@ -5,13 +5,13 @@ import ar.org.schoolsync.exeptions.ResponseStatusException
 import ar.org.schoolsync.model.users.Parent
 import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.repositories.ParentRepository
-import ar.org.schoolsync.repositories.UsersRepository
+import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class ParentService (private val usersRepository: UsersRepository,
+class ParentService (private val userRepository: UserRepository,
                      private val parentRepository: ParentRepository,
                      private val encoder: PasswordEncoder
                      ) {

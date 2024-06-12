@@ -11,11 +11,27 @@ class Parent(
     email: String,
     password: String,
 ) : User(firstName, lastName, email, password) {
+    @Column(length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     override var role: Role = Role.PARENT
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    override var notificationGroups = mutableListOf(NotificationGroup.TODOS)
+    init {
+        addGroup(NotificationGroup.TODOS)
+    }
 
-    @OneToMany(fetch = FetchType.EAGER)
-    var isFatherOf: MutableList<User> = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "students",
+        joinColumns = [JoinColumn(name = "parent_id")],
+        inverseJoinColumns = [JoinColumn(name = "student_id")]
+    )
+    var isFatherOf: MutableList<Student> = mutableListOf()
+
+    fun addStudents(students: List<Student>) {
+        isFatherOf.addAll(students)
+    }
+
+    fun removeStudent(student: Student) {
+        isFatherOf.remove(student)
+    }
 }

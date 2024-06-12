@@ -1,9 +1,9 @@
 package ar.org.schoolsync.model.users
 
 import ar.org.schoolsync.exeptions.Businessexception
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.Role
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
+import jakarta.persistence.*
 
 @Entity
 class Admin(
@@ -13,6 +13,7 @@ class Admin(
     password: String,
 ) : User(firstName, lastName, email, password) {
     @Column(length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     override var role: Role = Role.ADMIN
 
     init {

@@ -11,29 +11,39 @@ import java.time.LocalDateTime
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 abstract class User(
     @Column(length = 40, nullable = false)
-    val firstName: String,
+    open val firstName: String,
 
     @Column(length = 40, nullable = false)
-    val lastName: String,
+    open val lastName: String,
 
     @Column(length = 60, nullable = false, unique = true)
-    val email: String,
+    open val email: String,
 
-    @Column(nullable = true, unique = true)
-    var password: String?
+    @Column(nullable = true)
+    open var password: String?
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    open var id: Long = 0
 
-    abstract var notificationGroups: MutableList<NotificationGroup>
+    @ElementCollection(targetClass = NotificationGroup::class)
+    @CollectionTable(
+        name = "notification_groups",
+        joinColumns = [JoinColumn(name = "parent_id")]
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(
+        name = "notification_group",
+        length = 40
+    )
+    val notificationGroups = mutableSetOf<NotificationGroup>()
 
     abstract var role: Role
 
-    @Column(length = 20, nullable = false, unique = true)
-    private var status: Status = Status.ACTIVE
+    @Column(length = 20, nullable = false)
+    open var status: Status = Status.ACTIVE
 
-    private var created = LocalDateTime.now()
+    open var created = LocalDateTime.now()
 
     fun changeStatus ( newStatus: Status) {
         status = newStatus

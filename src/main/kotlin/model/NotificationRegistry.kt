@@ -1,7 +1,5 @@
 package ar.org.schoolsync.model
 
-import ar.org.schoolsync.dto.notification.NotificationDTO
-import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.users.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -17,7 +15,6 @@ class NotificationRegistry(
 
     @ManyToOne
     var notification: Notification
-
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

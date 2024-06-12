@@ -4,7 +4,7 @@ import ar.org.schoolsync.dto.notification.*
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.SearchFilter
-import ar.org.schoolsync.services.NotificationService
+import ar.org.schoolsync.services.NotificationRegistryService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.annotation.security.RolesAllowed
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 @RequestMapping("\${route.base}/notification")
 @Tag(name = "Notification", description = "Notification Api Operations")
-class NotificationController(@Autowired val notificationService: NotificationService) {
+class NotificationController(@Autowired val notificationService: NotificationRegistryService) {
 
     @RolesAllowed("ADMIN")
     @PostMapping("/create")
     @Operation(summary = "Crea una nueva notificación")
-    fun create(@RequestBody notification: NotificationDTO): Notification {
+    fun create(@RequestBody notification: CreateNotificationDTO): Notification {
         return notificationService.create(notification)
     }
 

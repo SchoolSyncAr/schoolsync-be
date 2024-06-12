@@ -3,7 +3,7 @@ package ar.org.schoolsync.controllers
 import ar.org.schoolsync.dto.parent.ParentDTO
 import ar.org.schoolsync.dto.parent.toDTO
 import ar.org.schoolsync.model.users.Parent
-import ar.org.schoolsync.model.Persons.Person
+import ar.org.schoolsync.model.users.Student
 import ar.org.schoolsync.services.ParentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -28,10 +28,10 @@ class ParentController (@Autowired val parentService: ParentService) {
     fun findAll(): List<ParentDTO> =
         parentService.findAll().map { it.toDTO() }
 
-    @GetMapping("/myChildren/{parentId}")
-    @Operation(summary = "devuelve todos los hijos de un determinado padre")
-    fun findMyChildren(@PathVariable parentId: Long):List<Person>?{
-        return parentService.findMyChildren(parentId)?.map { it }
-    }
+//    @GetMapping("/myChildren/{parentId}")
+//    @Operation(summary = "devuelve todos los hijos de un determinado padre")
+//    fun findMyChildren(@PathVariable parentId: Long):List<Student>?{
+//        return parentService.findMyChildren(parentId)?.map { it }
+//    }
 }
 

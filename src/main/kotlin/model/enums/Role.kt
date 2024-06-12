@@ -1,5 +1,5 @@
 package ar.org.schoolsync.model.enums
 
 enum class Role {
-    USER, ADMIN, STUDENT, TEACHER, PARENT
+    UNDEFINED, ADMIN, STUDENT, TEACHER, PARENT
 }

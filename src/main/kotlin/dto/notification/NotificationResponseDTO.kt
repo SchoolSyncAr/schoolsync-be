@@ -15,12 +15,12 @@ data class NotificationResponseDTO (
     val date: LocalDateTime
 )
 
-fun Notification.toResponseDTO() = NotificationResponseDTO (
-    this.id,
-    this.title,
-    this.content,
-    this.sender,
-    this.recipient,
-    this.recipientGroups,
-    this.date
-)
+//fun Notification.toResponseDTO() = NotificationResponseDTO (
+//    this.id,
+//    this.title,
+//    this.content,
+//    this.sender,
+//    this.recipient,
+//    this.recipientGroups,
+//    this.date
+//)
