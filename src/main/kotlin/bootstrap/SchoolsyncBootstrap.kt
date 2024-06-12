@@ -4,6 +4,7 @@ import ar.org.schoolsync.model.EntityFactory
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.enums.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.model.users.Parent
 import ar.org.schoolsync.model.users.Student
@@ -122,6 +123,8 @@ class SchoolsyncBootstrap(
     }
 
     fun initNotifications() = setOf(
+        EntityFactory(encoder).createNotification(NotificationType.PATRIOTIC),
+        EntityFactory(encoder).createNotification(NotificationType.REUNION),
         Notification(
             title = "Cambio de Horario Salida - Nivel Primario",
             content = "Estimada Comunidad Educativa:\n" +
@@ -150,10 +153,17 @@ class SchoolsyncBootstrap(
         )
     )
 
-    fun initNotificationRegistry() {
-        val juanIgnacio = userRepository.findByEmail(encoder.encode("juanrodriguez@gmail.com"))
-        val martinMelo = userRepository.findByEmail(encoder.encode("martinmelo@gmail.com"))
-        val tomasAlvarez = userRepository.findByEmail(encoder.encode("tomasalvarez@gmail.com"))
+    fun initNotificationRegistry(): Set<NotificationRegistry> {
+        val admin = userRepository.findByEmail("adminuser@schoolsync.mail.com").get()
+        val juanIgnacio = userRepository.findByEmail("juanrodriguez@gmail.com").get()
+        val martinMelo = userRepository.findByEmail("martinmelo@gmail.com").get()
+        val tomasAlvarez = userRepository.findByEmail("tomasalvarez@gmail.com").get()
+        val padres = listOf(juanIgnacio, martinMelo, tomasAlvarez)
+        val notificatciones = notificationRepository.findAll().map { it }
+
+        val registries = notificatciones.flatMap { padres.map { padre -> NotificationRegistry(admin, padre, it ) } }
+
+        return registries.toSet()
     }
 
     override fun afterPropertiesSet() {
@@ -163,7 +173,7 @@ class SchoolsyncBootstrap(
         println("All base users have been initialized")
         persist(initParents())
         println("All parents have been initialized")
-        initNotificationRegistry()
+        persist(initNotificationRegistry())
         println("All registries have been initialized")
     }
 }
