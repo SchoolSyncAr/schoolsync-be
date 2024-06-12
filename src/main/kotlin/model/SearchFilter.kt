@@ -1,7 +1,10 @@
 package ar.org.schoolsync.model
 
-data class SearchFilter(
+import org.springframework.data.domain.Sort
+class SearchFilter(
     var searchField: String = "",
     var orderParam: String = "",
-    var sortDirection: String = "",
-    )
+    private var sortDirection: String = "",
+) {
+    fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+}

@@ -1,5 +1,6 @@
 package ar.org.schoolsync.exeptions
 
+import ar.org.schoolsync.model.NotificationRegistry
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
 
@@ -15,6 +16,9 @@ object FindError {
 
     @Suppress("FunctionName")
     fun USER_NOT_FOUND(username:String) = "No existe el usuario con username: $username "
+
+    @Suppress("FunctionName")
+    fun NOTIFICATION_NOT_FOUND(id:Long) = "La Notificación con ID $id no fue encontrada "
 }
 
 
@@ -23,7 +27,7 @@ object NotificationCreationError {
 }
 
 object PersonCreationError {
-    const val CANNOT_CREATE_PERSON = "La persona no pudo ser creada correctamente"
+    const val CANNOT_CREATE_PERSON = "La persona no pudo ser creada correctamente "
 }
 
 

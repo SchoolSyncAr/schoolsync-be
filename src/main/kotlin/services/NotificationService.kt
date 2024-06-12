@@ -4,15 +4,18 @@ package ar.org.schoolsync.services
 import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.toDTO
-import ar.org.schoolsync.exeptions.Businessexception
+import ar.org.schoolsync.exeptions.FindError
+import ar.org.schoolsync.exeptions.ResponseFindException
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
-import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.SearchFilter
+import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
+import jakarta.transaction.Transactional
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class NotificationService(
@@ -20,6 +23,9 @@ class NotificationService(
     private val notificationRegistryRepository: NotificationRegistryRepository,
     private val userService: UserService
 ) {
+    fun findByID(id: Long): NotificationRegistry? = notificationRegistryRepository.findById(id).getOrNull()
+    fun findOrErrorByID(id: Long): NotificationRegistry =
+        findByID(id) ?: throw ResponseFindException(FindError.NOTIFICATION_NOT_FOUND(id))
 
     fun create(data: CreateNotificationDTO): Notification {
         val notification = Notification(
@@ -39,6 +45,7 @@ class NotificationService(
                 notificationRegistryRepository.save(notificationRegistry)
             }
         }
+
         if (data.recipientGroups.isNotEmpty()) {
             data.recipientGroups.forEach {
                 userService.allByGroup(it).forEach { user ->
@@ -56,23 +63,27 @@ class NotificationService(
     }
 
     fun findAll(filter: SearchFilter): List<NotificationDTO> {
-        return if (filter.orderParam.isEmpty()) {
-            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(
+        if (filter.orderParam.isNotEmpty()) {
+            val sortDirection = filter.getDirection()
+            val sort = Sort.by(
+                Sort.Order(Sort.Direction.DESC, "pinned"),
+                Sort.Order(sortDirection, filter.orderParam)
+            )
+            return notificationRegistryRepository
+                .findNotificationsByTitleContainingIgnoreCaseOrderByVariable(
+                    filter.searchField,
+                    sort
+                ).map { it.toDTO() }
+        }
+
+        return notificationRegistryRepository
+            .findNotificationsByTitleContainingIgnoreCaseOrderByVariable(
                 filter.searchField,
                 Sort.by(
                     Sort.Order.desc("pinned"),
                     Sort.Order.asc("date")
                 )
             ).map { it.toDTO() }
-        } else {
-            val sortDirection = if (filter.sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
-            val sort = Sort.by(
-                Sort.Order(Sort.Direction.DESC, "pinned"),
-                Sort.Order(sortDirection, filter.orderParam)
-            )
-            notificationRepository.findNotificationsByTitleContainingIgnoreCaseOrderByVariable(filter.searchField, sort)
-               .map { it.toDTO() }
-        }
     }
 
     fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
@@ -92,26 +103,25 @@ class NotificationService(
 //        }
 //    }
 
-        fun deleteById(notificationId: Long) {
-            return notificationRepository.deleteById(notificationId)
-
-        }
-
-        fun readNotification(id: Long): NotificationDTO {
-            val notification = notificationRepository.findById(id)
-                .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
-            notification.read()
-            notificationRepository.save(notification)
-            println("Leyendo...")
-            return notification.toDTO()
-        }
-
-        fun pinNotification(id: Long): NotificationDTO {
-            val notification = notificationRepository.findById(id)
-                .orElseThrow { Businessexception("La Notificación con ID $id no fue encontrada") }
-            notification.pin()
-            notificationRepository.save(notification)
-            println("Pinneando...")
-            return notification.toDTO()
-        }
+    fun deleteById(notificationId: Long) {
+        return notificationRepository.deleteById(notificationId)
     }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    fun readNotification(id: Long): NotificationDTO {
+        val notification = findOrErrorByID(id)
+        notification.read()
+        return save(notification)
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    fun pinNotification(id: Long): NotificationDTO {
+        val notification = findOrErrorByID(id)
+        notification.pin()
+        return save(notification)
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    fun save(notification: NotificationRegistry): NotificationDTO =
+        notificationRegistryRepository.save(notification).toDTO()
+}
