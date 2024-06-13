@@ -11,8 +11,9 @@ import org.springframework.data.repository.query.Param
 interface NotificationRegistryRepository : CrudRepository<NotificationRegistry, Long> {
     @Query(
         """
-            SELECT N 
-            FROM Notification AS N 
+            SELECT NF 
+            FROM NotificationRegistry AS NF
+            INNER JOIN NF.notification as N            
             WHERE LOWER(N.title) LIKE LOWER(CONCAT('%', :title, '%'))
         """
     )

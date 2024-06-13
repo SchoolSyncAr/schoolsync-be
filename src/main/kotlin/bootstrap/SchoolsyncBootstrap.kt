@@ -154,6 +154,7 @@ class SchoolsyncBootstrap(
     )
 
     fun initNotificationRegistry(): Set<NotificationRegistry> {
+        //pesos
         val admin = userRepository.findByEmail("adminuser@schoolsync.mail.com").get()
         val juanIgnacio = userRepository.findByEmail("juanrodriguez@gmail.com").get()
         val martinMelo = userRepository.findByEmail("martinmelo@gmail.com").get()
