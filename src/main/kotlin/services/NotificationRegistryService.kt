@@ -1,6 +1,5 @@
 package ar.org.schoolsync.services
 
-
 import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.toDTO
@@ -13,15 +12,16 @@ import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class NotificationRegistryService(
-    private val notificationRepository: NotificationRepository,
-    private val notificationRegistryRepository: NotificationRegistryRepository,
-    private val userService: UserService
+    @Autowired private val notificationRepository: NotificationRepository,
+    @Autowired private val notificationRegistryRepository: NotificationRegistryRepository,
+    @Autowired private val userService: UserService
 ) {
     fun findByID(id: Long): NotificationRegistry? = notificationRegistryRepository.findById(id).getOrNull()
     fun findOrErrorByID(id: Long): NotificationRegistry =
@@ -29,6 +29,7 @@ class NotificationRegistryService(
 
     fun create(data: CreateNotificationDTO): Notification {
         val notification = Notification(
+            userService.findOrErrorByID(data.sender),
             data.title,
             data.content,
             NotificationWeight.valueOf(data.weight)
@@ -38,7 +39,6 @@ class NotificationRegistryService(
         if (data.recievers.isNotEmpty()) {
             data.recievers.forEach {
                 val notificationRegistry = NotificationRegistry(
-                    userService.findOrErrorByID(data.sender),
                     userService.findOrErrorByID(it),
                     notification
                 )
@@ -50,7 +50,6 @@ class NotificationRegistryService(
             data.recipientGroups.forEach {
                 userService.allByGroup(it).forEach { user ->
                     val notificationRegistry = NotificationRegistry(
-                        userService.findOrErrorByID(data.sender),
                         user,
                         notification
                     )

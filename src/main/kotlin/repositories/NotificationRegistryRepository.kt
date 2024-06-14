@@ -24,8 +24,7 @@ interface NotificationRegistryRepository : CrudRepository<NotificationRegistry, 
     ): List<NotificationRegistry>
 
 
-    fun findNotificationRegistryBySenderAndRecieverAndNotification(
-        sender: User,
+    fun findNotificationRegistryByRecieverAndNotification(
         receiver: User,
         notification: Notification
     ): List<NotificationRegistry>

@@ -21,7 +21,8 @@ data class NotificationDTO (
     val weight: String,
     val date: LocalDateTime,
     val read: Boolean? = null,
-    val pinned: Boolean? = null
+    val pinned: Boolean? = null,
+    val sender: String? = null
 )
 
 fun NotificationRegistry.toDTO() = NotificationDTO (
@@ -31,7 +32,8 @@ fun NotificationRegistry.toDTO() = NotificationDTO (
     notification.weight.toString(),
     date,
     read,
-    pinned
+    pinned,
+    notification.senderName
 )
 
 fun Notification.toAdminDTO() = NotificationDTO (
@@ -39,5 +41,6 @@ fun Notification.toAdminDTO() = NotificationDTO (
     title,
     content,
     weight.toString(),
-    date
+    date,
+    sender = senderName
 )

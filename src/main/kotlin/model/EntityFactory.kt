@@ -9,6 +9,8 @@ import ar.org.schoolsync.model.users.Student
 import ar.org.schoolsync.model.users.User
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.time.Month
 
 
 @Component
@@ -22,9 +24,9 @@ class EntityFactory(private val encoder: PasswordEncoder) {
         Role.PARENT -> ParentUser(encoder).build()
     }
 
-    fun createNotification(type: NotificationType) = when (type) {
-        NotificationType.PATRIOTIC -> PatriotNotificaton().build()
-        NotificationType.REUNION -> ReunionNotification().build()
+    fun createNotification(type: NotificationType, sender: User) = when (type) {
+        NotificationType.PATRIOTIC -> PatriotNotificaton(sender).build()
+        NotificationType.REUNION -> ReunionNotification(sender).build()
     }
 }
 
@@ -36,11 +38,16 @@ interface UserObject : FactoryObject<User> {
     val encoder: PasswordEncoder
 }
 
+interface NotificationObject : FactoryObject<Notification> {
+    val sender: User
+}
+
+
 class AdminUser(override var encoder: PasswordEncoder) : UserObject {
     override fun build() =
         Admin(
-            firstName = "Admin",
-            lastName = "User",
+            firstName = "Director",
+            lastName = "Perez",
             email = "adminuser@schoolsync.mail.com",
             password = encoder.encode("adminuser"),
         )
@@ -65,9 +72,10 @@ class StudentUser(override val encoder: PasswordEncoder) : UserObject {
         )
 }
 
-class PatriotNotificaton : FactoryObject<Notification> {
+class PatriotNotificaton(override val sender: User) : NotificationObject {
     override fun build(): Notification =
         Notification(
+            sender = sender,
             title = "Acto 25 de mayo",
             content = """
                 Estimados Padres y Encargados: 
@@ -82,12 +90,15 @@ class PatriotNotificaton : FactoryObject<Notification> {
                 Directora Silvana y el Complejo Educativo
             """.trimIndent(),
             weight = NotificationWeight.MEDIO
-        )
+        ).apply {
+            date = LocalDateTime.of(LocalDateTime.now().year, Month.MAY, 15, 0, 0, 0)
+        }
 }
 
-class ReunionNotification : FactoryObject<Notification> {
+class ReunionNotification(override val sender: User) : NotificationObject {
     override fun build(): Notification =
         Notification(
+            sender = sender,
             title = "Reunión de Padres y Maestros - Recordatorio",
             content = """
                 "Queremos recordarles amablemente sobre nuestra próxima Reunión de Padres y Maestros, que se llevará a cabo el [fecha] a las [hora] en nuestras instalaciones escolares. Esta reunión es una oportunidad invaluable para discutir el progreso académico y el desarrollo de sus hijos con sus maestros.
@@ -96,5 +107,7 @@ class ReunionNotification : FactoryObject<Notification> {
                 "Atentamente,\n Directora Silvana y el Complejo Educativo",
             """.trimIndent(),
             weight = NotificationWeight.ALTO
-        )
+        ).apply {
+            date = LocalDateTime.now().minusDays(4)
+        }
 }

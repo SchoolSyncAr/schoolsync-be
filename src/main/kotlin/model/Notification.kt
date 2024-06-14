@@ -1,7 +1,7 @@
 package ar.org.schoolsync.model
 
-import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.users.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -9,6 +9,9 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "notifications")
 data class Notification(
+    @ManyToOne
+    var sender: User,
+
     @Column(length = 100, nullable = false)
     var title: String,
 
@@ -18,7 +21,9 @@ data class Notification(
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     var weight: NotificationWeight = NotificationWeight.BAJO,
-    ) {
+) {
+    val senderName = "${sender.firstName} ${sender.lastName}"
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long = 0

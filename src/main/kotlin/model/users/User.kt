@@ -36,7 +36,7 @@ abstract class User(
         name = "notification_group",
         length = 40
     )
-    val notificationGroups = mutableSetOf<NotificationGroup>()
+    open val notificationGroups = mutableSetOf<NotificationGroup>()
 
     abstract var role: Role
 

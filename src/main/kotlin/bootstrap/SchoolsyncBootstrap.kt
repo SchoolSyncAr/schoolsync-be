@@ -5,6 +5,7 @@ import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.NotificationType
+import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.model.users.Parent
 import ar.org.schoolsync.model.users.Student
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import kotlin.jvm.optionals.getOrNull
 
 @Component
@@ -100,8 +102,7 @@ class SchoolsyncBootstrap(
 
                 is NotificationRegistry -> {
                     val registry =
-                        notificationRegistryRepository.findNotificationRegistryBySenderAndRecieverAndNotification(
-                            it.sender,
+                        notificationRegistryRepository.findNotificationRegistryByRecieverAndNotification(
                             it.reciever,
                             it.notification
                         )
@@ -122,56 +123,66 @@ class SchoolsyncBootstrap(
         }
     }
 
-    fun initNotifications() = setOf(
-        EntityFactory(encoder).createNotification(NotificationType.PATRIOTIC),
-        EntityFactory(encoder).createNotification(NotificationType.REUNION),
-        Notification(
-            title = "Cambio de Horario Salida - Nivel Primario",
-            content = "Estimada Comunidad Educativa:\n" +
-                    "Queremos informarles que a partir del próximo Lunes 16 de Agosto, habrá un cambio en el horario escolar. Este cambio se implementa con el objetivo de mejorar la distribución de salida para el Nivel Primario.\n" +
-                    "\n" + "El nuevo horario será el siguiente:\n" +
-                    "\n" +
-                    "Grados 1 y 2: 15:00hs\n" +
-                    "Grados 3 y 4: 15:20hs\n" +
-                    "Grados 5 y 6: 15:40hs\n" +
-                    "\n" + "Agradecemos su comprensión y cooperación durante este ajuste. Por favor, asegúrense de que sus hijos estén informados sobre el nuevo horario y lleguen a la escuela a tiempo.\n" +
-                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
-        ),
-        Notification(
-            title = "Corte de Luz",
-            content = "Estimada Comunidad Educativa:\n" +
-                    "Les informamos que tuvimos un pequeño corte de luz alrededor de las 12:00hs pero ya ha vuelto." +
-                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
-        ),
-        Notification(
-            title = "Campaña de Recaudación de Fondos para Excursión",
-            content = "Estimados Padres y Encargados:\n" +
-                    "Estamos emocionados de anunciar el lanzamiento de nuestra campaña de recaudación de fondos para apoyar la próxima excursión escolar de nuestros estudiantes. La excursión está planeada para el [fecha] y será una experiencia educativa enriquecedora para todos los participantes.\n" +
-                    "\n" + "Para hacer posible esta excursión y garantizar la participación de todos los estudiantes, necesitamos su colaboración. Cualquier contribución, grande o pequeña, será de gran ayuda. Los fondos recaudados se utilizarán para cubrir los gastos de transporte, entradas y otras necesidades relacionadas con la excursión.\n" +
-                    "\n" + "Agradecemos de antemano su generosidad y apoyo en esta iniciativa. Juntos, podemos hacer que esta experiencia sea inolvidable para nuestros estudiantes.\n" +
-                    "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
+    fun initNotifications(): Set<Notification> {
+        val admin = userRepository.findByEmail("adminuser@schoolsync.mail.com").get()
+        return setOf(
+            EntityFactory(encoder).createNotification(NotificationType.PATRIOTIC, admin),
+            EntityFactory(encoder).createNotification(NotificationType.REUNION, admin),
+            Notification(
+                sender = admin,
+                title = "Cambio de Horario Salida - Nivel Primario",
+                content = "Estimada Comunidad Educativa:\n" +
+                        "Queremos informarles que a partir del próximo Lunes 16 de Agosto, habrá un cambio en el horario escolar. Este cambio se implementa con el objetivo de mejorar la distribución de salida para el Nivel Primario.\n" +
+                        "\n" + "El nuevo horario será el siguiente:\n" +
+                        "\n" +
+                        "Grados 1 y 2: 15:00hs\n" +
+                        "Grados 3 y 4: 15:20hs\n" +
+                        "Grados 5 y 6: 15:40hs\n" +
+                        "\n" + "Agradecemos su comprensión y cooperación durante este ajuste. Por favor, asegúrense de que sus hijos estén informados sobre el nuevo horario y lleguen a la escuela a tiempo.\n" +
+                        "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo",
+            ),
+            Notification(
+                sender = admin,
+                title = "Corte de Luz",
+                content = "Estimada Comunidad Educativa:\n" +
+                        "Les informamos que tuvimos un pequeño corte de luz alrededor de las 12:00hs pero ya ha vuelto." +
+                        "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
+            ).apply { date = LocalDateTime.now().minusDays(3) },
+            Notification(
+                sender = admin,
+                title = "Campaña de Recaudación de Fondos para Excursión",
+                content = "Estimados Padres y Encargados:\n" +
+                        "Estamos emocionados de anunciar el lanzamiento de nuestra campaña de recaudación de fondos para apoyar la próxima excursión escolar de nuestros estudiantes. La excursión está planeada para el [fecha] y será una experiencia educativa enriquecedora para todos los participantes.\n" +
+                        "\n" + "Para hacer posible esta excursión y garantizar la participación de todos los estudiantes, necesitamos su colaboración. Cualquier contribución, grande o pequeña, será de gran ayuda. Los fondos recaudados se utilizarán para cubrir los gastos de transporte, entradas y otras necesidades relacionadas con la excursión.\n" +
+                        "\n" + "Agradecemos de antemano su generosidad y apoyo en esta iniciativa. Juntos, podemos hacer que esta experiencia sea inolvidable para nuestros estudiantes.\n" +
+                        "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
+            ).apply {
+                date = LocalDateTime.now().minusDays(2)
+                weight = NotificationWeight.ALTO
+            }
         )
-    )
+    }
 
     fun initNotificationRegistry(): Set<NotificationRegistry> {
-        //pesos
-        val admin = userRepository.findByEmail("adminuser@schoolsync.mail.com").get()
+        //ver que no se pueda crear por logica de negocio una notificacion posterior a la fecha de envio del registro
+        //ver de poder borrar notificaciones para todos desde el admin con ventana de tiempo
         val juanIgnacio = userRepository.findByEmail("juanrodriguez@gmail.com").get()
         val martinMelo = userRepository.findByEmail("martinmelo@gmail.com").get()
         val tomasAlvarez = userRepository.findByEmail("tomasalvarez@gmail.com").get()
         val padres = listOf(juanIgnacio, martinMelo, tomasAlvarez)
         val notificatciones = notificationRepository.findAll().map { it }
 
-        val registries = notificatciones.flatMap { padres.map { padre -> NotificationRegistry(admin, padre, it ) } }
+        val registries = notificatciones.flatMap { padres.map { padre -> NotificationRegistry(padre, it) } }
+        registries.forEach { it.unifySendDate() }
 
         return registries.toSet()
     }
 
     override fun afterPropertiesSet() {
-        persist(initNotifications())
-        println("All notifications have been initialized")
         persist(initUsers())
         println("All base users have been initialized")
+        persist(initNotifications())
+        println("All notifications have been initialized")
         persist(initParents())
         println("All parents have been initialized")
         persist(initNotificationRegistry())

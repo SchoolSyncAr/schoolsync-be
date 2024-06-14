@@ -1,10 +1,12 @@
 package ar.org.schoolsync.controllers
 
-import ar.org.schoolsync.dto.notification.*
+import ar.org.schoolsync.dto.notification.CreateNotificationDTO
+import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.SearchFilter
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.services.NotificationRegistryService
+import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.annotation.security.RolesAllowed
@@ -15,65 +17,62 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 @RequestMapping("\${route.base}/notification")
 @Tag(name = "Notification", description = "Notification Api Operations")
-class NotificationController(@Autowired val notificationService: NotificationRegistryService) {
+class NotificationController(
+    @Autowired val notificationRegistryService: NotificationRegistryService,
+    @Autowired val notificationService: NotificationService
+) {
 
     @RolesAllowed("ADMIN")
     @PostMapping("/create")
     @Operation(summary = "Crea una nueva notificación")
     fun create(@RequestBody notification: CreateNotificationDTO): Notification {
-        return notificationService.create(notification)
+        return notificationRegistryService.create(notification)
     }
 
     @RolesAllowed("ADMIN")
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
-    fun findAll(@RequestParam searchField: String,
-                @RequestParam orderParam: String,
-                @RequestParam sortDirection: String): List<NotificationDTO> =
-        notificationService.findAll(SearchFilter(searchField,orderParam,sortDirection))
+    fun findAll(
+        @RequestParam searchField: String,
+        @RequestParam orderParam: String,
+        @RequestParam sortDirection: String
+    ): List<NotificationDTO> =
+        notificationService.findAll(SearchFilter(searchField, orderParam, sortDirection))
 
     @RolesAllowed("USER")
     @GetMapping("/count")
     fun getUnreadNotificationsCount(): Int {
-        return notificationService.getUnreadNotificationsCount()
+        return notificationRegistryService.getUnreadNotificationsCount()
     }
 
     @RolesAllowed("ADMIN")
     @GetMapping("/recipient-groups")
     @Operation(summary = "Devuelve los grupos de usuarios a quienes mandarles la Notif")
     fun getRecipientGroups(): List<String> {
-        return NotificationGroup.entries.map { it.name }}
+        return NotificationGroup.entries.map { it.name }
+    }
 
     @RolesAllowed("ADMIN")
     @DeleteMapping("/{notificationId}/delete")
     @Operation(summary = "Elimina una notificación por ID")
     fun deleteById(@PathVariable notificationId: Long) {
-        return notificationService.deleteById(notificationId)
+        return notificationRegistryService.deleteById(notificationId)
     }
 
     @RolesAllowed("USER")
     @PutMapping("/read")
     @Operation(summary = "Sets notification status to read/unread")
     fun readNotification(@RequestBody notificationId: Long): NotificationDTO {
-        return notificationService.readNotification(notificationId)
+        return notificationRegistryService.readNotification(notificationId)
     }
 
     @RolesAllowed("USER")
     @PutMapping("/pin")
     @Operation(summary = "Sets notification status to pinned/unpinned")
     fun pinNotification(@RequestBody notificationId: Long): NotificationDTO {
-        return notificationService.pinNotification(notificationId)
+        return notificationRegistryService.pinNotification(notificationId)
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 //import ar.org.schoolsync.model.Notification

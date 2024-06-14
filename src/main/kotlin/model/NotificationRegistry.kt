@@ -8,9 +8,6 @@ import java.time.LocalDateTime
 @Table(name = "notification_registries")
 class NotificationRegistry(
     @ManyToOne
-    var sender: User,
-
-    @ManyToOne
     var reciever: User,
 
     @ManyToOne
@@ -30,5 +27,9 @@ class NotificationRegistry(
 
     fun pin() {
         pinned = !pinned
+    }
+
+    fun unifySendDate(newDate: LocalDateTime? = null) {
+        newDate?.let { date = newDate } ?: run { date = notification.date }
     }
 }
