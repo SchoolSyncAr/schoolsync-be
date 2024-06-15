@@ -2,6 +2,7 @@ package ar.org.schoolsync.controllers
 
 import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
+import ar.org.schoolsync.dto.notification.toCreateResponse
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.enums.NotificationGroup
@@ -24,8 +25,8 @@ class NotificationController(
 
     @PostMapping("/create")
     @Operation(summary = "Crea una nueva notificación")
-    fun create(@RequestBody notification: CreateNotificationDTO): Notification {
-        return notificationRegistryService.create(notification)
+    fun create(@RequestBody notification: CreateNotificationDTO): NotificationDTO {
+        return notificationRegistryService.create(notification).toCreateResponse()
     }
 
     @GetMapping("/all")

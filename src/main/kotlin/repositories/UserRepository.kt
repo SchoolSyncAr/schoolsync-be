@@ -10,8 +10,11 @@ interface UserRepository : CrudRepository<User, Long> {
     @EntityGraph(attributePaths = ["notificationGroups"])
     fun findByEmail(email: String): Optional<User>
 
-    @EntityGraph(attributePaths = ["childrens"])
+    @EntityGraph(attributePaths = ["childrens", "notificationGroups"])
     override fun findById(id: Long): Optional<User>
+
+    @EntityGraph(attributePaths = ["notificationGroups"])
+    override fun findAll(): Iterable<User>
 
     @EntityGraph(attributePaths = ["notificationGroups"])
     fun findAllByRole(role: Role): Iterable<User>

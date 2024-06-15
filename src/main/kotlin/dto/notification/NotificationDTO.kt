@@ -1,7 +1,9 @@
 package ar.org.schoolsync.dto.notification
 
+import ar.org.schoolsync.dto.user.UserResponseDTO
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
+import ar.org.schoolsync.model.User
 import ar.org.schoolsync.model.enums.NotificationGroup
 import java.time.LocalDateTime
 
@@ -34,6 +36,11 @@ fun NotificationRegistry.toDTO() = NotificationDTO (
     read,
     pinned,
     notification.senderName
+)
+
+fun Notification.toCreateResponse() = NotificationDTO(
+    id,
+    title
 )
 
 fun Notification.toAdminResponse() = NotificationDTO (

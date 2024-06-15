@@ -35,5 +35,9 @@ class ParentController(
     fun findMyChildren(@PathVariable parentId: Long): List<UserResponseDTO>? {
         return userService.findMyChildren(parentId)?.map { it.toResponse() }
     }
+
+//    @GetMapping("/{parentId}/notifications")
+//    @Operation(summary = "devuelve todos las notificaciones de un padre por id")
+//    fun findNotificationsById(@PathVariable parentId: Long): List<No>
 }
 

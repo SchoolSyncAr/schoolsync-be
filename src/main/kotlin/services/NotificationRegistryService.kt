@@ -59,7 +59,6 @@ class NotificationRegistryService(
                 }
             }
         }
-
         return notification
     }
 
