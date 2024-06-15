@@ -11,7 +11,7 @@ class NotificationRegistry(
 
     @ManyToOne
     var notification: Notification
-) {
+): CommonNotification() {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long = 0
@@ -19,6 +19,7 @@ class NotificationRegistry(
     var read = false
     var pinned = false
     var date: LocalDateTime = LocalDateTime.now()
+    var weight = notification.weight
 
     fun read() {
         read = !read

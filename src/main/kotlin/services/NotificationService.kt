@@ -27,9 +27,6 @@ class NotificationService(
             .content()
             .build()
 
-        spec?.let{
-            return notificationRepository.findAll(spec).map { it.toAdminResponse() }
-        }
-        return notificationRepository.findAll().map { it.toAdminResponse() }
+        return notificationRepository.findAll(spec, filter.getSort()).map { it.toAdminResponse() }
     }
 }

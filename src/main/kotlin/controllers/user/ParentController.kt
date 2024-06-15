@@ -6,7 +6,6 @@ import ar.org.schoolsync.dto.user.UserResponseDTO
 import ar.org.schoolsync.dto.user.toCreateResponse
 import ar.org.schoolsync.dto.user.toResponse
 import ar.org.schoolsync.dto.user.toResponseParent
-import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.User
 import ar.org.schoolsync.model.enums.Role
@@ -44,10 +43,13 @@ class ParentController(
 
     @GetMapping("/{parentId}/notifications")
     @Operation(summary = "devuelve todos las notificaciones de un padre por id")
-    fun findNotificationsById(@PathVariable parentId: Long,
-                              @RequestParam searchField: String,
-                              @RequestParam orderParam: String,
-                              @RequestParam sortDirection: String): List<NotificationDTO> =
-        notificationRegistryService.findAllByUserId(parentId, SearchFilter(searchField, orderParam,sortDirection)).map { it.toDTO() }
+    fun findNotificationsById(
+        @PathVariable parentId: Long,
+        @RequestParam searchField: String,
+        @RequestParam orderParam: String,
+        @RequestParam sortDirection: String
+    ): List<NotificationDTO> =
+        notificationRegistryService.findAllByUserId(parentId, SearchFilter(searchField, orderParam, sortDirection))
+            .map { it.toDTO() }
 }
 

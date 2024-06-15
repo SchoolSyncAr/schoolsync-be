@@ -1,14 +1,17 @@
 package ar.org.schoolsync.model
 
+import jakarta.persistence.criteria.Join
+import jakarta.persistence.criteria.JoinType
+import jakarta.persistence.criteria.Root
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 
 class SearchFilter(
     var searchField: String = "",
-    var orderParam: String = "",
+    private var orderParam: String = "",
     private var sortDirection: String = "",
 ) {
-    fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+    private fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
 
     fun getSort() = Sort.by(
         Sort.Order(Sort.Direction.DESC, "pinned"),
@@ -16,8 +19,11 @@ class SearchFilter(
     )
 }
 
-class SearchFilterBuilder(private val filter: SearchFilter) {
-    private var specs: Specification<Notification>? = Specification.where(null)
+class SearchFilterBuilder(
+    private val filter: SearchFilter,
+    private val isRegistry: Boolean = false
+) {
+    private var specs: Specification<CommonNotification> = Specification.where(null)
 
     private val regex = Regex("(autor|titulo|contenido):([^:]*)(?= autor:| titulo:| contenido:|$)")
     private val matches: Sequence<MatchResult>? =
@@ -39,21 +45,30 @@ class SearchFilterBuilder(private val filter: SearchFilter) {
         return this
     }
 
-    fun build(): Specification<Notification>? {
+    fun userId(id:Long): SearchFilterBuilder {
+        specs = specs.and { root, _, criteriaBuilder ->
+            criteriaBuilder.equal(root.get<Long>("receiver").get<Long>("id"), id)
+        }
+        return this
+    }
+
+    fun build(): Specification<CommonNotification> {
         if (filterMap.isNullOrEmpty()) {
             searchEverywhere()
         }
         return specs
     }
+
     private fun extractSpect(type: FilterTypes) {
         filterMap?.let { map ->
             map[type.name.lowercase()]?.let { value ->
-                specs = specs?.and(Specification { root, _, criteriaBuilder ->
+                specs = specs.and { root, _, criteriaBuilder ->
+                    val rootJoined = if (isRegistry) joinedRoot(root) else root
                     criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get(type.eng)),
+                        criteriaBuilder.lower(rootJoined.get(type.eng)),
                         "%${value.lowercase()}%"
                     )
-                })
+                }
             }
         }
     }
@@ -61,15 +76,28 @@ class SearchFilterBuilder(private val filter: SearchFilter) {
     private fun searchEverywhere() {
         filter.searchField.takeIf { it.isNotEmpty() }?.let { searchValue ->
             val searchValueLower = searchValue.lowercase()
-            specs = Specification.where { root, _, criteriaBuilder ->
+            specs = specs.and { root, _, criteriaBuilder ->
+                val rootJoined = if (isRegistry) joinedRoot(root) else root
                 criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get(FilterTypes.TITULO.eng)), "%$searchValueLower%"),
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get(FilterTypes.AUTOR.eng)), "%$searchValueLower%"),
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get(FilterTypes.CONTENIDO.eng)), "%$searchValueLower%")
+                    criteriaBuilder.like(
+                        criteriaBuilder.lower(rootJoined.get(FilterTypes.TITULO.eng)),
+                        "%$searchValueLower%"
+                    ),
+                    criteriaBuilder.like(
+                        criteriaBuilder.lower(rootJoined.get(FilterTypes.AUTOR.eng)),
+                        "%$searchValueLower%"
+                    ),
+                    criteriaBuilder.like(
+                        criteriaBuilder.lower(rootJoined.get(FilterTypes.CONTENIDO.eng)),
+                        "%$searchValueLower%"
+                    )
                 )
             }
         }
     }
+
+    private fun joinedRoot(root: Root<CommonNotification>): Join<NotificationRegistry, Notification> =
+        root.join("notification", JoinType.LEFT)
 }
 
 enum class FilterTypes(val eng: String) {

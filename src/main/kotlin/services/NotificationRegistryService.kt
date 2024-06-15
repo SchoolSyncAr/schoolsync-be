@@ -1,15 +1,19 @@
 package ar.org.schoolsync.services
 
-import ar.org.schoolsync.dto.notification.*
+import ar.org.schoolsync.dto.notification.CreateNotificationDTO
+import ar.org.schoolsync.dto.notification.NotificationDTO
+import ar.org.schoolsync.dto.notification.toCreateResponse
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
-import ar.org.schoolsync.model.*
+import ar.org.schoolsync.model.Notification
+import ar.org.schoolsync.model.NotificationRegistry
+import ar.org.schoolsync.model.SearchFilter
+import ar.org.schoolsync.model.SearchFilterBuilder
 import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
@@ -89,16 +93,13 @@ class NotificationRegistryService(
     }
 
     fun findAllByUserId(id: Long, filter: SearchFilter): List<NotificationRegistry> {
-        val spec = SearchFilterBuilder(filter)
+        val spec = SearchFilterBuilder(filter, true)
             .from()
             .title()
             .content()
+            .userId(id)
             .build()
-
-        spec?.let{
-            return notificationRegistryRepository.findNotificationsByRecieverId(id, spec, filter.getSort()).map { it }
-        }
-        return notificationRegistryRepository.findNotificationsByRecieverId(id, filter.getSort()).map { it }
+        return notificationRegistryRepository.findAll(spec, filter.getSort()).map { it }
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
