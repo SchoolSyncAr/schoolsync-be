@@ -40,12 +40,14 @@ class SearchFilterBuilder(private val filter: SearchFilter) {
         }
         return specs
     }
-
     private fun extractSpect(type: FilterTypes) {
         filterMap?.let { map ->
             map[type.name.lowercase()]?.let { value ->
                 specs = specs?.and(Specification { root, _, criteriaBuilder ->
-                    criteriaBuilder.like(root.get(type.eng), "%${value.lowercase()}%")
+                    criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get(type.eng)),
+                        "%${value.lowercase()}%"
+                    )
                 })
             }
         }
@@ -56,9 +58,9 @@ class SearchFilterBuilder(private val filter: SearchFilter) {
             val searchValueLower = searchValue.lowercase()
             specs = Specification.where { root, _, criteriaBuilder ->
                 criteriaBuilder.or(
-                    criteriaBuilder.like(root.get(FilterTypes.TITULO.eng), "%$searchValueLower%"),
-                    criteriaBuilder.like(root.get(FilterTypes.AUTOR.eng), "%$searchValueLower%"),
-                    criteriaBuilder.like(root.get(FilterTypes.CONTENIDO.eng), "%$searchValueLower%")
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get(FilterTypes.TITULO.eng)), "%$searchValueLower%"),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get(FilterTypes.AUTOR.eng)), "%$searchValueLower%"),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get(FilterTypes.CONTENIDO.eng)), "%$searchValueLower%")
                 )
             }
         }

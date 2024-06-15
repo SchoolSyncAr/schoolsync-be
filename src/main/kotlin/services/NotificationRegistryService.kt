@@ -2,6 +2,7 @@ package ar.org.schoolsync.services
 
 import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
+import ar.org.schoolsync.dto.notification.toCreateResponse
 import ar.org.schoolsync.dto.notification.toDTO
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
@@ -123,5 +124,5 @@ class NotificationRegistryService(
 
     @Transactional(Transactional.TxType.REQUIRED)
     fun save(notification: NotificationRegistry): NotificationDTO =
-        notificationRegistryRepository.save(notification).toDTO()
+        notificationRegistryRepository.save(notification).toCreateResponse()
 }

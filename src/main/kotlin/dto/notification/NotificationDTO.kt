@@ -17,9 +17,9 @@ data class CreateNotificationDTO (
 data class NotificationDTO (
     val id: Long,
     val title: String,
-    val content: String,
-    val weight: String,
-    val date: LocalDateTime,
+    val content: String? = null,
+    val weight: String? = null,
+    val date: LocalDateTime? = null,
     val read: Boolean? = null,
     val pinned: Boolean? = null,
     val sender: String? = null
@@ -36,11 +36,16 @@ fun NotificationRegistry.toDTO() = NotificationDTO (
     notification.senderName
 )
 
-fun Notification.toAdminDTO() = NotificationDTO (
+fun Notification.toAdminResponse() = NotificationDTO (
     id,
     title,
     content,
     weight.toString(),
     date,
     sender = senderName
+)
+
+fun NotificationRegistry.toCreateResponse() = NotificationDTO(
+    id,
+    notification.title
 )

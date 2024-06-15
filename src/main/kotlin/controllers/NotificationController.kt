@@ -22,14 +22,12 @@ class NotificationController(
     @Autowired val notificationService: NotificationService
 ) {
 
-    @RolesAllowed("ADMIN")
     @PostMapping("/create")
     @Operation(summary = "Crea una nueva notificación")
     fun create(@RequestBody notification: CreateNotificationDTO): Notification {
         return notificationRegistryService.create(notification)
     }
 
-    @RolesAllowed("ADMIN")
     @GetMapping("/all")
     @Operation(summary = "Retorna todas las notificaciones del sistema")
     fun findAll(
