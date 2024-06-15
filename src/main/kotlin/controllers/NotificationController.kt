@@ -55,7 +55,7 @@ class NotificationController(
     @DeleteMapping("/{notificationId}/delete")
     @Operation(summary = "Elimina una notificación por ID")
     fun deleteById(@PathVariable notificationId: Long) {
-        return notificationRegistryService.deleteById(notificationId)
+        return notificationService.deleteById(notificationId)
     }
 
     @RolesAllowed("USER")

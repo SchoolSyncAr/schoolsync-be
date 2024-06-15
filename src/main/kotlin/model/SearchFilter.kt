@@ -1,5 +1,6 @@
 package ar.org.schoolsync.model
 
+import ar.org.schoolsync.model.enums.Status
 import jakarta.persistence.criteria.Join
 import jakarta.persistence.criteria.JoinType
 import jakarta.persistence.criteria.Root
@@ -13,8 +14,12 @@ class SearchFilter(
 ) {
     private fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
 
-    fun getSort() = Sort.by(
+    fun getSortUser() = Sort.by(
         Sort.Order(Sort.Direction.DESC, "pinned"),
+        if (orderParam.isNotEmpty()) Sort.Order(getDirection(), orderParam) else Sort.Order.asc("date")
+    )
+
+    fun getSortAdmin() = Sort.by(
         if (orderParam.isNotEmpty()) Sort.Order(getDirection(), orderParam) else Sort.Order.asc("date")
     )
 }
@@ -48,6 +53,17 @@ class SearchFilterBuilder(
     fun userId(id:Long): SearchFilterBuilder {
         specs = specs.and { root, _, criteriaBuilder ->
             criteriaBuilder.equal(root.get<Long>("receiver").get<Long>("id"), id)
+        }
+        return this
+    }
+
+    fun active(): SearchFilterBuilder {
+        specs = specs.and { root, _, criteriaBuilder ->
+            val rootJoined = if (isRegistry) joinedRoot(root) else root
+            criteriaBuilder.equal(
+                rootJoined.get<Status>("status"),
+                Status.ACTIVE
+            )
         }
         return this
     }

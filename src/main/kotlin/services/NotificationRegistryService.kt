@@ -60,22 +60,10 @@ class NotificationRegistryService(
         return notification
     }
 
-//    fun findAll(filter: SearchFilter): List<NotificationDTO> {
-//        return notificationRegistryRepository
-//            .findNotificationRegistriesByNotificationTitleOrderByVariable(
-//                filter.searchField,
-//                filter.getSort()
-//            ).map { it.toDTO() }
-//    }
-
     fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
         //Para luego devolver la cantidad de notificaciones no leídas de X usuario
         //return notificationRepository.getUnreadNotificationsCount(idUsuario)
         return notificationRepository.findAll().count() // TODO: hacer correctamente en la db
-    }
-
-    fun deleteById(notificationId: Long) {
-        return notificationRepository.deleteById(notificationId)
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
@@ -98,8 +86,9 @@ class NotificationRegistryService(
             .title()
             .content()
             .userId(id)
+            .active()
             .build()
-        return notificationRegistryRepository.findAll(spec, filter.getSort()).map { it }
+        return notificationRegistryRepository.findAll(spec, filter.getSortUser()).map { it }
     }
 
     @Transactional(Transactional.TxType.REQUIRED)

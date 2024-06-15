@@ -1,6 +1,7 @@
 package ar.org.schoolsync.model
 
 import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.Status
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -28,5 +29,18 @@ data class Notification(
     var id: Long = 0
 
     var date: LocalDateTime = LocalDateTime.now()
+
+    @Column(length = 20, nullable = false)
+    var status: Status = Status.ACTIVE
+    var lastModified = date
+
+    fun changeStatus(newStatus: Status) {
+        status = newStatus
+        registerUpdate()
+    }
+
+    fun registerUpdate() {
+        lastModified = LocalDateTime.now()
+    }
 }
 

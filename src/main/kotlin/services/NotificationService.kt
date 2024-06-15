@@ -7,6 +7,7 @@ import ar.org.schoolsync.exeptions.ResponseFindException
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.SearchFilterBuilder
+import ar.org.schoolsync.model.enums.Status
 import ar.org.schoolsync.repositories.NotificationRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -25,8 +26,15 @@ class NotificationService(
             .from()
             .title()
             .content()
+            .active()
             .build()
 
-        return notificationRepository.findAll(spec, filter.getSort()).map { it.toAdminResponse() }
+        return notificationRepository.findAll(spec, filter.getSortAdmin()).map { it.toAdminResponse() }
+    }
+
+    fun deleteById(id: Long) {
+        notificationRepository.save(findOrErrorByID(id).apply {
+            changeStatus(Status.DELETED)
+        })
     }
 }
