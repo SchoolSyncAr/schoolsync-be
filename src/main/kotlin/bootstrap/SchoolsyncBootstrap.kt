@@ -123,8 +123,8 @@ class SchoolsyncBootstrap(
 
                 is NotificationRegistry -> {
                     val registry =
-                        notificationRegistryRepository.findNotificationRegistryByRecieverAndNotification(
-                            it.reciever,
+                        notificationRegistryRepository.findNotificationRegistryByReceiverAndNotification(
+                            it.receiver,
                             it.notification
                         )
                     registry.isEmpty()

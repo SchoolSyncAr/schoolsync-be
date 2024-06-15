@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 @Table(name = "notification_registries")
 class NotificationRegistry(
     @ManyToOne
-    var reciever: User,
+    var receiver: User,
 
     @ManyToOne
     var notification: Notification

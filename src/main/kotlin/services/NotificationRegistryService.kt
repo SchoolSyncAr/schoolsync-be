@@ -1,16 +1,10 @@
 package ar.org.schoolsync.services
 
-import ar.org.schoolsync.dto.notification.CreateNotificationDTO
-import ar.org.schoolsync.dto.notification.NotificationDTO
-import ar.org.schoolsync.dto.notification.toCreateResponse
-import ar.org.schoolsync.dto.notification.toDTO
+import ar.org.schoolsync.dto.notification.*
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
-import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationRegistry
-import ar.org.schoolsync.model.SearchFilter
+import ar.org.schoolsync.model.*
 import ar.org.schoolsync.model.enums.NotificationWeight
-import ar.org.schoolsync.model.User
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
@@ -62,46 +56,19 @@ class NotificationRegistryService(
         return notification
     }
 
-    fun findAll(filter: SearchFilter): List<NotificationDTO> {
-        if (filter.orderParam.isNotEmpty()) {
-            val sortDirection = filter.getDirection()
-            val sort = Sort.by(
-                Sort.Order(Sort.Direction.DESC, "pinned"),
-                Sort.Order(sortDirection, filter.orderParam)
-            )
-            return notificationRegistryRepository
-                .findNotificationRegistriesByNotificationTitleOrderByVariable(
-                    filter.searchField,
-                    sort
-                ).map { it.toDTO() }
-        }
-
-        return notificationRegistryRepository
-            .findNotificationRegistriesByNotificationTitleOrderByVariable(
-                filter.searchField,
-                Sort.by(
-                    Sort.Order.desc("pinned"),
-                    Sort.Order.asc("date")
-                )
-            ).map { it.toDTO() }
-    }
+//    fun findAll(filter: SearchFilter): List<NotificationDTO> {
+//        return notificationRegistryRepository
+//            .findNotificationRegistriesByNotificationTitleOrderByVariable(
+//                filter.searchField,
+//                filter.getSort()
+//            ).map { it.toDTO() }
+//    }
 
     fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
         //Para luego devolver la cantidad de notificaciones no leídas de X usuario
         //return notificationRepository.getUnreadNotificationsCount(idUsuario)
         return notificationRepository.findAll().count() // TODO: hacer correctamente en la db
     }
-
-//        allStudents.forEach{
-//            if(notification.notificationScope === NotScope.INDIVIDUAL)
-//                allStudents.forEach {
-//                    if (notification.notificationReceiver == it.id){
-//                        it.notifications?.add(notification)
-//                        studentRepository.save(it)
-//                    }
-//                }
-//        }
-//    }
 
     fun deleteById(notificationId: Long) {
         return notificationRepository.deleteById(notificationId)
@@ -119,6 +86,19 @@ class NotificationRegistryService(
         val notification = findOrErrorByID(id)
         notification.pin()
         return save(notification)
+    }
+
+    fun findAllByUserId(id: Long, filter: SearchFilter): List<NotificationRegistry> {
+        val spec = SearchFilterBuilder(filter)
+            .from()
+            .title()
+            .content()
+            .build()
+
+        spec?.let{
+            return notificationRegistryRepository.findNotificationsByRecieverId(id, spec, filter.getSort()).map { it }
+        }
+        return notificationRegistryRepository.findNotificationsByRecieverId(id, filter.getSort()).map { it }
     }
 
     @Transactional(Transactional.TxType.REQUIRED)

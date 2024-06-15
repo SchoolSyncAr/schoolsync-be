@@ -1,11 +1,16 @@
 package ar.org.schoolsync.controllers.user
 
+import ar.org.schoolsync.dto.notification.NotificationDTO
+import ar.org.schoolsync.dto.notification.toDTO
 import ar.org.schoolsync.dto.user.UserResponseDTO
 import ar.org.schoolsync.dto.user.toCreateResponse
 import ar.org.schoolsync.dto.user.toResponse
 import ar.org.schoolsync.dto.user.toResponseParent
+import ar.org.schoolsync.model.NotificationRegistry
+import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.User
 import ar.org.schoolsync.model.enums.Role
+import ar.org.schoolsync.services.NotificationRegistryService
 import ar.org.schoolsync.services.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -17,7 +22,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("\${route.base}/parent")
 @Tag(name = "Parent", description = "Parent Api Operations")
 class ParentController(
-    @Autowired val userService: UserService
+    @Autowired val userService: UserService,
+    @Autowired val notificationRegistryService: NotificationRegistryService
 ) {
     @PostMapping()
     @Operation(summary = "Crea un nuevo padre")
@@ -32,12 +38,16 @@ class ParentController(
 
     @GetMapping("/childs/{parentId}")
     @Operation(summary = "devuelve todos los hijos de un determinado padre")
-    fun findMyChildren(@PathVariable parentId: Long): List<UserResponseDTO>? {
-        return userService.findMyChildren(parentId)?.map { it.toResponse() }
+    fun findMyChildren(@PathVariable parentId: Long): List<UserResponseDTO> {
+        return userService.findMyChildren(parentId).map { it.toResponse() }
     }
 
-//    @GetMapping("/{parentId}/notifications")
-//    @Operation(summary = "devuelve todos las notificaciones de un padre por id")
-//    fun findNotificationsById(@PathVariable parentId: Long): List<No>
+    @GetMapping("/{parentId}/notifications")
+    @Operation(summary = "devuelve todos las notificaciones de un padre por id")
+    fun findNotificationsById(@PathVariable parentId: Long,
+                              @RequestParam searchField: String,
+                              @RequestParam orderParam: String,
+                              @RequestParam sortDirection: String): List<NotificationDTO> =
+        notificationRegistryService.findAllByUserId(parentId, SearchFilter(searchField, orderParam,sortDirection)).map { it.toDTO() }
 }
 

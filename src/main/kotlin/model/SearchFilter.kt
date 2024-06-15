@@ -9,6 +9,11 @@ class SearchFilter(
     private var sortDirection: String = "",
 ) {
     fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+
+    fun getSort() = Sort.by(
+        Sort.Order(Sort.Direction.DESC, "pinned"),
+        if (orderParam.isNotEmpty()) Sort.Order(getDirection(), orderParam) else Sort.Order.asc("date")
+    )
 }
 
 class SearchFilterBuilder(private val filter: SearchFilter) {
