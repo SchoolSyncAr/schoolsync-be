@@ -3,21 +3,16 @@ package ar.org.schoolsync.model
 import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.enums.Role
-import ar.org.schoolsync.model.users.Admin
-import ar.org.schoolsync.model.users.Parent
-import ar.org.schoolsync.model.users.Student
-import ar.org.schoolsync.model.users.User
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.Month
 
-
 @Component
 class EntityFactory(private val encoder: PasswordEncoder) {
 
     fun createUser(type: Role) = when (type) {
-        Role.UNDEFINED -> TODO()
+        Role.USER -> TODO()
         Role.ADMIN -> AdminUser(encoder).build()
         Role.STUDENT -> StudentUser(encoder).build()
         Role.TEACHER -> TODO()
@@ -45,31 +40,38 @@ interface NotificationObject : FactoryObject<Notification> {
 
 class AdminUser(override var encoder: PasswordEncoder) : UserObject {
     override fun build() =
-        Admin(
+        User(
             firstName = "Director",
             lastName = "Perez",
             email = "adminuser@schoolsync.mail.com",
-            password = encoder.encode("adminuser"),
-        )
+            password = encoder.encode("adminuser")
+        ).apply {
+            changeBehavior(AdminBehavior())
+        }
 }
 
 class ParentUser(override val encoder: PasswordEncoder) : UserObject {
     override fun build() =
-        Parent(
+        User(
             firstName = "Daniel",
             lastName = "Follio",
             email = "parent@schoolsync.mail.com",
-            password = encoder.encode("parentuser"),
-        )
+            password = encoder.encode("parentuser")
+        ).apply {
+            changeBehavior(ParentBehavior())
+        }
 }
 
 class StudentUser(override val encoder: PasswordEncoder) : UserObject {
     override fun build() =
-        Student(
+        User(
             firstName = "Ismael",
             lastName = "Follio",
-            email = "ismaelfollio@schoolsync.mail"
-        )
+            email = "ismaelfollio@schoolsync.mail",
+            password = ""
+        ).apply {
+            changeBehavior(StudentBehavior())
+        }
 }
 
 class PatriotNotificaton(override val sender: User) : NotificationObject {

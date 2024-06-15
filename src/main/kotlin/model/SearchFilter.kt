@@ -11,7 +11,6 @@ class SearchFilter(
     fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
 }
 
-
 class SearchFilterBuilder(private val filter: SearchFilter) {
     private var specs: Specification<Notification>? = Specification.where(null)
 

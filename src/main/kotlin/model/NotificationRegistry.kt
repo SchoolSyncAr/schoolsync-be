@@ -1,6 +1,5 @@
 package ar.org.schoolsync.model
 
-import ar.org.schoolsync.model.users.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

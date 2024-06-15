@@ -26,11 +26,6 @@ object NotificationCreationError {
     const val CANNOT_CREATE_NOTIFICATION = "La notificación no pudo ser creada correctamente"
 }
 
-object PersonCreationError {
-    const val CANNOT_CREATE_PERSON = "La persona no pudo ser creada correctamente "
-}
-
-
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResponseFindException(message: String) : RuntimeException(message)
 

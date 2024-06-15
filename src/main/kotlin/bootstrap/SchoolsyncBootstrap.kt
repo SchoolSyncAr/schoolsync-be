@@ -1,15 +1,10 @@
 package ar.org.schoolsync.bootstrap
 
-import ar.org.schoolsync.model.EntityFactory
-import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationRegistry
+import ar.org.schoolsync.model.*
 import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.NotificationWeight
 import ar.org.schoolsync.model.enums.Role
-import ar.org.schoolsync.model.users.Parent
-import ar.org.schoolsync.model.users.Student
-import ar.org.schoolsync.model.users.User
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.UserRepository
@@ -39,51 +34,77 @@ class SchoolsyncBootstrap(
     )
 
     fun initParents() = setOf(
-        Parent(
+        User(
             "Juan Ignacio",
             "Rodriguez",
             "juanrodriguez@gmail.com",
             encoder.encode("juanrodriguez")
         ).apply {
+            changeBehavior(ParentBehavior())
             addStudents(
                 listOf(
-                    Student("Mateo", "Rodriguez", "mateo@gmail.com"),
-                    Student("Delfina", "Rodriguez", "delfina@gmail.com"),
-                    Student("Nicolas", "Rodriguez", "nicolas@gmail.com")
-                        .apply { repeat(3) { addAbsence() } },
-                )
+                    User(
+                        "Mateo",
+                        "Rodriguez",
+                        "mateorodriguez@gmail.com",
+                        ""
+                    ).apply { changeBehavior(StudentBehavior()) },
+                    User("Delfina", "Rodriguez", "delfinarodriguez@gmail.com", "").apply {
+                        changeBehavior(
+                            StudentBehavior()
+                        )
+                    },
+                    User("Nicolas", "Rodriguez", "nicolasrodriguez@gmail.com", "").apply {
+                        changeBehavior(
+                            StudentBehavior()
+                        )
+                    })
+                    .apply { repeat(3) { addAbsence() } },
             )
-            addGroup(NotificationGroup.GRADO2)
-            addGroup(NotificationGroup.EQUIPO_FUTBOL)
+
+            addNotificationGroup(NotificationGroup.GRADO2)
+            addNotificationGroup(NotificationGroup.EQUIPO_FUTBOL)
         },
-        Parent(
+        User(
             "Martin",
             "Melo",
             "martinmelo@gmail.com",
             encoder.encode("martinmelo")
         ).apply {
-            addStudents(listOf(Student("Javier", "Melo", "javiermelo@gmail.com")))
-            addGroup(NotificationGroup.GRADO2)
-            addGroup(NotificationGroup.EQUIPO_FUTBOL)
+            changeBehavior(ParentBehavior())
+            addStudents(listOf(User("Javier", "Melo", "javiermelo@gmail.com", "")).apply {
+                changeBehavior(
+                    StudentBehavior()
+                )
+            })
+            addNotificationGroup(NotificationGroup.GRADO2)
+            addNotificationGroup(NotificationGroup.EQUIPO_FUTBOL)
         },
-        Parent(
+        User(
             "Tomas",
             "Alvarez",
             "tomasalvarez@gmail.com",
             encoder.encode("tomasalvarez")
         ).apply {
+            changeBehavior(ParentBehavior())
             addStudents(
                 listOf(
-                    Student(
-                        "Federico", "Alvarez", "federicoalvarez@gmail.com"
-                    ).apply { repeat(3) { addAbsence() } },
-                    Student(
-                        "Joaquin", "Alvarez", "joaquinalvarez@gmail.com"
-                    ).apply { repeat(20) { addAbsence() } }
+                    User(
+                        "Federico", "Alvarez", "federicoalvarez@gmail.com", ""
+                    ).apply {
+                        changeBehavior(StudentBehavior())
+                        repeat(3) { addAbsence() }
+                    },
+                    User(
+                        "Joaquin", "Alvarez", "joaquinalvarez@gmail.com", ""
+                    ).apply {
+                        changeBehavior(StudentBehavior())
+                        repeat(20) { addAbsence() }
+                    }
                 )
             )
-            addGroup(NotificationGroup.GRADO2)
-            addGroup(NotificationGroup.EQUIPO_FUTBOL)
+            addNotificationGroup(NotificationGroup.GRADO2)
+            addNotificationGroup(NotificationGroup.EQUIPO_FUTBOL)
         }
     )
 

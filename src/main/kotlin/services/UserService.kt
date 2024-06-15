@@ -4,8 +4,12 @@ import ar.org.schoolsync.exeptions.CreationError
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
 import ar.org.schoolsync.exeptions.ResponseStatusException
+import ar.org.schoolsync.model.AdminBehavior
+import ar.org.schoolsync.model.ParentBehavior
+import ar.org.schoolsync.model.StudentBehavior
+import ar.org.schoolsync.model.User
 import ar.org.schoolsync.model.enums.NotificationGroup
-import ar.org.schoolsync.model.users.User
+import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -18,8 +22,17 @@ class UserService(private val userRepository: UserRepository, private val encode
     fun findByID(id: Long): User? = userRepository.findById(id).getOrNull()
     fun findOrErrorByID(id: Long): User =
         findByID(id) ?: throw ResponseFindException(FindError.USER_NOT_FOUND(id))
+
     fun findAll(): List<User> = userRepository.findAll().map { it }
+
+    fun findAllByRole(role: Role): List<User> = userRepository.findAllByRole(role).map { it }
     fun findByEmail(email: String): User? = userRepository.findByEmail(email).getOrNull()
+
+    fun findMyChildren(parentId: Long): List<User> {
+        val parent = findOrErrorByID(parentId)
+        val myChildren = parent.childrens.map { it }
+        return myChildren
+    }
 
     fun allByGroup(group: NotificationGroup): List<User> {
         return findAll().filter {
@@ -27,14 +40,21 @@ class UserService(private val userRepository: UserRepository, private val encode
         }
     }
 
-    fun save(user: User): User {
-        val found = userRepository.findByEmail(user.email).getOrNull()
+    fun createAdmin(user: User) =
+        save(user.apply { changeBehavior(AdminBehavior()) })
 
-        return if (found == null) {
-            user.password = encoder.encode(user.password)
-            userRepository.save(user)
+    fun createParent(user: User) =
+        save(user.apply { changeBehavior(ParentBehavior()) })
+
+    fun createStudent(user: User) =
+        save(user.apply { changeBehavior(StudentBehavior()) })
+
+    fun save(user: User): User {
+        validateEmailExistance(user.email)
+        encryptPassword(user)
+        return userRepository.save(
             user
-        } else throw ResponseStatusException(CreationError.CANNOT_CREATE_USER)
+        )
     }
 
     fun deleteByID(id: Long): ResponseEntity<Boolean> {
@@ -45,4 +65,10 @@ class UserService(private val userRepository: UserRepository, private val encode
             ResponseEntity.noContent().build<Boolean>()
         }.orElseThrow { ResponseFindException(FindError.USER_NOT_FOUND(id)) }
     }
+
+    private fun validateEmailExistance(email: String) {
+        findByEmail(email)?.let { throw ResponseStatusException(CreationError.CANNOT_CREATE_USER) }
+    }
+
+    private fun encryptPassword(user: User): User = user.apply { password = encoder.encode(password) }
 }

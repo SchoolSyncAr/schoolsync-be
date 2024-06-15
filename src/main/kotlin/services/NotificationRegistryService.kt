@@ -9,6 +9,7 @@ import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.User
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
