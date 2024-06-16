@@ -1,7 +1,7 @@
 package ar.org.schoolsync.config.security
 
 import ar.org.schoolsync.config.ApiProperties
-import ar.org.schoolsync.model.Role
+import ar.org.schoolsync.model.enums.Role
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod

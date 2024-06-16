@@ -1,7 +1,7 @@
-package ar.org.schoolsync.controllers
+package ar.org.schoolsync.controllers.user
 
-import ar.org.schoolsync.model.User
-import ar.org.schoolsync.dto.user.*
+import ar.org.schoolsync.dto.user.UserResponseDTO
+import ar.org.schoolsync.dto.user.toResponse
 import ar.org.schoolsync.services.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -13,24 +13,18 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 @RequestMapping("\${route.base}/user")
 @Tag(name = "User", description = "User Api Operations")
-class UserController(@Autowired val userService: UserService) {
-
-    @PostMapping
-    @Operation(summary = "Crea un nuevo usuario")
-    fun create(@RequestBody user: User): UserCreatedDTO {
-        println("CREANDOOOOOOOOOOOO $user")
-        return userService.save(user).toCreatedDTO()
-    }
-
+class UserController(
+    @Autowired val userService: UserService
+) {
     @GetMapping("/all")
     @Operation(summary = "Retorna todos los usuarios del sistema")
     fun findAll(): List<UserResponseDTO> =
-        userService.findAll().map { it.toResponseDTO() }
+        userService.findAll().map { it.toResponse() }
 
     @GetMapping("/{id}")
     @Operation(summary = "Retorna un usuario basado en su id")
     fun findByID(@PathVariable id: Long): UserResponseDTO =
-        userService.findOrErrorByID(id).toResponseDTO()
+        userService.findOrErrorByID(id).toResponse()
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Borra un usuario existente")

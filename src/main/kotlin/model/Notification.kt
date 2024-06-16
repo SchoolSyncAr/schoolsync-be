@@ -1,47 +1,46 @@
 package ar.org.schoolsync.model
 
+import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.Status
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
-
+sealed class CommonNotification
 @Entity
-@Table(name = "app_notif")
+@Table(name = "notifications")
 data class Notification(
+    @ManyToOne
+    var sender: User,
+
     @Column(length = 100, nullable = false)
     var title: String,
 
     @Column(length = 5000)
     var content: String,
 
-    var sender: Long,
-    var scope: NotifScope,
-
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
     var weight: NotificationWeight = NotificationWeight.BAJO,
-
-//    @ElementCollection(fetch = FetchType.EAGER)  //no funciona con LAZY
-    var recipient: Long? = null, //MutableList<Long>? = null,
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    var recipientGroups: MutableList<NotificationGroup> = mutableListOf(),
-
-    var date: LocalDateTime = LocalDateTime.now(),
-    ) {
+): CommonNotification() {
+    val senderName = "${sender.firstName} ${sender.lastName}"
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long = 0
 
-    var read = false
-    var pinned = false
+    var date: LocalDateTime = LocalDateTime.now()
 
-    fun read() {
-        read = !read
+    @Column(length = 20, nullable = false)
+    var status: Status = Status.ACTIVE
+    var lastModified = date
+
+    fun changeStatus(newStatus: Status) {
+        status = newStatus
+        registerUpdate()
     }
 
-    fun pin() {
-        pinned = !pinned
+    fun registerUpdate() {
+        lastModified = LocalDateTime.now()
     }
 }
 

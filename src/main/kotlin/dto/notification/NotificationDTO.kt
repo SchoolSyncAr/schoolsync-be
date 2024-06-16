@@ -1,34 +1,58 @@
 package ar.org.schoolsync.dto.notification
 
+import ar.org.schoolsync.dto.user.UserResponseDTO
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationGroup
-import java.time.LocalDate
+import ar.org.schoolsync.model.NotificationRegistry
+import ar.org.schoolsync.model.User
+import ar.org.schoolsync.model.enums.NotificationGroup
 import java.time.LocalDateTime
+
+data class CreateNotificationDTO (
+    val sender: Long,
+    val recipientGroups: List<NotificationGroup> = listOf(),
+    val recievers: List<Long> = listOf(),
+    val title: String,
+    val content: String,
+    val weight: String
+)
 
 data class NotificationDTO (
     val id: Long,
     val title: String,
-    val content: String,
-    val weight: String,
-    val sender: Long,
-    val scope: String,
-    val recipientGroups: MutableList<NotificationGroup>,
-    val recipient: Long? = null,
-    val date: LocalDateTime?,
-    val read: Boolean,
-    val pinned: Boolean
+    val content: String? = null,
+    val weight: String? = null,
+    val date: LocalDateTime? = null,
+    val read: Boolean? = null,
+    val pinned: Boolean? = null,
+    val sender: String? = null
 )
 
-fun Notification.toDTO() = NotificationDTO (
-    this.id,
-    this.title,
-    this.content,
-    this.weight.name,
-    this.sender,
-    this.scope.name,
-    this.recipientGroups,
-    this.recipient,
-    this.date,
-    this.read,
-    this.pinned,
+fun NotificationRegistry.toDTO() = NotificationDTO (
+    id,
+    notification.title,
+    notification.content,
+    notification.weight.toString(),
+    date,
+    read,
+    pinned,
+    notification.senderName
+)
+
+fun Notification.toCreateResponse() = NotificationDTO(
+    id,
+    title
+)
+
+fun Notification.toAdminResponse() = NotificationDTO (
+    id,
+    title,
+    content,
+    weight.toString(),
+    date,
+    sender = senderName
+)
+
+fun NotificationRegistry.toCreateResponse() = NotificationDTO(
+    id,
+    notification.title
 )

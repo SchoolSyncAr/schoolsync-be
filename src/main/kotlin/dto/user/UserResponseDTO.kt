@@ -1,21 +1,38 @@
 package ar.org.schoolsync.dto.user
 
-import ar.org.schoolsync.model.Role
 import ar.org.schoolsync.model.User
-import java.util.*
 
-data class UserResponseDTO (
+data class UserResponseDTO(
     val id: Long,
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val role: Role
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val email: String? = null,
+    val absences: Int? = null,
+    val notificationGroups: List<String>? = null
 )
 
-fun User.toResponseDTO() = UserResponseDTO(
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.role
+fun User.toCreateResponse() = UserResponseDTO(
+    id,
+    email = email
+)
+
+fun User.toResponse() = UserResponseDTO(
+    id,
+    firstName,
+    lastName,
+    email
+)
+
+fun User.toResponseParent() = UserResponseDTO(
+    id,
+    firstName,
+    lastName,
+    notificationGroups = notificationGroups.map { it.name }
+)
+
+fun User.toResponseStudent() = UserResponseDTO(
+    id,
+    firstName,
+    lastName,
+    absences = absences
 )

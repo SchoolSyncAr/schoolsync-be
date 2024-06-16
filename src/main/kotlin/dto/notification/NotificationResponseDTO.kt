@@ -1,7 +1,7 @@
 package ar.org.schoolsync.dto.notification
 
 import ar.org.schoolsync.model.Notification
-import ar.org.schoolsync.model.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationGroup
 import java.time.LocalDateTime
 
 data class NotificationResponseDTO (
@@ -15,12 +15,12 @@ data class NotificationResponseDTO (
     val date: LocalDateTime
 )
 
-fun Notification.toResponseDTO() = NotificationResponseDTO (
-    this.id,
-    this.title,
-    this.content,
-    this.sender,
-    this.recipient,
-    this.recipientGroups,
-    this.date
-)
+//fun Notification.toResponseDTO() = NotificationResponseDTO (
+//    this.id,
+//    this.title,
+//    this.content,
+//    this.sender,
+//    this.recipient,
+//    this.recipientGroups,
+//    this.date
+//)
