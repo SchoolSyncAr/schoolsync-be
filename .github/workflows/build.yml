@@ -11,6 +11,10 @@ on:
     branches:
       - 'main'
       - 'dev'
+    pull_request:
+      - 'main'
+      - 'dev'
+
 jobs:
   gradle:
     runs-on: ubuntu-latest
@@ -20,6 +24,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+
+      - name: Run chmod to make gradlew executable
+        run: chmod +x ./gradlew
 
       # Execute Gradle commands in GitHub Actions workflows
       # => https://github.com/marketplace/actions/gradle-command
