@@ -1,0 +1,48 @@
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+    include-message: always
+    include-binding-errors: always
+    include-exception: true
+    include-stacktrace: never
+
+jwt:
+  key: ${JWT_KEY}
+  access-token-expiration: 3600000
+  refresh-token-expiration: 86400000
+
+spring:
+  application:
+    name: Schoolsync
+
+  profiles:
+    active: base
+
+  jackson:
+    default-property-inclusion: non_null
+
+  #   base de datos posta
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5433/schoolsync
+    username: admin
+    password: patoniato
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop #update
+    properties:
+      hibernate:
+        format_sql: true
+
+# Para activar el Trace
+logging:
+  level:
+    root: INFO
+
+route:
+  base: /api

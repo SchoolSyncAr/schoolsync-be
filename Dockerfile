@@ -12,6 +12,6 @@ RUN sed -i 's/\r$//' gradlew
 
 RUN ./gradlew build
 
-EXPOSE 8080:8080
+EXPOSE 8081:8080
 
 ENTRYPOINT ["java", "-jar", "build/libs/schoolsync-be-0.0.1-SNAPSHOT.jar"]

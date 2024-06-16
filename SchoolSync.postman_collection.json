@@ -1,0 +1,458 @@
+{
+	"info": {
+		"_postman_id": "2582112a-c659-4a07-8762-d0eaf16f4266",
+		"name": "SchoolSync",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33670890"
+	},
+	"item": [
+		{
+			"name": "Auth Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"let token = jsonData.accessToken;\r",
+							"pm.collectionVariables.set('accessToken', token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"adminuser@schoolsync.mail.com\",\r\n    \"password\": \"adminuser\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/auth",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth Common User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"let token = jsonData.accessToken;\r",
+							"pm.collectionVariables.set('accessToken', token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"commonuser@schoolsync.mail.com\",\r\n    \"password\": \"commonuser\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/auth",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"NewUser\",\r\n    \"lastName\": \"NewUser Lastname\",\r\n    \"email\": \"newparent@schoolsync.mail.com\",\r\n    \"password\": \"ironMaiden\",\r\n    \"role\": \"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/user",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"María\",\r\n    \"lastName\": \"López\",\r\n    \"absences\": 0,\r\n    \"notifications\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/student/create",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"student",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Parent",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Pedro\",\r\n  \"lastName\": \"García\",\r\n  \"isFatherOf\": [],\r\n  \"notifications\": [],\r\n  \"notificationGroups\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/parent/create",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Notification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"School Announcement\",\r\n  \"content\": \"There will be a meeting for all parents next Friday.\",\r\n  \"notificationReceiver\": [\"user1@example.com\", \"user2@example.com\"],\r\n  \"notificationSender\": 1,\r\n  \"notificationScope\": \"GENERAL\",\r\n  \"weight\": \"LOW\",\r\n  \"notificationGroup\": [\"ALL\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/notification/create",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/user/all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/user/2",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/parent/all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Parents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/parent/all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "My Childrens",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/parent/myChildren/7",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"parent",
+						"myChildren",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Notifications",
+			"request": {
+				"method": "GET",
+				"header": [
+					{}
+				],
+				"url": {
+					"raw": "{{api}}/notification/all?searchField=&orderParam=&sortDirection=",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"all"
+					],
+					"query": [
+						{
+							"key": "searchField",
+							"value": ""
+						},
+						{
+							"key": "orderParam",
+							"value": ""
+						},
+						{
+							"key": "sortDirection",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications Search Param",
+			"request": {
+				"method": "GET",
+				"header": [
+					{}
+				],
+				"url": {
+					"raw": "{{api}}/notification/all?searchField=acto&orderParam=&sortDirection=",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"all"
+					],
+					"query": [
+						{
+							"key": "searchField",
+							"value": "acto"
+						},
+						{
+							"key": "orderParam",
+							"value": ""
+						},
+						{
+							"key": "sortDirection",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications Sort: Desc",
+			"request": {
+				"method": "GET",
+				"header": [
+					{}
+				],
+				"url": {
+					"raw": "{{api}}/notification/all?searchField=&orderParam=&sortDirection=DESC",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"all"
+					],
+					"query": [
+						{
+							"key": "searchField",
+							"value": ""
+						},
+						{
+							"key": "orderParam",
+							"value": ""
+						},
+						{
+							"key": "sortDirection",
+							"value": "DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Notification",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/notification/3/delete",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"notification",
+						"3",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "localhost:8081/api",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		}
+	]
+}
