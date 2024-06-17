@@ -1,9 +1,9 @@
 package ar.org.schoolsync.services
 
-import ar.org.schoolsync.exeptions.CreationError
-import ar.org.schoolsync.exeptions.FindError
-import ar.org.schoolsync.exeptions.ResponseFindException
-import ar.org.schoolsync.exeptions.ResponseStatusException
+import ar.org.schoolsync.exceptions.CreationError
+import ar.org.schoolsync.exceptions.FindError
+import ar.org.schoolsync.exceptions.ResponseFindException
+import ar.org.schoolsync.exceptions.ResponseStatusException
 import ar.org.schoolsync.model.AdminBehavior
 import ar.org.schoolsync.model.ParentBehavior
 import ar.org.schoolsync.model.StudentBehavior
