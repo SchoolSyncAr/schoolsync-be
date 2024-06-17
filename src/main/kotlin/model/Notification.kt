@@ -20,7 +20,7 @@ data class Notification(
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    var weight: NotificationPriorities = NotificationPriorities.BAJO,
+    var weight: NotificationPriorities = NotificationPriorities.BAJA,
 ): CommonNotification() {
     val senderName = "${sender.firstName} ${sender.lastName}"
 

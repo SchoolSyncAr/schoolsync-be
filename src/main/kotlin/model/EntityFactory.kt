@@ -91,7 +91,7 @@ class PatriotNotificaton(override val sender: User) : NotificationObject {
                 Atentamente,
                 Directora Silvana y el Complejo Educativo
             """.trimIndent(),
-            weight = NotificationPriorities.MEDIO
+            weight = NotificationPriorities.MEDIA
         ).apply {
             date = LocalDateTime.of(LocalDateTime.now().year, Month.MAY, 15, 0, 0, 0)
         }
@@ -108,7 +108,7 @@ class ReunionNotification(override val sender: User) : NotificationObject {
                 "¡Muchas gracias!
                 "Atentamente,\n Directora Silvana y el Complejo Educativo",
             """.trimIndent(),
-            weight = NotificationPriorities.ALTO
+            weight = NotificationPriorities.ALTA
         ).apply {
             date = LocalDateTime.now().minusDays(4)
         }

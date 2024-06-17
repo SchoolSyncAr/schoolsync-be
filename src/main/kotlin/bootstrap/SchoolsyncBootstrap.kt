@@ -179,7 +179,7 @@ class SchoolsyncBootstrap(
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
             ).apply {
                 date = LocalDateTime.now().minusDays(2)
-                weight = NotificationPriorities.ALTO
+                weight = NotificationPriorities.ALTA
             }
         )
     }
