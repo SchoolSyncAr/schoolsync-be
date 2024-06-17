@@ -1,6 +1,6 @@
 package ar.org.schoolsync.model.enums
 
-enum class NotificationWeight {
+enum class NotificationPriorities {
     BAJO,
     MEDIO,
     ALTO

@@ -1,6 +1,6 @@
 package ar.org.schoolsync.model
 
-import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.model.enums.Status
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -20,7 +20,7 @@ data class Notification(
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    var weight: NotificationWeight = NotificationWeight.BAJO,
+    var weight: NotificationPriorities = NotificationPriorities.BAJO,
 ): CommonNotification() {
     val senderName = "${sender.firstName} ${sender.lastName}"
 

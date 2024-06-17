@@ -9,7 +9,7 @@ import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.SearchFilterBuilder
-import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
@@ -32,12 +32,12 @@ class NotificationRegistryService(
             userService.findOrErrorByID(data.sender),
             data.title,
             data.content,
-            NotificationWeight.valueOf(data.weight)
+            NotificationPriorities.valueOf(data.weight)
         )
         notificationRepository.save(notification)
 
-        if (data.recievers.isNotEmpty()) {
-            data.recievers.forEach {
+        if (data.receivers.isNotEmpty()) {
+            data.receivers.forEach {
                 val notificationRegistry = NotificationRegistry(
                     userService.findOrErrorByID(it),
                     notification
