@@ -3,9 +3,9 @@ package ar.org.schoolsync.controllers
 import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.toCreateResponse
-import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.enums.NotificationGroup
+import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.services.NotificationRegistryService
 import ar.org.schoolsync.services.NotificationService
 import io.swagger.v3.oas.annotations.Operation
@@ -70,6 +70,13 @@ class NotificationController(
     @Operation(summary = "Sets notification status to pinned/unpinned")
     fun pinNotification(@RequestBody notificationId: Long): NotificationDTO {
         return notificationRegistryService.pinNotification(notificationId)
+    }
+
+    @RolesAllowed("ADMIN")
+    @GetMapping("/priorities")
+    @Operation(summary = "Devuelve los tipos de propridades que pueden tener las Notificaciones")
+    fun getPriorities(): List<String> {
+        return NotificationPriorities.entries.map { it.name }
     }
 }
 

@@ -3,7 +3,7 @@ package ar.org.schoolsync.bootstrap
 import ar.org.schoolsync.model.*
 import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.NotificationType
-import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
@@ -179,7 +179,7 @@ class SchoolsyncBootstrap(
                         "\n" + "Atentamente,\n Directora Silvana y el Complejo Educativo"
             ).apply {
                 date = LocalDateTime.now().minusDays(2)
-                weight = NotificationWeight.ALTO
+                weight = NotificationPriorities.ALTA
             }
         )
     }

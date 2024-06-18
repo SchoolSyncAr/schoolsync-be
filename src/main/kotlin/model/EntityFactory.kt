@@ -1,7 +1,7 @@
 package ar.org.schoolsync.model
 
 import ar.org.schoolsync.model.enums.NotificationType
-import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.model.enums.Role
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -91,7 +91,7 @@ class PatriotNotificaton(override val sender: User) : NotificationObject {
                 Atentamente,
                 Directora Silvana y el Complejo Educativo
             """.trimIndent(),
-            weight = NotificationWeight.MEDIO
+            weight = NotificationPriorities.MEDIA
         ).apply {
             date = LocalDateTime.of(LocalDateTime.now().year, Month.MAY, 15, 0, 0, 0)
         }
@@ -108,7 +108,7 @@ class ReunionNotification(override val sender: User) : NotificationObject {
                 "¡Muchas gracias!
                 "Atentamente,\n Directora Silvana y el Complejo Educativo",
             """.trimIndent(),
-            weight = NotificationWeight.ALTO
+            weight = NotificationPriorities.ALTA
         ).apply {
             date = LocalDateTime.now().minusDays(4)
         }
