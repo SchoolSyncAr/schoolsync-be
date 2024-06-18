@@ -1,5 +1,6 @@
 package ar.org.schoolsync.services
 
+import ar.org.schoolsync.dto.user.UserResponseDTO
 import ar.org.schoolsync.exeptions.CreationError
 import ar.org.schoolsync.exeptions.FindError
 import ar.org.schoolsync.exeptions.ResponseFindException
@@ -71,4 +72,8 @@ class UserService(private val userRepository: UserRepository, private val encode
     }
 
     private fun encryptPassword(user: User): User = user.apply { password = encoder.encode(password) }
+
+    fun findParentsByGroup(notificationGroup: NotificationGroup):List<User> {
+        return findAllByRole(Role.PARENT).filter { it.notificationGroups.contains(notificationGroup) }
+    }
 }
