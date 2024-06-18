@@ -40,8 +40,8 @@ class NotificationController(
 
     @RolesAllowed("USER")
     @GetMapping("/count")
-    fun getUnreadNotificationsCount(): Int {
-        return notificationRegistryService.getUnreadNotificationsCount()
+    fun getUnreadNotificationsCount(@RequestParam userId: Long): Int {
+        return notificationRegistryService.getUnreadNotificationsCount(userId)
     }
 
     @RolesAllowed("ADMIN")
