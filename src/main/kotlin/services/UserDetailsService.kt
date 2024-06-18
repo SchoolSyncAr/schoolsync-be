@@ -1,8 +1,7 @@
 package ar.org.schoolsync.services
 
 import ar.org.schoolsync.dto.user.toUserDetailsDTO
-import ar.org.schoolsync.exeptions.FindError
-import ar.org.schoolsync.exeptions.ResponseFindException
+import ar.org.schoolsync.exceptions.InvalidAuthRequest
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -17,5 +16,5 @@ class CustomUserDetailsService(
         userRepository.findByEmail(username)
             .getOrNull()
             ?.toUserDetailsDTO()
-            ?: throw ResponseFindException(FindError.USER_NOT_FOUND(username))
+            ?: throw InvalidAuthRequest()
 }
