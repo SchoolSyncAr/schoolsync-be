@@ -3,7 +3,7 @@ package ar.org.schoolsync.services
 import ar.org.schoolsync.config.security.JwtProperties
 import ar.org.schoolsync.dto.auth.AuthenticationRequest
 import ar.org.schoolsync.dto.auth.AuthenticationResponse
-import ar.org.schoolsync.exeptions.InvalidAuthRequest
+import ar.org.schoolsync.exceptions.InvalidAuthRequest
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

@@ -3,13 +3,13 @@ package ar.org.schoolsync.services
 import ar.org.schoolsync.dto.notification.CreateNotificationDTO
 import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.toCreateResponse
-import ar.org.schoolsync.exeptions.FindError
-import ar.org.schoolsync.exeptions.ResponseFindException
+import ar.org.schoolsync.exceptions.FindError
+import ar.org.schoolsync.exceptions.ResponseFindException
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.NotificationRegistry
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.SearchFilterBuilder
-import ar.org.schoolsync.model.enums.NotificationWeight
+import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import jakarta.transaction.Transactional
@@ -32,12 +32,12 @@ class NotificationRegistryService(
             userService.findOrErrorByID(data.sender),
             data.title,
             data.content,
-            NotificationWeight.valueOf(data.weight)
+            NotificationPriorities.valueOf(data.weight)
         )
         notificationRepository.save(notification)
 
-        if (data.recievers.isNotEmpty()) {
-            data.recievers.forEach {
+        if (data.receivers.isNotEmpty()) {
+            data.receivers.forEach {
                 val notificationRegistry = NotificationRegistry(
                     userService.findOrErrorByID(it),
                     notification

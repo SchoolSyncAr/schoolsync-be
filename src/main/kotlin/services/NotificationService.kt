@@ -2,8 +2,8 @@ package ar.org.schoolsync.services
 
 import ar.org.schoolsync.dto.notification.NotificationDTO
 import ar.org.schoolsync.dto.notification.toAdminResponse
-import ar.org.schoolsync.exeptions.FindError
-import ar.org.schoolsync.exeptions.ResponseFindException
+import ar.org.schoolsync.exceptions.FindError
+import ar.org.schoolsync.exceptions.ResponseFindException
 import ar.org.schoolsync.model.Notification
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.SearchFilterBuilder

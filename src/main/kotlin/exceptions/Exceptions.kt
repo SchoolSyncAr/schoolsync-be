@@ -1,6 +1,5 @@
-package ar.org.schoolsync.exeptions
+package ar.org.schoolsync.exceptions
 
-import ar.org.schoolsync.model.NotificationRegistry
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
 
@@ -33,7 +32,7 @@ class ResponseFindException(message: String) : RuntimeException(message)
 class ResponseStatusException(message: String) : RuntimeException(message)
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-class Businessexception(msg:String): RuntimeException(msg)
+class BusinessException(msg:String): RuntimeException(msg)
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-class InvalidAuthRequest() : RuntimeException("Usuario y/o contraseña inválidos.")
+@ResponseStatus(HttpStatus.FORBIDDEN)
+class InvalidAuthRequest: RuntimeException("Usuario y/o contraseña inválidos.")
