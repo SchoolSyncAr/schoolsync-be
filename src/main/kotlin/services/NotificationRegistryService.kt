@@ -60,10 +60,11 @@ class NotificationRegistryService(
         return notification
     }
 
-    fun getUnreadNotificationsCount(/*idUsuario: Int*/): Int {
+    fun getUnreadNotificationsCount(idUsuario: Long): Int {
         //Para luego devolver la cantidad de notificaciones no leídas de X usuario
         //return notificationRepository.getUnreadNotificationsCount(idUsuario)
-        return notificationRepository.findAll().count() // TODO: hacer correctamente en la db
+        //return notificationRepository.findAll().count() // TODO: hacer correctamente en la db
+        return notificationRegistryRepository.countUnreadNotificationsByReceiverId(idUsuario)
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
