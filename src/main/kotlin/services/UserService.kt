@@ -71,4 +71,8 @@ class UserService(private val userRepository: UserRepository, private val encode
     }
 
     private fun encryptPassword(user: User): User = user.apply { password = encoder.encode(password) }
+
+    fun findParentsByGroup(notificationGroup: NotificationGroup):List<User> {
+        return findAllByRole(Role.PARENT).filter { it.notificationGroups.contains(notificationGroup) }
+    }
 }
