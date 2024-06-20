@@ -8,6 +8,7 @@ import ar.org.schoolsync.dto.user.toResponse
 import ar.org.schoolsync.dto.user.toResponseParent
 import ar.org.schoolsync.model.SearchFilter
 import ar.org.schoolsync.model.User
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.services.NotificationRegistryService
 import ar.org.schoolsync.services.UserService
@@ -41,6 +42,13 @@ class ParentController(
         return userService.findMyChildren(parentId).map { it.toResponse() }
     }
 
+    @GetMapping("/getByGroup")
+    @Operation(summary = "devuelve todos los padres de un determinado curso")
+    fun findParentsByNotificationGroup(
+        @RequestParam notificationGroup: NotificationGroup
+    ): List<UserResponseDTO> =
+        userService.findParentsByGroup(notificationGroup).map { it.toResponse() }
+
     @GetMapping("/{parentId}/notifications")
     @Operation(summary = "devuelve todos las notificaciones de un padre por id")
     fun findNotificationsById(
@@ -50,6 +58,7 @@ class ParentController(
     ): List<NotificationDTO> {
         return notificationRegistryService.findAllByUserId(parentId, SearchFilter(searchField, sortField))
             .map { it.toDTO() }
+
     }
 }
 
