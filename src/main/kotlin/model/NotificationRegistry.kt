@@ -19,6 +19,9 @@ class NotificationRegistry(
     var read = false
     var pinned = false
     var date: LocalDateTime = LocalDateTime.now()
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     var weight = notification.weight
 
     fun read() {
