@@ -9,19 +9,22 @@ import org.springframework.data.jpa.domain.Specification
 
 class SearchFilter(
     var searchField: String = "",
-    private var orderParam: String = "",
-    private var sortDirection: String = "",
+    private var sortField: String = "",
 ) {
-    private fun getDirection() = if (sortDirection == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+    private val sortParameters = sortField.lowercase().split("_")
+    private fun getDirection() = if (sortParameters[1] == "asc") Sort.Direction.ASC else Sort.Direction.DESC
 
-    fun getSortUser() = Sort.by(
-        Sort.Order(Sort.Direction.DESC, "pinned"),
-        if (orderParam.isNotEmpty()) Sort.Order(getDirection(), orderParam) else Sort.Order.asc("date")
-    )
+    fun getSortUser(): Sort =
+        Sort.by(
+            Sort.Order(Sort.Direction.DESC, "pinned"),
+            if (sortField.isNotEmpty()) Sort.Order(getDirection(), sortParameters[0]) else Sort.Order.asc("date")
+        )
 
-    fun getSortAdmin() = Sort.by(
-        if (orderParam.isNotEmpty()) Sort.Order(getDirection(), orderParam) else Sort.Order.asc("date")
-    )
+
+    fun getSortAdmin(): Sort =
+        Sort.by(
+            if (sortField.isNotEmpty()) Sort.Order(getDirection(), sortParameters[0]) else Sort.Order.asc("date")
+        )
 }
 
 class SearchFilterBuilder(
@@ -50,7 +53,7 @@ class SearchFilterBuilder(
         return this
     }
 
-    fun userId(id:Long): SearchFilterBuilder {
+    fun userId(id: Long): SearchFilterBuilder {
         specs = specs.and { root, _, criteriaBuilder ->
             criteriaBuilder.equal(root.get<Long>("receiver").get<Long>("id"), id)
         }

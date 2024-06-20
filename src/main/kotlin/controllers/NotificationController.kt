@@ -33,10 +33,10 @@ class NotificationController(
     @Operation(summary = "Retorna todas las notificaciones del sistema")
     fun findAll(
         @RequestParam searchField: String,
-        @RequestParam orderParam: String,
-        @RequestParam sortDirection: String
-    ): List<NotificationDTO> =
-        notificationService.findAll(SearchFilter(searchField, orderParam, sortDirection))
+        @RequestParam sortField: String,
+    ): List<NotificationDTO> {
+        return notificationService.findAll(SearchFilter(searchField, sortField))
+    }
 
     @RolesAllowed("USER")
     @GetMapping("/count")
