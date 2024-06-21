@@ -1,4 +1,4 @@
-# .github/workflows/build.yml
+# .GitHub/workflows/build.yml
 # GitHub Actions documentation
 # => https://docs.github.com/en/actions
 name: build
@@ -6,8 +6,12 @@ name: build
 on:
   push:
     branches:
-      - 'main'
-      - 'dev'
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 
 permissions:
   contents: write
@@ -25,8 +29,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-
-
 
       - name: Setup gradle
         uses: gradle/actions/setup-gradle@v3
