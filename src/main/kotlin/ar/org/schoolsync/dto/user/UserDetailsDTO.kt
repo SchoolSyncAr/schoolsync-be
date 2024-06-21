@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 
 typealias AppUser = ar.org.schoolsync.model.User
-fun AppUser.toUserDetailsDTO(): UserDetails =
+fun ar.org.schoolsync.dto.user.AppUser.toUserDetailsDTO(): UserDetails =
     User.builder()
         .username(this.email)
         .password(this.password)
