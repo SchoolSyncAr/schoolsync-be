@@ -26,7 +26,9 @@ class JWTDecoder(private val token: String) {
 
     fun build(): Map<String, Any> {
         val cleanToken = decode(this.token)
-        getClaims(cleanToken)
+        if (cleanToken.isNotEmpty()) {
+            getClaims(cleanToken)
+        }
         return claims
     }
 
@@ -44,9 +46,16 @@ class JWTDecoder(private val token: String) {
     private fun mapToken(token: String): Map<String, Any> = mapper.readValue(token)
 
     private fun decode(token: String): String {
-        val parts = token.split(".")
-        val charset = charset(charsetType.txt)
-        return String(Base64.getUrlDecoder().decode(parts[1].toByteArray(charset)), charset)
+        return try {
+            val parts = token.split(".")
+            if (parts.size != 3) {
+                return ""
+            }
+            val charset = charset(charsetType.name)
+            String(Base64.getUrlDecoder().decode(parts[1].toByteArray(charset)), charset)
+        } catch (e: Exception) {
+            ""
+        }
     }
 
     private fun getClaims(token: String) {

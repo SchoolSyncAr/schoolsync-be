@@ -1,12 +1,16 @@
 package ar.org.schoolsync.model
 
-
-import ar.org.schoolsync.controller.adminToken
 import ar.org.schoolsync.model.utils.JWTDecoder
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+
+const val adminToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxODk3OTQ5NSwiZXhwIjoxNzE4OTgzMDk1LCJ1c2VySWQiOjEsInJvbGUiOiJBRE1JTiJ9.BZgUIJpFZ7JgFlKmelb54mfZkloD0fnQKLBJ3V-tmts"
+
+const val userToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXJlbnRAc2Nob29sc3luYy5tYWlsLmNvbSIsImlhdCI6MTcxODk5NzkwNiwiZXhwIjoxNzE5MDAxNTA1LCJ1c2VySWQiOjIsInJvbGUiOiJQQVJFTlQifQ.O_Jub-XetUfxkKz6d74TSrsnuk0wtcJl04yExBfa62w"
 
 class JWTDecoderSpec : DescribeSpec({
     isolationMode = IsolationMode.InstancePerTest
