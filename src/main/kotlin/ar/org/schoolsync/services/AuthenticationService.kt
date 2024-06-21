@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Service
 import java.util.*
+import org.springframework.security.core.AuthenticationException
 
 @Service
 class AuthenticationService(
@@ -17,21 +18,27 @@ class AuthenticationService(
     private val tokenService: TokenService,
     private val jwtProperties: JwtProperties,
     private val userRepository: UserRepository
+
 ) {
     fun authentication(authRequest: AuthenticationRequest): AuthenticationResponse {
-        authManager.authenticate(
-            UsernamePasswordAuthenticationToken(
-                authRequest.email,
-                authRequest.password
+        try {
+            authManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                    authRequest.email,
+                    authRequest.password
+                )
             )
-        )
+        } catch (ex: AuthenticationException) {
+            throw InvalidAuthRequest()
+        }
+
 
         val userDetails = userDetailsService.loadUserByUsername(authRequest.email!!)
         val user = userRepository.findByEmail(userDetails.username).orElseThrow { InvalidAuthRequest() }
         val accessToken = tokenService.generate(
             userDetails = userDetails,
             expirationDate = Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration),
-            aditionalClaims = mapOf("userId" to user.id, "role" to user.role)
+            additionalClaims = mapOf("userId" to user.id, "role" to user.role)
         )
 
         return AuthenticationResponse(

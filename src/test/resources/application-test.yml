@@ -1,6 +1,14 @@
+jwt:
+  key: isJust@Test8--mUs3itWell&d0n'tL00se1t
+  access-token-expiration: 3600000
+  refresh-token-expiration: 86400000
+
 spring:
-  profiles:
-    exclude: base
+  application:
+    name: Schoolsync
+
+  jackson:
+    default-property-inclusion: non_null
 
   h2:
     console:
@@ -23,3 +31,6 @@ spring:
           auto: create-drop
         connection:
           pool_size: 50
+
+route:
+  base: /api
