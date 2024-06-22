@@ -23,7 +23,8 @@ fun User.toResponse() = UserResponseDTO(
     id,
     firstName,
     lastName,
-    email
+    email,
+    phoneNumber
 )
 
 fun User.toResponseParent() = UserResponseDTO(
