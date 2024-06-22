@@ -38,6 +38,7 @@ class SchoolsyncBootstrap(
             "Juan Ignacio",
             "Rodriguez",
             "juanrodriguez@gmail.com",
+            "112335675",
             encoder.encode("juanrodriguez")
         ).apply {
             changeBehavior(ParentBehavior())
@@ -47,14 +48,15 @@ class SchoolsyncBootstrap(
                         "Mateo",
                         "Rodriguez",
                         "mateorodriguez@gmail.com",
+                        "1193845434",
                         ""
                     ).apply { changeBehavior(StudentBehavior()) },
-                    User("Delfina", "Rodriguez", "delfinarodriguez@gmail.com", "").apply {
+                    User("Delfina", "Rodriguez", "delfinarodriguez@gmail.com","1183345734", "").apply {
                         changeBehavior(
                             StudentBehavior()
                         )
                     },
-                    User("Nicolas", "Rodriguez", "nicolasrodriguez@gmail.com", "").apply {
+                    User("Nicolas", "Rodriguez", "nicolasrodriguez@gmail.com","1102945673", "").apply {
                         changeBehavior(
                             StudentBehavior()
                         )
@@ -69,10 +71,11 @@ class SchoolsyncBootstrap(
             "Martin",
             "Melo",
             "martinmelo@gmail.com",
+            "1192844556",
             encoder.encode("martinmelo")
         ).apply {
             changeBehavior(ParentBehavior())
-            addStudents(listOf(User("Javier", "Melo", "javiermelo@gmail.com", "")).apply {
+            addStudents(listOf(User("Javier", "Melo", "javiermelo@gmail.com", "1110909345", "")).apply {
                 changeBehavior(
                     StudentBehavior()
                 )
@@ -84,19 +87,22 @@ class SchoolsyncBootstrap(
             "Tomas",
             "Alvarez",
             "tomasalvarez@gmail.com",
+            "1128740590",
             encoder.encode("tomasalvarez")
         ).apply {
             changeBehavior(ParentBehavior())
             addStudents(
                 listOf(
                     User(
-                        "Federico", "Alvarez", "federicoalvarez@gmail.com", ""
+                        "Federico", "Alvarez", "federicoalvarez@gmail.com",
+                        "1128733456", ""
                     ).apply {
                         changeBehavior(StudentBehavior())
                         repeat(3) { addAbsence() }
                     },
                     User(
-                        "Joaquin", "Alvarez", "joaquinalvarez@gmail.com", ""
+                        "Joaquin", "Alvarez", "joaquinalvarez@gmail.com",
+                        "1129099845", ""
                     ).apply {
                         changeBehavior(StudentBehavior())
                         repeat(20) { addAbsence() }

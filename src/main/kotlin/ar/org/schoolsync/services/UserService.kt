@@ -34,6 +34,12 @@ class UserService(private val userRepository: UserRepository, private val encode
         return myChildren
     }
 
+    fun findMyParents(studentId: Long): List<User> {
+        val allParents = findAllByRole(Role.PARENT)
+        val myParents = allParents.filter { it.childrens.map { child -> child.id }.contains(studentId) }
+        return myParents
+    }
+
     fun allByGroup(group: NotificationGroup): List<User> {
         return findAll().filter {
             it.notificationGroups.contains(group)
