@@ -39,19 +39,6 @@ class NotificationController(
     }
 
     @RolesAllowed("USER")
-    @GetMapping("/allByUser")
-    @Operation(summary = "Retorna todas las notificaciones de un usuario")
-    fun findAll(
-        @RequestParam searchField: String,
-        @RequestParam sortField: String,
-        @RequestParam unreadOnly: Boolean,
-        @RequestParam parentId: Long,
-        @RequestParam childrenId: Long?,
-    ): List<NotificationDTO> {
-        return notificationService.findAllByUser(SearchFilter(searchField, sortField), unreadOnly, parentId, childrenId)
-    }
-
-    @RolesAllowed("USER")
     @GetMapping("/count")
     fun getUnreadNotificationsCount(@RequestParam userId: Long): Int {
         return notificationRegistryService.getUnreadNotificationsCount(userId)
