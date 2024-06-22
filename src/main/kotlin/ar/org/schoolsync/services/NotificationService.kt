@@ -15,7 +15,7 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class NotificationService(
-    @Autowired private val notificationRepository: NotificationRepository
+    @Autowired private val notificationRepository: NotificationRepository,
 ) {
     fun findByID(id: Long): Notification? = notificationRepository.findById(id).getOrNull()
     fun findOrErrorByID(id: Long): Notification =
