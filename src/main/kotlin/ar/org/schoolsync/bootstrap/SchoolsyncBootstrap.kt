@@ -2,20 +2,22 @@ package ar.org.schoolsync.bootstrap
 
 import ar.org.schoolsync.model.*
 import ar.org.schoolsync.model.enums.NotificationGroup
-import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.NotificationPriorities
+import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.repositories.NotificationRegistryRepository
 import ar.org.schoolsync.repositories.NotificationRepository
 import ar.org.schoolsync.repositories.UserRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import kotlin.jvm.optionals.getOrNull
 
 @Component
+@Profile("base")
 class SchoolsyncBootstrap(
     @Autowired
     private val userRepository: UserRepository,
@@ -26,11 +28,10 @@ class SchoolsyncBootstrap(
     @Autowired
     private val encoder: PasswordEncoder
 ) : InitializingBean {
-    val factory = EntityFactory(encoder)
 
     fun initUsers() = setOf(
-        factory.createUser(Role.ADMIN),
-        factory.createUser(Role.PARENT)
+        EntityFactory().createUser(Role.ADMIN),
+        EntityFactory().createUser(Role.PARENT)
     )
 
     fun initParents() = setOf(
@@ -147,8 +148,8 @@ class SchoolsyncBootstrap(
     fun initNotifications(): Set<Notification> {
         val admin = userRepository.findByEmail("adminuser@schoolsync.mail.com").get()
         return setOf(
-            EntityFactory(encoder).createNotification(NotificationType.PATRIOTIC, admin),
-            EntityFactory(encoder).createNotification(NotificationType.REUNION, admin),
+            EntityFactory().createNotification(NotificationType.PATRIOTIC, admin),
+            EntityFactory().createNotification(NotificationType.REUNION, admin),
             Notification(
                 sender = admin,
                 title = "Cambio de Horario Salida - Nivel Primario",
@@ -190,10 +191,10 @@ class SchoolsyncBootstrap(
         val juanIgnacio = userRepository.findByEmail("juanrodriguez@gmail.com").get()
         val martinMelo = userRepository.findByEmail("martinmelo@gmail.com").get()
         val tomasAlvarez = userRepository.findByEmail("tomasalvarez@gmail.com").get()
-        val padres = listOf(juanIgnacio, martinMelo, tomasAlvarez)
-        val notificatciones = notificationRepository.findAll().map { it }
+        val parents = listOf(juanIgnacio, martinMelo, tomasAlvarez)
+        val notifications = notificationRepository.findAll().map { it }
 
-        val registries = notificatciones.flatMap { padres.map { padre -> NotificationRegistry(padre, it) } }
+        val registries = notifications.flatMap { parents.map { parent -> NotificationRegistry(parent, it) } }
         registries.forEach { it.unifySendDate() }
 
         return registries.toSet()

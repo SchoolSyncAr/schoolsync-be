@@ -91,6 +91,13 @@ jacoco {
 }
 
 tasks.jacocoTestReport {
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/config/**", "**/entity/**", "**/*Application*.*", "**/ServletInitializer.*")
+            }
+        })
+    )
     reports {
         xml.required.set(true)
         csv.required.set(true)

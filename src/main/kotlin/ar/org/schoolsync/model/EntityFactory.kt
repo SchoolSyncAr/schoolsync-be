@@ -1,15 +1,18 @@
 package ar.org.schoolsync.model
 
-import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.NotificationPriorities
+import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.Role
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.Month
 
 @Component
-class EntityFactory(private val encoder: PasswordEncoder) {
+class EntityFactory {
+
+    private var encoder = BCryptPasswordEncoder()
 
     fun createUser(type: Role) = when (type) {
         Role.USER -> TODO()

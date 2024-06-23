@@ -17,14 +17,14 @@ class TokenService(jwtProperties: JwtProperties) {
     fun generate(
         userDetails: UserDetails,
         expirationDate: Date,
-        aditionalClaims: Map<String, Any> = emptyMap()
+        additionalClaims: Map<String, Any> = emptyMap()
     ): String =
         Jwts.builder()
             .claims()
             .subject(userDetails.username)
             .issuedAt(Date(System.currentTimeMillis()))
             .expiration(expirationDate)
-            .add(aditionalClaims)
+            .add(additionalClaims)
             .and()
             .signWith(secretKey)
             .compact()
