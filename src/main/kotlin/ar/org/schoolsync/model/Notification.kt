@@ -18,7 +18,7 @@ data class Notification(
     @Column(length = 5000)
     var content: String,
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(length = 20)
     var weight: NotificationPriorities = NotificationPriorities.BAJA,
 ): CommonNotification() {
