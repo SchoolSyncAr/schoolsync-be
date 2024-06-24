@@ -52,7 +52,6 @@ class NotificationControllerSpec {
         val admin = userRepository.save(factory.createUser(Role.ADMIN))
         val parent = userRepository.save(factory.createUser(Role.PARENT))
         val patriotic = notificationRepository.save(factory.createNotification(NotificationType.PATRIOTIC, admin))
-        val reunion = notificationRepository.save(factory.createNotification(NotificationType.REUNION, admin))
 
         val authRequest = AuthenticationRequest("adminuser@schoolsync.mail.com", "adminuser")
         val authResult = mockMvc.perform(
@@ -169,4 +168,17 @@ class NotificationControllerSpec {
             .andExpect(MockMvcResultMatchers.jsonPath("$[1]").value(NotificationPriorities.MEDIA.name))
             .andExpect(MockMvcResultMatchers.jsonPath("$[2]").value(NotificationPriorities.ALTA.name))
     }
+
+    @Test
+    @WithMockUser(username = "adminuser@schoolsync.mail.com", roles = ["ADMIN"])
+    fun `Should delete notification by ID as admin`() {
+        val notificationId = 1
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.delete("/api/notification/$notificationId/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
 }
