@@ -47,6 +47,7 @@ class AdminUser(override var encoder: PasswordEncoder) : UserObject {
             firstName = "Director",
             lastName = "Perez",
             email = "adminuser@schoolsync.mail.com",
+            phoneNumber = "1192344583",
             password = encoder.encode("adminuser")
         ).apply {
             changeBehavior(AdminBehavior())
@@ -59,6 +60,7 @@ class ParentUser(override val encoder: PasswordEncoder) : UserObject {
             firstName = "Daniel",
             lastName = "Follio",
             email = "parent@schoolsync.mail.com",
+            phoneNumber = "1174556823",
             password = encoder.encode("parentuser")
         ).apply {
             changeBehavior(ParentBehavior())
@@ -71,6 +73,7 @@ class StudentUser(override val encoder: PasswordEncoder) : UserObject {
             firstName = "Ismael",
             lastName = "Follio",
             email = "ismaelfollio@schoolsync.mail",
+            phoneNumber = "1198445692",
             password = ""
         ).apply {
             changeBehavior(StudentBehavior())
