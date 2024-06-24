@@ -3,8 +3,6 @@ package ar.org.schoolsync.controller.user
 import ar.org.schoolsync.dto.auth.AuthenticationRequest
 import ar.org.schoolsync.dto.auth.AuthenticationResponse
 import ar.org.schoolsync.model.EntityFactory
-import ar.org.schoolsync.model.ParentBehavior
-import ar.org.schoolsync.model.User
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.repositories.UserRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -47,16 +45,10 @@ class ParentControllerSpec {
     fun `init user repository`() {
         userRepository.save(factory.createUser(Role.ADMIN))
         userRepository.save(factory.createUser(Role.PARENT))
-        userRepository.save(User(
-            firstName = "Daniel2",
-            lastName = "Follio2",
-            email = "parent2@schoolsync.mail.com",
-            password = encoder.encode("parentuser")
-        ).apply {
-            changeBehavior(ParentBehavior())
-        })
+        val parent2 = factory.createUser(Role.PARENT).apply { email = "parent2@schoolsync.mail.com" }
+        userRepository.save(parent2)
 
-
+        // Esto es necesario para que en cada test se autorize a un usuario a acceder.
         val authRequest = AuthenticationRequest("adminuser@schoolsync.mail.com", "adminuser")
         val authResult = mockMvc.perform(
             MockMvcRequestBuilders.post("/api/auth")
