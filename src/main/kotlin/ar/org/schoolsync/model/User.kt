@@ -22,6 +22,9 @@ class User(
     @Column(length = 60, nullable = false, unique = true)
     var email: String,
 
+    @Column(length = 15, nullable = false, unique = true)
+    var phoneNumber: String,
+
     @Column(nullable = false)
     var password: String
 ) {
