@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import io.kotest.matchers.shouldBe
+import org.springframework.security.test.context.support.WithMockUser
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -104,7 +106,7 @@ class NotificationControllerSpec {
 
     @Test
     fun `Should get all notifications`() {
-        val searchField = ""
+        val searchField = "acto"
         val sortField = ""
 
         mockMvc.perform(
@@ -114,5 +116,57 @@ class NotificationControllerSpec {
                 .param("sortField", sortField)
         )
             .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[0].title").value("Acto 25 de mayo"))
+    }
+
+    @Test
+    fun shouldGetUnreadNotificationsCount() {
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/api/notification/count")
+                .header("Authorization", "Bearer $token")
+                .param("userId", 1L.toString())
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().string("0"))
+    }
+
+    @Test
+    @WithMockUser(username = "adminuser@schoolsync.mail.com", roles = ["ADMIN"])
+    fun `Should get recipient groups as admin`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/api/notification/recipient-groups")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(NotificationGroup.values().size))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(NotificationGroup.TODOS.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1]").value(NotificationGroup.PADRES.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[2]").value(NotificationGroup.PERSONAL.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[3]").value(NotificationGroup.ESTUDIANTES.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[4]").value(NotificationGroup.GRADO1.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[5]").value(NotificationGroup.GRADO2.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[6]").value(NotificationGroup.GRADO3.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[7]").value(NotificationGroup.GRADO4.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[8]").value(NotificationGroup.GRADO5.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[9]").value(NotificationGroup.GRADO6.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[10]").value(NotificationGroup.GRADO7.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[11]").value(NotificationGroup.EQUIPO_FUTBOL.name))
+    }
+
+    @Test
+    @WithMockUser(username = "adminuser@schoolsync.mail.com", roles = ["ADMIN"])
+    fun `Should get notification priorities as admin`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/api/notification/priorities")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(NotificationPriorities.values().size))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(NotificationPriorities.BAJA.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1]").value(NotificationPriorities.MEDIA.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[2]").value(NotificationPriorities.ALTA.name))
     }
 }
