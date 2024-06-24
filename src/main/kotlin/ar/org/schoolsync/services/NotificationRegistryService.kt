@@ -87,6 +87,7 @@ class NotificationRegistryService(
             .title()
             .content()
             .userId(id)
+            .unread()
             .active()
             .build()
         return notificationRegistryRepository.findAll(spec, filter.getSortUser()).map { it }

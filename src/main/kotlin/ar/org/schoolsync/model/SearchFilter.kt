@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification
 
 class SearchFilter(
     var searchField: String = "",
+    var unread: Boolean = false,
     private var sortField: String = "",
 ) {
     private val sortParameters = sortField.lowercase().split("_")
@@ -50,6 +51,18 @@ class SearchFilterBuilder(
 
     fun content(): SearchFilterBuilder {
         extractSpect(FilterTypes.CONTENIDO)
+        return this
+    }
+
+    fun unread(): SearchFilterBuilder {
+        if (filter.unread) {
+            specs = specs.and { root, _, criteriaBuilder ->
+                criteriaBuilder.equal(
+                    root.get<Boolean>("read"),
+                    false
+                )
+            }
+        }
         return this
     }
 

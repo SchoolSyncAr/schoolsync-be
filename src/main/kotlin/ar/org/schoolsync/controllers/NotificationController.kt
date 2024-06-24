@@ -35,7 +35,7 @@ class NotificationController(
         @RequestParam searchField: String,
         @RequestParam sortField: String,
     ): List<NotificationDTO> {
-        return notificationService.findAll(SearchFilter(searchField, sortField))
+        return notificationService.findAll(SearchFilter(searchField, sortField = sortField))
     }
 
     @RolesAllowed("USER")
