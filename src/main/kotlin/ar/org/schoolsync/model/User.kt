@@ -3,6 +3,9 @@ package ar.org.schoolsync.model
 import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.model.enums.Status
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import jakarta.persistence.*
 import java.time.LocalDateTime
 import kotlin.jvm.Transient
@@ -51,17 +54,17 @@ class User(
     @Enumerated(EnumType.STRING)
     var role: Role = Role.USER
 
-    @Transient
-    var userBehavior: UserBehaviorStrategy = RegularUserBehavior()
-
     @Column(length = 20, nullable = false)
     var status: Status = Status.ACTIVE
     var absences: Int = 0
     var created = LocalDateTime.now()
     var lastModified = created
 
+    @JsonIgnore
+    @Transient
+    var userBehavior: UserBehaviorStrategy = RegularUserBehavior()
 
-    //FUNCTIONS
+    // FUNCTIONS
     fun addAbsence() {
         absences += 1
     }
