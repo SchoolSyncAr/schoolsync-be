@@ -1,5 +1,6 @@
 package ar.org.schoolsync.model
 
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.Role
@@ -64,6 +65,7 @@ class ParentUser(override val encoder: PasswordEncoder) : UserObject {
             password = encoder.encode("parentuser")
         ).apply {
             changeBehavior(ParentBehavior())
+            addNotificationGroup(NotificationGroup.GRADO2)
         }
 }
 
