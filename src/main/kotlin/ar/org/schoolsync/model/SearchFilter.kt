@@ -91,6 +91,18 @@ class SearchFilterBuilder(
         return specs
     }
 
+    fun unread(): SearchFilterBuilder {
+        if (filter.unread) {
+            specs = specs.and { root, _, criteriaBuilder ->
+                criteriaBuilder.equal(
+                    root.get<Boolean>("read"),
+                    false
+                )
+            }
+        }
+        return this
+    }
+
     private fun extractSpect(type: FilterTypes) {
         filterMap?.let { map ->
             map[type.name.lowercase()]?.let { value ->

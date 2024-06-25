@@ -1,5 +1,6 @@
 package ar.org.schoolsync.model
 
+import ar.org.schoolsync.model.enums.NotificationGroup
 import ar.org.schoolsync.model.enums.NotificationPriorities
 import ar.org.schoolsync.model.enums.NotificationType
 import ar.org.schoolsync.model.enums.Role
@@ -47,6 +48,7 @@ class AdminUser(override var encoder: PasswordEncoder) : UserObject {
             firstName = "Director",
             lastName = "Perez",
             email = "adminuser@schoolsync.mail.com",
+            phoneNumber = "1192344583",
             password = encoder.encode("adminuser")
         ).apply {
             changeBehavior(AdminBehavior())
@@ -59,9 +61,11 @@ class ParentUser(override val encoder: PasswordEncoder) : UserObject {
             firstName = "Daniel",
             lastName = "Follio",
             email = "parent@schoolsync.mail.com",
+            phoneNumber = "1174556823",
             password = encoder.encode("parentuser")
         ).apply {
             changeBehavior(ParentBehavior())
+            addNotificationGroup(NotificationGroup.GRADO2)
         }
 }
 
@@ -71,6 +75,7 @@ class StudentUser(override val encoder: PasswordEncoder) : UserObject {
             firstName = "Ismael",
             lastName = "Follio",
             email = "ismaelfollio@schoolsync.mail",
+            phoneNumber = "1198445692",
             password = ""
         ).apply {
             changeBehavior(StudentBehavior())
