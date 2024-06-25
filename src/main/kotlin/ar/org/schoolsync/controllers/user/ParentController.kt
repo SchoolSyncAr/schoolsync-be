@@ -53,12 +53,12 @@ class ParentController(
     @Operation(summary = "devuelve todos las notificaciones de un padre por id")
     fun findNotificationsById(
         @PathVariable parentId: Long,
-        @RequestParam searchField: String,
-        @RequestParam sortField: String,
+        @RequestParam(required = false) searchField: String = "",
+        @RequestParam(required = false) sortField: String = "",
+        @RequestParam(required = false) unread: Boolean = false
     ): List<NotificationDTO> {
-        return notificationRegistryService.findAllByUserId(parentId, SearchFilter(searchField, sortField))
+        return notificationRegistryService.findAllByUserId(parentId, SearchFilter(searchField, unread, sortField ))
             .map { it.toDTO() }
-
     }
 }
 
