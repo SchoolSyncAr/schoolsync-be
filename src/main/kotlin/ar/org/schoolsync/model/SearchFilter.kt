@@ -13,7 +13,7 @@ class SearchFilter(
     private var sortField: String = "",
 ) {
     private val sortParameters = sortField.lowercase().split("_")
-    private fun getDirection() = if (sortParameters[1] == "asc") Sort.Direction.ASC else Sort.Direction.DESC
+    private fun getDirection() = if (sortParameters[1] == "asc") Sort.Direction.DESC else Sort.Direction.ASC
 
     fun getSortUser(): Sort =
         Sort.by(

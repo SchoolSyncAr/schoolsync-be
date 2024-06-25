@@ -20,7 +20,7 @@ class NotificationRegistry(
     var pinned = false
     var date: LocalDateTime = LocalDateTime.now()
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(length = 20)
     var weight = notification.weight
 
