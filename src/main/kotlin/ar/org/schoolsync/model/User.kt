@@ -22,7 +22,7 @@ class User(
     @Column(length = 60, nullable = false, unique = true)
     var email: String,
 
-    @Column(length = 15, nullable = false, unique = true)
+    @Column(length = 20, nullable = false)
     var phoneNumber: String,
 
     @Column(nullable = false)
@@ -63,8 +63,8 @@ class User(
     var created = LocalDateTime.now()
     var lastModified = created
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     var userBehavior: UserBehaviorStrategy = RegularUserBehavior()
 
     // FUNCTIONS
@@ -97,6 +97,7 @@ class User(
         registerUpdate()
     }
 
+    @JsonIgnore
     fun changeBehavior(behavior: UserBehaviorStrategy) {
         userBehavior = behavior
         userBehavior.set(this)
