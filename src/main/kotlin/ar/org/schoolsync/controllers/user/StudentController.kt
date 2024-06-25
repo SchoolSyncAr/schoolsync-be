@@ -1,9 +1,7 @@
 package ar.org.schoolsync.controllers.user
 
-import ar.org.schoolsync.dto.user.UserResponseDTO
-import ar.org.schoolsync.dto.user.toCreateResponse
-import ar.org.schoolsync.dto.user.toResponseStudent
-import ar.org.schoolsync.model.User
+import ar.org.schoolsync.dto.user.*
+import ar.org.schoolsync.model.StudentBehavior
 import ar.org.schoolsync.model.enums.Role
 import ar.org.schoolsync.services.UserService
 import io.swagger.v3.oas.annotations.Operation
@@ -16,12 +14,13 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("\${route.base}/student")
 @Tag(name = "Student", description = "Student Api Operations")
 
-class StudentController (
+class StudentController(
     @Autowired val userService: UserService
 ) {
     @PostMapping
     @Operation(summary = "Crea un nuevo student")
-    fun create(@RequestBody student: User): UserResponseDTO {
+    fun create(@RequestBody studentRequest: UserDTO): UserResponseDTO {
+        val student = studentRequest.fromJson().apply { changeBehavior(StudentBehavior()) }
         return userService.createStudent(student).toCreateResponse()
     }
 

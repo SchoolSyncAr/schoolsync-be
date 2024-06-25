@@ -70,7 +70,7 @@ class StudentUser(override val encoder: PasswordEncoder) : UserObject {
         User(
             firstName = "Ismael",
             lastName = "Follio",
-            email = "ismaelfollio@schoolsync.mail",
+            email = "ismaelfollio@schoolsync.mail.com",
             password = ""
         ).apply {
             changeBehavior(StudentBehavior())

@@ -1,6 +1,7 @@
 package ar.org.schoolsync.controller
 
 import ar.org.schoolsync.dto.auth.AuthenticationRequest
+import ar.org.schoolsync.dto.user.toDTO
 import ar.org.schoolsync.model.EntityFactory
 import ar.org.schoolsync.model.RegularUserBehavior
 import ar.org.schoolsync.model.enums.Role
@@ -42,18 +43,12 @@ class StudentControllerSpec {
         userRepository.save(factory.createUser(Role.PARENT))
         userRepository.save(factory.createUser(Role.STUDENT))
     }
-//
+
     @AfterEach
     fun `clear repositories`() {
         userRepository.deleteAll()
     }
 
-//    User(
-//    firstName = "Ismael",
-//    lastName = "Follio",
-//    email = "ismaelfollio@schoolsync.mail",
-//    password = ""
-//    )
     private fun getTokenForTestUser(): String {
         // You can implement this method to retrieve a token, e.g., by calling the authentication endpoint
         val authRequest = AuthenticationRequest("adminuser@schoolsync.mail.com", "adminuser")
@@ -72,23 +67,22 @@ class StudentControllerSpec {
         return node["accessToken"].asText()
     }
 
-//    @Test
-//    fun `Should create a new student`() {
-//        val token = getTokenForTestUser()
-//
-//        val student = factory.createUser(Role.STUDENT)
-//        val jsonStudent = mapper.writeValueAsBytes(student)
-//
-//        mockMvc.perform(
-//            MockMvcRequestBuilders.post("/api/student")
-//                .header("Authorization", "Bearer $token")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(jsonStudent)
-//        )
-//            .andExpect(MockMvcResultMatchers.status().isOk())
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("ismaelfollio@schoolsync.mail"))
-//        //.andExpect(MockMvcResultMatchers.jsonPath("$.accessToken").isNotEmpty)
-//    }
+    @Test
+    fun `Should create a new student`() {
+        val token = getTokenForTestUser()
+
+        val student = factory.createUser(Role.STUDENT).apply { email = "isma@gmail.com" }.toDTO()
+        val jsonStudent = mapper.writeValueAsString(student)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/student")
+                .header("Authorization", "Bearer $token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonStudent)
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("isma@gmail.com"))
+    }
 
     @Test
     fun `Should return all students`() {
