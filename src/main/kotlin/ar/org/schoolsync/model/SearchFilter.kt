@@ -54,18 +54,6 @@ class SearchFilterBuilder(
         return this
     }
 
-    fun unread(): SearchFilterBuilder {
-        if (filter.unread) {
-            specs = specs.and { root, _, criteriaBuilder ->
-                criteriaBuilder.equal(
-                    root.get<Boolean>("read"),
-                    false
-                )
-            }
-        }
-        return this
-    }
-
     fun userId(id: Long): SearchFilterBuilder {
         specs = specs.and { root, _, criteriaBuilder ->
             criteriaBuilder.equal(root.get<Long>("receiver").get<Long>("id"), id)
