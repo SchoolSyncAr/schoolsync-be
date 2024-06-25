@@ -45,7 +45,9 @@ class ParentControllerSpec {
     fun `init user repository`() {
         userRepository.save(factory.createUser(Role.ADMIN))
         userRepository.save(factory.createUser(Role.PARENT))
-        val parent2 = factory.createUser(Role.PARENT).apply { email = "parent2@schoolsync.mail.com" }
+        val parent2 = factory.createUser(Role.PARENT).apply {
+            phoneNumber = "99999999"
+            email = "parent2@schoolsync.mail.com" }
         userRepository.save(parent2)
 
         // Esto es necesario para que en cada test se autorize a un usuario a acceder.
