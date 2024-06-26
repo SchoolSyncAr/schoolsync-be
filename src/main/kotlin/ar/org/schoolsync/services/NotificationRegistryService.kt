@@ -28,6 +28,7 @@ class NotificationRegistryService(
         findByID(id) ?: throw ResponseFindException(FindError.NOTIFICATION_NOT_FOUND(id))
 
     fun create(data: CreateNotificationDTO): Notification {
+        println("RECIBEN        AAAA        AAAA" + data.receivers)
         val notification = Notification(
             userService.findOrErrorByID(data.sender),
             data.title,

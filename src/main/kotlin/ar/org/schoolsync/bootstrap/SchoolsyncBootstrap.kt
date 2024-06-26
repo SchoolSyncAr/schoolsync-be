@@ -36,6 +36,15 @@ class SchoolsyncBootstrap(
 
     fun initParents() = setOf(
         User(
+            "Calamardo",
+            "Calamary",
+            "calamardo@gmail.com",
+            "1133334444",
+            encoder.encode("calamardo")
+        ).apply {
+                changeBehavior(AdminBehavior())
+        },
+        User(
             "Juan Ignacio",
             "Rodriguez",
             "juanrodriguez@gmail.com",
@@ -52,17 +61,17 @@ class SchoolsyncBootstrap(
                         "1193845434",
                         ""
                     ).apply { changeBehavior(StudentBehavior()) },
-                    User("Delfina", "Rodriguez", "delfinarodriguez@gmail.com","1183345734", "").apply {
+                    User("Delfina", "Rodriguez", "delfinarodriguez@gmail.com", "1183345734", "").apply {
                         changeBehavior(
                             StudentBehavior()
                         )
                     },
-                    User("Nicolas", "Rodriguez", "nicolasrodriguez@gmail.com","1102945673", "").apply {
+                    User("Nicolas", "Rodriguez", "nicolasrodriguez@gmail.com", "1102945673", "").apply {
                         changeBehavior(
                             StudentBehavior()
                         )
+                        repeat(3) { addAbsence() }
                     })
-                    .apply { repeat(3) { addAbsence() } },
             )
 
             addNotificationGroup(NotificationGroup.GRADO2)
@@ -76,11 +85,20 @@ class SchoolsyncBootstrap(
             encoder.encode("martinmelo")
         ).apply {
             changeBehavior(ParentBehavior())
-            addStudents(listOf(User("Javier", "Melo", "javiermelo@gmail.com", "1110909345", "")).apply {
-                changeBehavior(
-                    StudentBehavior()
-                )
-            })
+            addStudents(
+                listOf(
+                    User(
+                        "Javier",
+                        "Melo",
+                        "javiermelo@gmail.com",
+                        "1110909345",
+                        ""
+                    ).apply {
+                        changeBehavior(
+                            StudentBehavior()
+                        )
+                    }
+                ))
             addNotificationGroup(NotificationGroup.GRADO2)
             addNotificationGroup(NotificationGroup.EQUIPO_FUTBOL)
         },
@@ -112,6 +130,27 @@ class SchoolsyncBootstrap(
             )
             addNotificationGroup(NotificationGroup.GRADO2)
             addNotificationGroup(NotificationGroup.EQUIPO_FUTBOL)
+        },
+        User(
+            "Homero",
+            "Simpson",
+            "homero@gmail.com",
+            "1166665555",
+            encoder.encode("homero")
+        ).apply {
+            changeBehavior(ParentBehavior())
+            addStudents(
+                listOf(
+                    User(
+                        "Bart", "Simpson", "bart@gmail.com",
+                        "1155554444", ""
+                    ).apply {
+                        changeBehavior(StudentBehavior())
+                        repeat(13) { addAbsence() }
+                    }
+                )
+            )
+            addNotificationGroup(NotificationGroup.GRADO1)
         }
     )
 
