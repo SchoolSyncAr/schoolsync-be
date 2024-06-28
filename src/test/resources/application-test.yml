@@ -1,0 +1,36 @@
+jwt:
+  key: isJust@Test8--mUs3itWell&d0n'tL00se1t
+  access-token-expiration: 3600000
+  refresh-token-expiration: 86400000
+
+spring:
+  application:
+    name: Schoolsync
+
+  jackson:
+    default-property-inclusion: non_null
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          auto: create-drop
+        connection:
+          pool_size: 50
+
+route:
+  base: /api
